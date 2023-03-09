@@ -10,6 +10,7 @@ import AdminLayout from "admin/pages/layout";
 
 import Home from "user/pages/static/home";
 import ClientLayout from "user/pages/layout";
+import PlanRequests from "admin/pages/planRequests";
 
 function App() {
   const role = useSelector((state) => state.auth.role);
@@ -19,15 +20,18 @@ function App() {
   let routes;
 
   if (role === "admin") {
+    //================ ALL THE ROUTES RELATED TO THE ADMIN
     routes = (
       <Routes>
         <Route element={<AdminLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/planRequests" element={<PlanRequests />} />
         </Route>
       </Routes>
     );
   } else {
+    //================ ALL THE ROUTES RELATED TO THE CLIENT
     routes = (
       <Routes>
         <Route element={<ClientLayout />}>

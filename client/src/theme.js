@@ -59,8 +59,8 @@ export const themeSettings = () => {
         main: colorTokens.grey[500],
       },
       background: {
-        default: colorTokens.grey[0],
-        alt: colorTokens.grey[50],
+        default: colorTokens.primary[100],
+        alt: colorTokens.grey[0],
       },
     },
     typography: {

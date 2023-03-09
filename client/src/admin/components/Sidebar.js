@@ -40,62 +40,88 @@ import FlexBox from "./FlexBox";
 
 const navItems = [
   {
+    id: 1,
+    url: "dashboard",
     text: "Dashboard",
     icon: <HomeOutlined />,
   },
   {
+    id: 2,
     text: "Client Project",
     icon: null,
   },
   {
+    id: 3,
+    url: "planRequests",
     text: "Plan Requests",
     icon: <SendOutlined />,
   },
   {
+    id: 4,
+    url: "",
     text: "Project Plans",
     icon: <MapOutlined />,
   },
   {
+    id: 5,
+    url: "",
     text: "Client Projects",
     icon: <ReceiptLongOutlined />,
   },
   {
+    id: 6,
+    url: "",
     text: "Geography",
     icon: <PublicOutlined />,
   },
   {
+    id: 7,
     text: "Donations",
     icon: null,
   },
   {
+    id: 8,
+    url: "",
     text: "Donations",
     icon: <VolunteerActivismOutlined />,
   },
   {
+    id: 9,
+    url: "",
     text: "Rural Projects",
     icon: <FoundationOutlined />,
   },
   {
+    id: 10,
     text: "Products",
     icon: null,
   },
   {
+    id: 11,
+    url: "",
     text: "Products",
     icon: <ShoppingCartOutlined />,
   },
   {
+    id: 12,
+    url: "",
     text: "Product Requests",
     icon: <RequestPageOutlined />,
   },
   {
+    id: 13,
     text: "Recent",
     icon: null,
   },
   {
+    id: 14,
+    url: "",
     text: "Recent Projects",
     icon: <AccessTimeOutlined />,
   },
   {
+    id: 15,
+    url: "",
     text: "Performance",
     icon: <TrendingUpOutlined />,
   },
@@ -109,7 +135,7 @@ const Sidebar = ({
   isNonMobileScreen,
 }) => {
   const { pathname } = useLocation();
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState(null);
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -151,22 +177,24 @@ const Sidebar = ({
               </FlexBox>
             </Box>
             <List>
-              {navItems.map(({ text, icon }) => {
+              {navItems.map(({ id, url, text, icon }) => {
                 if (!icon) {
                   return (
-                    <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
+                    <Typography key={id} sx={{ m: "2.25rem 0 1rem 3rem" }}>
                       {text}
                     </Typography>
                   );
                 }
-                const lcText = text.toLowerCase();
+
+                const lcText = "admin/" + url;
 
                 return (
-                  <ListItem key={text} disablePadding>
+                  <ListItem key={id} disablePadding>
                     <ListItemButton
                       onClick={() => {
-                        navigate(`/admin/${lcText}`);
-                        setActive(lcText);
+                        navigate(`/admin/${url}`);
+                        setActive(`admin/${url}`);
+                        console.log(active);
                       }}
                       sx={{
                         backgroundColor:
