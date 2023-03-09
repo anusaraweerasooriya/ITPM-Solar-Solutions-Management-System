@@ -6,7 +6,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
 
 import Dashboard from "admin/pages/dashboard";
-import Layout from "admin/pages/layout";
+import AdminLayout from "admin/pages/layout";
 
 import Home from "user/pages/static/home";
 import ClientLayout from "user/pages/layout";
@@ -21,7 +21,7 @@ function App() {
   if (role === "admin") {
     routes = (
       <Routes>
-        <Route element={<Layout />}>
+        <Route element={<AdminLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
         </Route>

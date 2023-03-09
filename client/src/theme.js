@@ -58,6 +58,10 @@ export const themeSettings = () => {
         ...colorTokens.grey,
         main: colorTokens.grey[500],
       },
+      background: {
+        default: colorTokens.grey[0],
+        alt: colorTokens.grey[50],
+      },
     },
     typography: {
       fontFamily: ["Inter", "sans-serif"].join(","),
