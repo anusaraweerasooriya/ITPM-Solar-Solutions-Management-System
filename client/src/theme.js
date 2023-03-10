@@ -52,7 +52,7 @@ export const themeSettings = () => {
       },
       secondary: {
         ...colorTokens.secondary,
-        main: colorTokens.secondary[300],
+        main: colorTokens.secondary[500],
       },
       neutral: {
         ...colorTokens.grey,
