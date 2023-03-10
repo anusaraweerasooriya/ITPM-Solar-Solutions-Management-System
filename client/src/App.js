@@ -11,42 +11,54 @@ import AdminLayout from "admin/pages/layout";
 import Home from "user/pages/static/home";
 import ClientLayout from "user/pages/layout";
 import PlanRequests from "admin/pages/planRequests";
+import Login from "user/pages/login";
 
 function App() {
   const role = useSelector((state) => state.auth.role);
+  const isAdmin = role === "admin";
+  console.log(isAdmin);
 
   const theme = useMemo(() => createTheme(themeSettings()), []);
 
-  let routes;
+  //========================== ADMIN ROUTES =========================
+  const clientProjectRoutes = (
+    <Route path="/admin/planRequests" element={<PlanRequests />} />
+  );
 
-  if (role === "admin") {
-    //================ ALL THE ROUTES RELATED TO THE ADMIN
-    routes = (
-      <Routes>
-        <Route element={<AdminLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
-          <Route path="/admin/planRequests" element={<PlanRequests />} />
-        </Route>
-      </Routes>
-    );
-  } else {
-    //================ ALL THE ROUTES RELATED TO THE CLIENT
-    routes = (
-      <Routes>
-        <Route element={<ClientLayout />}>
-          <Route path="/" element={<Home />} />
-        </Route>
-      </Routes>
-    );
-  }
+  const ruralProjectRoutes = "";
+  const recentProjectRoutes = "";
+  const productRoutes = "";
+
+  //============================ CLIENT ROUTES =========================
+  const staticRoutes =
+    ((<Route path="/login" element={<Login />} />),
+    (<Route path="/" element={<Home />} />));
+
+  const userProfileRoutes = "";
+  const donationRoutes = "";
 
   return (
     <div className="app">
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {routes}
+          <Routes>
+            (isAdmin ? (
+            <Route element={<AdminLayout />}>
+              <Route
+                path="/admin/dashboard"
+                element={isAdmin ? <Dashboard /> : <Navigate to="/login" />}
+              />
+              {clientProjectRoutes}
+              {ruralProjectRoutes}
+              {recentProjectRoutes}
+              {productRoutes}
+            </Route>
+            ) : (<Route element={<ClientLayout />}>{staticRoutes}</Route>) )
+            <Route element={<ClientLayout />}>
+              <Route path="/login" element={<Login />} />
+            </Route>
+          </Routes>
         </ThemeProvider>
       </BrowserRouter>
     </div>
