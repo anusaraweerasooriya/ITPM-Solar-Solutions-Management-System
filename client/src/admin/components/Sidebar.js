@@ -23,15 +23,10 @@ import {
   SendOutlined,
   ReceiptLongOutlined,
   PublicOutlined,
-  PointOfSaleOutlined,
   FoundationOutlined,
   RequestPageOutlined,
-  TodayOutlined,
-  CalendarMonthOutlined,
-  AdminPanelSettingsOutlined,
   TrendingUpOutlined,
   AccessTimeOutlined,
-  PieChartOutlined,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";

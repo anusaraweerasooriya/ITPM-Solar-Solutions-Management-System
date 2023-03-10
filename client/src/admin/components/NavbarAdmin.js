@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import {
-  LightModeOutlined,
-  DarkModeOutlined,
   Menu as MenuIcon,
   Search,
   SettingsOutlined,
