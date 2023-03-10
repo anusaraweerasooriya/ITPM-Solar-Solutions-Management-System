@@ -31,7 +31,7 @@ const Navbar = () => {
 
     return (
         <FlexBox padding="1rem 6%" backgroundColor={theme.palette.primary[500]}>
-            <FlexBox gap="0.5rem">
+            <FlexBox gap="0.4rem">
                 <Typography
                 fontWeight="bold"
                 fontSize="clamp(1rem, 2rem, 2.25rem)"
@@ -46,7 +46,7 @@ const Navbar = () => {
             {isNonMobileScreens ? (
                 <FlexBox gap="2.5rem">
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/")}
                         sx={{
@@ -60,7 +60,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/about")}
                         sx={{
@@ -74,7 +74,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/products")}
                         sx={{
@@ -88,7 +88,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/projects")}
                         sx={{
@@ -102,7 +102,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/donate")}
                         sx={{
@@ -118,7 +118,7 @@ const Navbar = () => {
                     <Button variant="contained" size="large"
                         sx={{
                             fontWeight: "bold",
-                            fontSize: "1rem",
+                            fontSize: "0.9rem",
                             color: "#000000",
                             backgroundColor: theme.palette.secondary.main,
                             borderRadius: "20px",
@@ -134,7 +134,7 @@ const Navbar = () => {
                     {/*<Button variant="outlined" size="large" color="warning"
                         sx={{
                             fontWeight: "bold",
-                            fontSize: "1rem",
+                            fontSize: "0.9rem",
                             borderRadius: "20px",
                             "&:hover": {
                                 backgroundColor: "#ffe3a3",
@@ -196,7 +196,7 @@ const Navbar = () => {
                     gap="3rem"
                 >
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/")}
                         sx={{
@@ -210,7 +210,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/about")}
                         sx={{
@@ -224,7 +224,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/products")}
                         sx={{
@@ -238,7 +238,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/projects")}
                         sx={{
@@ -252,7 +252,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.3rem"
+                        fontSize="1.2rem"
                         color="#ffffff"
                         onClick={() => navigate("/donate")}
                         sx={{
@@ -268,7 +268,7 @@ const Navbar = () => {
                     <Button variant="contained" size="large"
                         sx={{
                             fontWeight: "bold",
-                            fontSize: "1rem",
+                            fontSize: "0.9rem",
                             color: "#000000",
                             backgroundColor: theme.palette.secondary.main,
                             borderRadius: "20px",
@@ -284,7 +284,7 @@ const Navbar = () => {
                     {/*<Button variant="outlined" size="large" color="warning"
                         sx={{
                             fontWeight: "bold",
-                            fontSize: "1rem",
+                            fontSize: "0.9rem",
                             borderRadius: "20px",
                             "&:hover": {
                                 backgroundColor: "#ffe3a3",
