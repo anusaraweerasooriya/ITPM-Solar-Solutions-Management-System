@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Box, Typography, BottomNavigation, Paper } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Navbar from "user/components/Navbar";
-import FooterComp from "user/components/Footer";
+import Footer from "user/components/Footer";
 
 const ClientLayout = () => {
   return (
@@ -14,10 +14,9 @@ const ClientLayout = () => {
           width: '100%',
           position: 'fixed',
           bottom: 0,
-          width: '100%'
         }}
       >
-        <FooterComp />
+        <Footer />
       </Box>
     </Box>
   );

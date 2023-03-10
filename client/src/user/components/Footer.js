@@ -4,10 +4,10 @@ import {
     useTheme
 } from "@mui/material";
 
-const FooterComp = () => {
+const Footer = () => {
     const theme = useTheme();
     return (
-        <Box mb="0px" p="40px 0" backgroundColor={theme.palette.primary[500]}>
+        <Box p="40px 0" backgroundColor={theme.palette.primary[500]}>
             <Box
                 width="80%"
                 margin="auto"
@@ -62,4 +62,4 @@ const FooterComp = () => {
     );
 }
 
-export default FooterComp;
+export default Footer;
