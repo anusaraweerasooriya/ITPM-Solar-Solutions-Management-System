@@ -194,7 +194,6 @@ const Sidebar = ({
                       onClick={() => {
                         navigate(`/admin/${url}`);
                         setActive(`admin/${url}`);
-                        console.log(active);
                       }}
                       sx={{
                         backgroundColor:
