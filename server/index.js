@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 
+import authRoutes from "./routes/auth.js";
+
 /* MIDDLEWARE CONFIGURATION =====================*/
 dotenv.config();
 const app = express();
@@ -18,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 /* ROUTES =====================*/
+app.use("/auth", authRoutes);
 
 /* MONGOOSE SETUP =====================*/
 const PORT = process.env.PORT || 9000;
