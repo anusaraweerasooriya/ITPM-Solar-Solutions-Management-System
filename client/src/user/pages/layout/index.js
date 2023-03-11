@@ -17,7 +17,7 @@ const ClientLayout = () => {
           width: "100%",
         }}
       >
-        {/* <FooterComp /> */}
+        <FooterComp /> 
       </Box>
     </Box>
   );
