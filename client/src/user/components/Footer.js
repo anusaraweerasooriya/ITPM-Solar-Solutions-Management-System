@@ -7,7 +7,7 @@ import {
 const Footer = () => {
     const theme = useTheme();
     return (
-        <Box p="40px 0" backgroundColor={theme.palette.primary[500]}>
+        <Box p="40px 0" backgroundColor={theme.palette.primary[500]} color="#ffffff">
             <Box
                 width="80%"
                 margin="auto"
@@ -17,7 +17,7 @@ const Footer = () => {
                 rowGap="30px"
                 columnGap="clamp(20px, 30px, 40px)"            
             >
-                <Box width="clamp(20%, 30%, 40%)" color="#ffffff">
+                <Box width="clamp(20%, 30%, 40%)">
                     <Typography fontSize="clamp(1rem, 2rem, 2.25rem)" fontWeight="bold" mb="60px" color={theme.palette.secondary.main}>
                         Solar4Mation
                     </Typography>
@@ -26,7 +26,7 @@ const Footer = () => {
                     <Typography fontSize="1.1rem" mb="30px">No 12, Woodland Street, Havelock</Typography>
                 </Box>
 
-                <Box color="#ffffff">
+                <Box>
                     <Typography fontSize="1.3rem" fontWeight="bold" mb="30px">
                         About Us
                     </Typography>
@@ -36,8 +36,8 @@ const Footer = () => {
                     <Typography fontSize="1.1rem" mb="30px">Help Center</Typography>
                 </Box>
 
-                <Box color="#ffffff">
-                    <Typography fontSize="1.3rem" fontWeight="bold" mb="30px" color="#ffffff">
+                <Box>
+                    <Typography fontSize="1.3rem" fontWeight="bold" mb="30px">
                         Our Projects
                     </Typography>
                     <Typography fontSize="1.1rem" mb="30px">Domestic Projects</Typography>
@@ -45,8 +45,8 @@ const Footer = () => {
                     <Typography fontSize="1.1rem" mb="30px">Rural Projects</Typography>
                 </Box>
 
-                <Box width="clamp(20%, 25%, 30%)" color="#ffffff">
-                    <Typography fontSize="1.3rem" fontWeight="bold" mb="30px" color="#ffffff">
+                <Box width="clamp(20%, 25%, 30%)">
+                    <Typography fontSize="1.3rem" fontWeight="bold" mb="30px">
                         Our Services
                     </Typography>
                     <Typography fontSize="1.1rem" mb="30px">Get a Quote</Typography>
@@ -55,7 +55,7 @@ const Footer = () => {
                 </Box>
             </Box>
             <hr></hr>
-            <Typography fontSize="1rem"  color="#ffffff" align="center">
+            <Typography fontSize="1rem"  align="center">
                 Copyright © 2023 - Solar4Mation, Inc. - All Rights Reserved.
             </Typography>
         </Box>

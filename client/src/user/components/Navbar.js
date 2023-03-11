@@ -37,6 +37,11 @@ const Navbar = () => {
                 fontSize="clamp(1rem, 2rem, 2.25rem)"
                 color={theme.palette.secondary.main}
                 onClick={() => navigate("/")}
+                sx={{
+                    "&:hover": {
+                    cursor: "pointer",
+                    },
+                }}
                 >
                 Solar4Mation
                 </Typography>
@@ -115,10 +120,11 @@ const Navbar = () => {
                         Donate
                     </Typography>
 
-                    <Button variant="contained" size="large"
+                    <Button variant="contained" size="large" 
                         sx={{
+                            textTransform:"unset",
                             fontWeight: "bold",
-                            fontSize: "0.9rem",
+                            fontSize: "1.1rem",
                             color: "#000000",
                             backgroundColor: theme.palette.secondary.main,
                             borderRadius: "20px",
@@ -133,8 +139,9 @@ const Navbar = () => {
 
                     {/*<Button variant="outlined" size="large" color="warning"
                         sx={{
+                            textTransform:"unset",
                             fontWeight: "bold",
-                            fontSize: "0.9rem",
+                            fontSize: "1.1rem",
                             borderRadius: "20px",
                             "&:hover": {
                                 backgroundColor: "#ffe3a3",
@@ -267,8 +274,9 @@ const Navbar = () => {
 
                     <Button variant="contained" size="large"
                         sx={{
+                            textTransform:"unset",
                             fontWeight: "bold",
-                            fontSize: "0.9rem",
+                            fontSize: "1.1rem",
                             color: "#000000",
                             backgroundColor: theme.palette.secondary.main,
                             borderRadius: "20px",
@@ -283,8 +291,9 @@ const Navbar = () => {
 
                     {/*<Button variant="outlined" size="large" color="warning"
                         sx={{
+                            textTransform:"unset",
                             fontWeight: "bold",
-                            fontSize: "0.9rem",
+                            fontSize: "1.1rem",
                             borderRadius: "20px",
                             "&:hover": {
                                 backgroundColor: "#ffe3a3",
