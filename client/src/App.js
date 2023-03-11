@@ -12,6 +12,7 @@ import Home from "user/pages/static/home";
 import ClientLayout from "user/pages/layout";
 import PlanRequests from "admin/pages/planRequests";
 import Login from "user/pages/login";
+import Donate from "user/pages/donate/donate";
 
 function App() {
   const role = useSelector((state) => state.auth.role);
@@ -35,7 +36,10 @@ function App() {
     (<Route path="/" element={<Home />} />));
 
   const userProfileRoutes = "";
-  const donationRoutes = "";
+  
+  const donationRoutes = (
+      <Route path="/donate" element={<Donate />} />
+  );
 
   return (
     <div className="app">
@@ -54,7 +58,7 @@ function App() {
               {recentProjectRoutes}
               {productRoutes}
             </Route>
-            ) : (<Route element={<ClientLayout />}>{staticRoutes}</Route>) )
+            ) : (<Route element={<ClientLayout />}>{staticRoutes}{userProfileRoutes}{donationRoutes}</Route>) )
             <Route element={<ClientLayout />}>
               <Route path="/login" element={<Login />} />
             </Route>
