@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Box, Typography, BottomNavigation, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import Navbar from "user/components/Navbar";
 import FooterComp from "user/components/Footer";
 
@@ -11,13 +11,13 @@ const ClientLayout = () => {
       <Outlet />
       <Box
         sx={{
-          width: '100%',
-          position: 'fixed',
+          width: "100%",
+          position: "fixed",
           bottom: 0,
-          width: '100%'
+          width: "100%",
         }}
       >
-        <FooterComp />
+        {/* <FooterComp /> */}
       </Box>
     </Box>
   );
