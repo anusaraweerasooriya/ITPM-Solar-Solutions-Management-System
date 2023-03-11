@@ -11,6 +11,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { setLogin } from "hooks/auth-hook";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const registerSchema = yup.object().shape({
@@ -76,7 +77,30 @@ const Form = (props) => {
     }
   };
 
-  const login = () => {};
+  const login = async (values, onSubmitProps) => {
+    const loggedInResponse = await fetch("http://localhost:5001/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+
+    const logged = await loggedInResponse.json();
+    onSubmitProps.resetForm();
+
+    if (logged) {
+      dispatch(
+        setLogin({
+          user: logged.user,
+          token: logged.token,
+        })
+      );
+      if (logged.user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/home");
+      }
+    }
+  };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);

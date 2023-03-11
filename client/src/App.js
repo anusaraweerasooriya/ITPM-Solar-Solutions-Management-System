@@ -14,7 +14,13 @@ import PlanRequests from "admin/pages/planRequests";
 import Login from "user/pages/login";
 
 function App() {
-  const role = useSelector((state) => state.auth.role);
+  const user = useSelector((state) => state.user);
+  let role;
+  if (user) {
+    role = user.role;
+    console.log(role);
+  }
+
   const isAdmin = role === "admin";
   console.log(isAdmin);
 
@@ -32,7 +38,7 @@ function App() {
   //============================ CLIENT ROUTES =========================
   const staticRoutes =
     ((<Route path="/login" element={<Login />} />),
-    (<Route path="/" element={<Home />} />));
+    (<Route path="/home" element={<Home />} />));
 
   const userProfileRoutes = "";
   const donationRoutes = "";
@@ -57,6 +63,7 @@ function App() {
             ) : (<Route element={<ClientLayout />}>{staticRoutes}</Route>) )
             <Route element={<ClientLayout />}>
               <Route path="/login" element={<Login />} />
+              <Route path="/home" element={<Login />} />
             </Route>
           </Routes>
         </ThemeProvider>

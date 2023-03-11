@@ -7,6 +7,8 @@ import {
 } from "@mui/icons-material";
 import FlexBox from "./FlexBox";
 import { useDispatch } from "react-redux";
+import { setLogout } from "hooks/auth-hook";
+import { useNavigate } from "react-router-dom";
 import profileImage from "admin/assets/profile.jpeg";
 import {
   Box,
@@ -24,11 +26,17 @@ import {
 const NavbarAdmin = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+
+  const handleLogout = () => {
+    dispatch(setLogout());
+    navigate("/login");
+  };
 
   return (
     <AppBar
@@ -105,7 +113,7 @@ const NavbarAdmin = ({ isSidebarOpen, setIsSidebarOpen }) => {
               onClose={handleClose}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
-              <MenuItem onClick={handleClose}>Log Out</MenuItem>
+              <MenuItem onClick={handleLogout}>Log Out</MenuItem>
             </Menu>
           </FlexBox>
         </FlexBox>

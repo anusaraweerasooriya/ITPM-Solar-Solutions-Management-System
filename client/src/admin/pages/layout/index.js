@@ -8,7 +8,7 @@ import Sidebar from "admin/components/Sidebar";
 const AdminLayout = () => {
   const isNonMobileScreen = useMediaQuery("(min-width: 600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const userId = useSelector((state) => state.auth.userId);
+  const userId = useSelector((state) => state.user._id);
 
   return (
     <Box
