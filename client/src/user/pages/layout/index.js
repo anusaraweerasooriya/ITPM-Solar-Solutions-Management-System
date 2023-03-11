@@ -4,18 +4,19 @@ import { Box, Typography } from "@mui/material";
 import Navbar from "user/components/Navbar";
 import Footer from "user/components/Footer";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const ClientLayout = () => {
   return (
     <Box>
+      {/* NAVBAR */}
       <Navbar />
+
+      {/* PAGE BODY */}
       <Outlet />
-      <Box
-        sx={{
-          width: '100%',
-          position: 'fixed',
-          bottom: 0,
-        }}
-      >
+
+      {/* FOOTER */}
+      <Box>
         <Footer />
       </Box>
     </Box>
@@ -23,3 +24,4 @@ const ClientLayout = () => {
 };
 
 export default ClientLayout;
+
