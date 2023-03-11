@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import { HttpError } from "../models/HttpError.js";
 import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const userRegister = async (req, res, next) => {
   const errors = validationResult(req);
@@ -12,7 +13,7 @@ export const userRegister = async (req, res, next) => {
   }
 
   const { fullname, email, password } = req.body;
-  console.log(req.body);
+
   let existingUser;
   try {
     existingUser = await User.findOne({ email: email });
@@ -63,4 +64,47 @@ export const userRegister = async (req, res, next) => {
   }
 
   res.status(201).json(savedUser);
+};
+
+export const userLogin = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(
+      new HttpError("Invalid inputs passed, please check your data", 403)
+    );
+  }
+
+  const { email, password } = req.body;
+
+  let user;
+  try {
+    user = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError("Login failed, please try again.", 500);
+    return next(error);
+  }
+
+  if (!user) {
+    return next(
+      new HttpError("User does not exists. Please sign up to continue!", 403)
+    );
+  }
+
+  const passwordIsMatch = await bcrypt.compare(password, user.password);
+  if (!passwordIsMatch) {
+    return next(
+      new HttpError("Invalid credentials. Please enter correct details!", 403)
+    );
+  }
+
+  let token;
+  try {
+    token = jwt.sign({ id: user.__id }, process.env.JWT_SECRET);
+  } catch (err) {
+    return next(new HttpError("Login failed. Please try again later!", 403));
+  }
+
+  delete user.password;
+
+  res.status(200).json({ token, user });
 };

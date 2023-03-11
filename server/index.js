@@ -35,6 +35,21 @@ const upload = multer({ storage });
 /* ROUTES =====================*/
 app.use("/auth", authRoutes);
 
+/* ERROR HANDLING MIDDLEWARE =================================*/
+app.use((error, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+  }
+  if (res.headerSent) {
+    return next(error);
+  }
+
+  res.status(error.code || 500);
+  res.json({ message: error.message || "An unknown error occurred!" });
+});
+
 /* MONGOOSE SETUP =====================*/
 const PORT = process.env.PORT || 9000;
 mongoose
