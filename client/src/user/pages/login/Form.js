@@ -25,11 +25,21 @@ const registerSchema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
+const loginSchema = yup.object().shape({
+  email: yup.string().required("required"),
+  password: yup.string().required("required"),
+});
+
 const initialValuesRegister = {
   fullname: "",
   email: "",
   password: "",
   passwordConfirmation: "",
+};
+
+const initialLoginFormValues = {
+  email: "",
+  password: "",
 };
 
 const Form = (props) => {
@@ -44,7 +54,34 @@ const Form = (props) => {
 
   props.isLoginHandle(isLogin);
 
-  const handleFormSubmit = () => {};
+  const register = async (values, onSubmitProps) => {
+    const savedUserResponse = await fetch(
+      "http://localhost:5001/auth/register",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      }
+    );
+
+    const savedUser = await savedUserResponse.json();
+    onSubmitProps.resetForm();
+
+    if (savedUser) {
+      setPageType("login");
+    }
+
+    if (savedUser) {
+      setPageType("login");
+    }
+  };
+
+  const login = () => {};
+
+  const handleFormSubmit = async (values, onSubmitProps) => {
+    if (isLogin) await login(values, onSubmitProps);
+    if (isRegister) await register(values, onSubmitProps);
+  };
 
   const recaptchaHandler = (value) => {
     setCaptchaKey(value);
@@ -54,8 +91,8 @@ const Form = (props) => {
     <div>
       <Formik
         onSubmit={handleFormSubmit}
-        initialValues={isLogin ? initialValuesRegister : initialValuesRegister}
-        validationSchema={isLogin ? registerSchema : registerSchema}
+        initialValues={isLogin ? initialLoginFormValues : initialValuesRegister}
+        validationSchema={isLogin ? loginSchema : registerSchema}
       >
         {({
           values,
@@ -117,23 +154,26 @@ const Form = (props) => {
                 helperText={touched.password && errors.password}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField
-                label="Re-enter password"
-                type="password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.passwordConfirmation}
-                name="passwordConfirmation"
-                color="success"
-                error={
-                  Boolean(touched.passwordConfirmation) &&
-                  Boolean(errors.passwordConfirmation)
-                }
-                helperText={
-                  touched.passwordConfirmation && errors.passwordConfirmation
-                }
-                sx={{ gridColumn: "span 4" }}
-              />
+              {isRegister && (
+                <TextField
+                  label="Re-enter password"
+                  type="password"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.passwordConfirmation}
+                  name="passwordConfirmation"
+                  color="success"
+                  error={
+                    Boolean(touched.passwordConfirmation) &&
+                    Boolean(errors.passwordConfirmation)
+                  }
+                  helperText={
+                    touched.passwordConfirmation && errors.passwordConfirmation
+                  }
+                  sx={{ gridColumn: "span 4" }}
+                />
+              )}
+
               {!isLogin && (
                 <ReCAPTCHA
                   sitekey="6LcreUskAAAAABVC02ZrdpVnOfFSwC7bxP-oN5cp"

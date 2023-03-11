@@ -11,8 +11,8 @@ export const userRegister = async (req, res, next) => {
     );
   }
 
-  const { name, email, password } = req.body;
-
+  const { fullname, email, password } = req.body;
+  console.log(req.body);
   let existingUser;
   try {
     existingUser = await User.findOne({ email: email });
@@ -41,11 +41,11 @@ export const userRegister = async (req, res, next) => {
       "Could not create user, please try again.",
       500
     );
-    return next(error);
+    return next(err);
   }
 
   const createdUser = new User({
-    name,
+    name: fullname,
     email,
     password: hashedPassword,
     role: "customer",
