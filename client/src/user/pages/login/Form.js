@@ -118,11 +118,17 @@ const Form = (props) => {
       } catch (err) {
         setOpen(true);
         setError(err.message);
-        console.log(error);
       }
     }
 
-    if (isRegister) await register(values, onSubmitProps);
+    if (isRegister) {
+      try {
+        await register(values, onSubmitProps);
+      } catch (err) {
+        setOpen(true);
+        setError(err.message);
+      }
+    }
   };
 
   const recaptchaHandler = (value) => {
