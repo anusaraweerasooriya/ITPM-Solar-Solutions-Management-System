@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /* ROUTES WITH FILE UPLOAD ================================= */
-app.post("/ruralproject", upload.single("picture"), createRuralProject);
+app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
 
 /* ROUTES =====================*/
 app.use("/auth", authRoutes);
