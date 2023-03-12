@@ -7,7 +7,7 @@ import {
 const Footer = () => {
     const theme = useTheme();
     return (
-        <Box p="40px 0" backgroundColor={theme.palette.primary[500]} color="#ffffff">
+        <Box mt="40px" p="40px 0" backgroundColor={theme.palette.primary[500]} color="#ffffff">
             <Box
                 width="80%"
                 margin="auto"

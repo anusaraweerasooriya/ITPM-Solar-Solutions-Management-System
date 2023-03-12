@@ -39,3 +39,13 @@ export const createRuralProject = async (req, res) => {
         res.status(409).json({ error: err.message });
     }
 };
+
+/* READ */
+export const getRuralProjects = async (req, res) => {
+    try {
+        const ruralProjects = await RuralProject.find();
+        res.status(200).json(ruralProjects);
+    } catch (err) {
+        res.status(409).json({ error: err.message });
+    }
+};

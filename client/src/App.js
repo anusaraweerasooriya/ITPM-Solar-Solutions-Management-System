@@ -12,7 +12,8 @@ import Home from "user/pages/static/home";
 import ClientLayout from "user/pages/layout";
 import PlanRequests from "admin/pages/planRequests";
 import Login from "user/pages/login";
-import Donate from "user/pages/donate/donate";
+import RuralProjects from "admin/pages/ruralProjects";
+import Donate from "user/pages/donate";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -32,7 +33,10 @@ function App() {
     <Route path="/admin/planRequests" element={<PlanRequests />} />
   );
 
-  const ruralProjectRoutes = "";
+  const ruralProjectRoutes = (
+    <Route path="/admin/ruralProjects" element={<RuralProjects />} />
+  );
+  
   const recentProjectRoutes = "";
   const productRoutes = "";
 
