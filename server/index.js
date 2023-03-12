@@ -8,6 +8,7 @@ import morgan from "morgan";
 import multer from "multer";
 
 import authRoutes from "./routes/auth.js";
+import { createRuralProject } from "./controllers/ruralProjects.js";
 
 /* MIDDLEWARE CONFIGURATION =====================*/
 dotenv.config();
@@ -31,6 +32,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+/* ROUTES WITH FILE UPLOAD ================================= */
+app.post("/ruralproject", upload.single("picture"), createRuralProject);
 
 /* ROUTES =====================*/
 app.use("/auth", authRoutes);
