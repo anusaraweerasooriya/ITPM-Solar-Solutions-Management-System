@@ -70,6 +70,10 @@ const Form = (props) => {
     );
 
     const savedUser = await savedUserResponse.json();
+
+    if (!savedUserResponse.ok) {
+      throw new Error(savedUser.message);
+    }
     onSubmitProps.resetForm();
 
     if (savedUser) {
