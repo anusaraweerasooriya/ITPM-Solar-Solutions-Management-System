@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "hooks/auth-hook";
 import ReCAPTCHA from "react-google-recaptcha";
+import ErrorModal from "components/modals/ErrorModal";
 
 const registerSchema = yup.object().shape({
   fullname: yup.string().required("This field cannot be empty"),
@@ -53,6 +54,9 @@ const Form = (props) => {
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
+  const [open, setOpen] = useState(true);
+  const [error, setError] = useState("");
+
   props.isLoginHandle(isLogin);
 
   const register = async (values, onSubmitProps) => {
@@ -83,27 +87,41 @@ const Form = (props) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
-
     const logged = await loggedInResponse.json();
-    onSubmitProps.resetForm();
 
-    if (logged) {
-      dispatch(
-        setLogin({
-          user: logged.user,
-          token: logged.token,
-        })
-      );
-      if (logged.user.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/home");
+    if (!loggedInResponse.ok) {
+      throw new Error(logged.message);
+    }
+
+    if (loggedInResponse.ok) {
+      onSubmitProps.resetForm();
+      if (logged.user) {
+        dispatch(
+          setLogin({
+            user: logged.user,
+            token: logged.token,
+          })
+        );
+        if (logged.user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/home");
+        }
       }
     }
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    if (isLogin) await login(values, onSubmitProps);
+    if (isLogin) {
+      try {
+        await login(values, onSubmitProps);
+      } catch (err) {
+        setOpen(true);
+        setError(err.message);
+        console.log(error);
+      }
+    }
+
     if (isRegister) await register(values, onSubmitProps);
   };
 
@@ -113,6 +131,15 @@ const Form = (props) => {
 
   return (
     <div>
+      {error && (
+        <ErrorModal
+          open={open}
+          setOpen={setOpen}
+          error={error}
+          setError={setError}
+        />
+      )}
+
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={isLogin ? initialLoginFormValues : initialValuesRegister}
