@@ -185,30 +185,30 @@ const RuralProjectForm = () => {
                             p="1rem"
                         >
                             <Dropzone
-                            acceptedFiles=".jpg,.jpeg,.png"
-                            multiple={false}
-                            onDrop={(acceptedFiles) =>
-                                setFieldValue("picture", acceptedFiles[0])
-                            }
-                            >
-                            {({ getRootProps, getInputProps }) => (
-                                <Box
-                                {...getRootProps()}
-                                border={`2px dashed ${palette.primary.main}`}
-                                p="1rem"
-                                sx={{ "&:hover": { cursor: "pointer" } }}
+                                acceptedFiles=".jpg,.jpeg,.png"
+                                multiple={false}
+                                onDrop={(acceptedFiles) =>
+                                    setFieldValue("imagePath", acceptedFiles[0])
+                                }
                                 >
-                                <input {...getInputProps()} />
-                                {!values.picture ? (
-                                    <p>Add Picture Here</p>
-                                ) : (
-                                    <FlexBox>
-                                    <Typography>{values.picture.name}</Typography>
-                                    <EditOutlinedIcon />
-                                    </FlexBox>
+                                {({ getRootProps, getInputProps }) => (
+                                    <Box
+                                    {...getRootProps()}
+                                    border={`2px dashed ${palette.primary.main}`}
+                                    p="1rem"
+                                    sx={{ "&:hover": { cursor: "pointer" } }}
+                                    >
+                                    <input {...getInputProps()} />
+                                    {!values.imagePath ? (
+                                        <p>Add Picture Here</p>
+                                    ) : (
+                                        <FlexBox>
+                                        <Typography>{values.imagePath.name}</Typography>
+                                        <EditOutlinedIcon />
+                                        </FlexBox>
+                                    )}
+                                    </Box>
                                 )}
-                                </Box>
-                            )}
                             </Dropzone>
                         </Box>
                         <TextField 
