@@ -1,16 +1,16 @@
 import React from "react";
-import { 
-  Box, 
-  Card, 
-  CardActions, 
-  CardContent, 
-  Collapse, 
-  Button, 
-  Typography, 
-  useTheme, 
-  useMediaQuery 
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Collapse,
+  Button,
+  Typography,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import { useGetRuralProjectsQuery } from "hooks/api-hook";
 import SlideShow from "./carousel";
