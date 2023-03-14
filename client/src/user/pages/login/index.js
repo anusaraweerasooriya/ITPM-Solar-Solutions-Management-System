@@ -21,6 +21,7 @@ const Login = () => {
       justifyContent="center"
       alignItems="center"
       mt="2rem"
+      mb="2rem"
     >
       <Box width={isNonMobileScreen ? "70%" : "90%"}>
         <Grid container>
@@ -48,7 +49,7 @@ const Login = () => {
                 {!isLogin ? "Create Account" : "Login"}
               </Typography>
               <Box pr="3rem" pl="3rem">
-                <Divider />
+                <Divider color="black" />
               </Box>
               <Box m="3rem">
                 <Form isLoginHandle={isLoginHandle} />

@@ -138,6 +138,8 @@ const Sidebar = ({
     setActive(pathname.substring(1));
   }, [pathname]);
 
+  console.log(user);
+
   return (
     <Box component="nav">
       {isSidebarOpen && (
@@ -253,7 +255,7 @@ const Sidebar = ({
                   fontSize="0.9rem"
                   sx={{ color: theme.palette.secondary[100] }}
                 >
-                  {user}
+                  {user.name}
                 </Typography>
                 <Typography
                   fontSize="0.8rem"

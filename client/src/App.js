@@ -46,10 +46,8 @@ function App() {
     (<Route path="/home" element={<Home />} />));
 
   const userProfileRoutes = "";
-  
-  const donationRoutes = (
-      <Route path="/donate" element={<Donate />} />
-  );
+
+  const donationRoutes = <Route path="/donate" element={<Donate />} />;
 
   return (
     <div className="app">
@@ -58,26 +56,27 @@ function App() {
           <CssBaseline />
           <Routes>
             (isAdmin ? (
-              <Route element={<AdminLayout />}>
-                <Route
-                  path="/admin/dashboard"
-                  element={isAdmin ? <Dashboard /> : <Navigate to="/login" />}
-                />
-                {clientProjectRoutes}
-                {ruralProjectRoutes}
-                {recentProjectRoutes}
-                {productRoutes}
-              </Route>
+            <Route element={<AdminLayout />}>
+              <Route
+                path="/admin/dashboard"
+                element={isAdmin ? <Dashboard /> : <Navigate to="/login" />}
+              />
+              {clientProjectRoutes}
+              {ruralProjectRoutes}
+              {recentProjectRoutes}
+              {productRoutes}
+            </Route>
             ) : (
-              <Route element={<ClientLayout />}>
-                {staticRoutes}
-                {userProfileRoutes}
-                {donationRoutes}
-              </Route>)
-            )
             <Route element={<ClientLayout />}>
+              {staticRoutes}
+              {userProfileRoutes}
+              {donationRoutes}
+            </Route>
+            ) )
+            <Route element={<ClientLayout />}>
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/home" element={<Login />} />
+              <Route path="/home" element={<Home />} />
             </Route>
           </Routes>
         </ThemeProvider>
