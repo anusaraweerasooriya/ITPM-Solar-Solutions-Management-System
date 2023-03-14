@@ -42,10 +42,8 @@ function App() {
     (<Route path="/home" element={<Home />} />));
 
   const userProfileRoutes = "";
-  
-  const donationRoutes = (
-      <Route path="/donate" element={<Donate />} />
-  );
+
+  const donationRoutes = <Route path="/donate" element={<Donate />} />;
 
   return (
     <div className="app">
@@ -64,10 +62,17 @@ function App() {
               {recentProjectRoutes}
               {productRoutes}
             </Route>
-            ) : (<Route element={<ClientLayout />}>{staticRoutes}{userProfileRoutes}{donationRoutes}</Route>) )
+            ) : (
             <Route element={<ClientLayout />}>
+              {staticRoutes}
+              {userProfileRoutes}
+              {donationRoutes}
+            </Route>
+            ) )
+            <Route element={<ClientLayout />}>
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/home" element={<Login />} />
+              <Route path="/home" element={<Home />} />
             </Route>
           </Routes>
         </ThemeProvider>
