@@ -8,7 +8,7 @@ import Sidebar from "admin/components/Sidebar";
 const AdminLayout = () => {
   const isNonMobileScreen = useMediaQuery("(min-width: 600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const userId = useSelector((state) => state.user._id);
+  const user = useSelector((state) => state.user);
 
   return (
     <Box
@@ -17,7 +17,7 @@ const AdminLayout = () => {
       height="100%"
     >
       <Sidebar
-        user={userId || {}}
+        user={user || {}}
         isNonMobileScreen={isNonMobileScreen}
         drawerWidth="250px"
         isSidebarOpen={isSidebarOpen}
@@ -25,7 +25,7 @@ const AdminLayout = () => {
       />
       <Box flexGrow={1}>
         <NavbarAdmin
-          user={userId || {}}
+          user={user || {}}
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />

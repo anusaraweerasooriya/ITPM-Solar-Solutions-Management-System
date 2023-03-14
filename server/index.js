@@ -8,6 +8,7 @@ import morgan from "morgan";
 import multer from "multer";
 
 import authRoutes from "./routes/auth.js";
+import billRoutes from "./routes/bill.js";
 
 /* MIDDLEWARE CONFIGURATION =====================*/
 dotenv.config();
@@ -34,6 +35,7 @@ const upload = multer({ storage });
 
 /* ROUTES =====================*/
 app.use("/auth", authRoutes);
+app.use("/bill", billRoutes);
 
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
