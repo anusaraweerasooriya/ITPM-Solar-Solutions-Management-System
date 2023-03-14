@@ -95,7 +95,7 @@ const RuralProjectForm = () => {
                         gap="30px"
                         gridTemplateColumns="repeat(4, minmax(0, 1fr))"
                         sx = {{
-                            "& > div": { gridColumn : isNonMobileScreens ? undefined : "span 4" },      
+                            "& > div": { gridColumn : isNonMobileScreens ? undefined : "span 4"},      
                         }}
                     >
                         <TextField 

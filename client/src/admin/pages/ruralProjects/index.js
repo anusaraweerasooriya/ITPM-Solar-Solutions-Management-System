@@ -21,7 +21,7 @@ const RuralProjects = () => {
         borderRadius="1.5rem"
         backgroundColor="#ffffff"
     >
-        <Typography fontWeight="bold" variant="h3" sx={{ mb: "1.5rem", textAlign:"center" }}>
+        <Typography fontWeight="bold" variant="h4" sx={{ mb: "1.5rem", textAlign:"center" }}>
           ADD RURAL PROJECT
         </Typography>
         <hr></hr>

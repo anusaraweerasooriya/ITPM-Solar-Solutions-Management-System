@@ -34,7 +34,7 @@ function App() {
   );
 
   const ruralProjectRoutes = (
-    <Route path="/admin/ruralProjects" element={<RuralProjects />} />
+    <Route path="/admin/ruralProjects" element={isAdmin ? <RuralProjects /> : <Navigate to="/login" />} />
   );
   
   const recentProjectRoutes = "";
@@ -58,17 +58,23 @@ function App() {
           <CssBaseline />
           <Routes>
             (isAdmin ? (
-            <Route element={<AdminLayout />}>
-              <Route
-                path="/admin/dashboard"
-                element={isAdmin ? <Dashboard /> : <Navigate to="/login" />}
-              />
-              {clientProjectRoutes}
-              {ruralProjectRoutes}
-              {recentProjectRoutes}
-              {productRoutes}
-            </Route>
-            ) : (<Route element={<ClientLayout />}>{staticRoutes}{userProfileRoutes}{donationRoutes}</Route>) )
+              <Route element={<AdminLayout />}>
+                <Route
+                  path="/admin/dashboard"
+                  element={isAdmin ? <Dashboard /> : <Navigate to="/login" />}
+                />
+                {clientProjectRoutes}
+                {ruralProjectRoutes}
+                {recentProjectRoutes}
+                {productRoutes}
+              </Route>
+            ) : (
+              <Route element={<ClientLayout />}>
+                {staticRoutes}
+                {userProfileRoutes}
+                {donationRoutes}
+              </Route>)
+            )
             <Route element={<ClientLayout />}>
               <Route path="/login" element={<Login />} />
               <Route path="/home" element={<Login />} />

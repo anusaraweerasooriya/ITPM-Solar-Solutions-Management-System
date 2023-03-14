@@ -1,19 +1,15 @@
-// import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// export const api = createApi({
-//   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_BASE_URL }),
-//   reducerPath: "clientApi",
-//   tagTypes: ["UserRegister"],
-//   endpoints: (build) => ({
-//     registerUser: build.query({
-//       query: ({ formData }) => ({
-//         url: "auth/register",
-//         method: "POST",
-//         body: formData,
-//       }),
-//       providesTags: ["UserRegister"],
-//     }),
-//   }),
-// });
+export const api = createApi({
+        baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_BASE_URL }),
+        reducerPath: "adminApi",
+        tagTypes: ["RuralProjects"],
+        endpoints: (build) => ({
+            getRuralProjects: build.query({
+                query: () => "projects/ruralProjects", 
+                providesTags: ["RuralProjects"],
+            }),
+        }),
+    });
 
-// export const { useRegisterUserQuery } = api;
+export const { useGetRuralProjectsQuery } = api;
