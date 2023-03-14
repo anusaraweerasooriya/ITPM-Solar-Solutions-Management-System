@@ -34,7 +34,7 @@ const Navbar = () => {
             <FlexBox gap="0.4rem">
                 <Typography
                 fontWeight="bold"
-                fontSize="clamp(1rem, 2rem, 2.25rem)"
+                fontSize="1.5rem"
                 color={theme.palette.secondary.main}
                 onClick={() => navigate("/")}
                 sx={{
@@ -43,7 +43,7 @@ const Navbar = () => {
                     },
                 }}
                 >
-                Solar4Mation
+                SOLAR4MATION
                 </Typography>
             </FlexBox>
     
@@ -51,7 +51,7 @@ const Navbar = () => {
             {isNonMobileScreens ? (
                 <FlexBox gap="2.5rem">
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/")}
                         sx={{
@@ -65,7 +65,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/about")}
                         sx={{
@@ -79,7 +79,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/products")}
                         sx={{
@@ -93,7 +93,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/projects")}
                         sx={{
@@ -107,7 +107,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/donate")}
                         sx={{
@@ -120,11 +120,11 @@ const Navbar = () => {
                         Donate
                     </Typography>
 
-                    <Button variant="contained" size="large" 
+                    <Button variant="contained" size="medium" 
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",
-                            fontSize: "1.1rem",
+                            fontSize: "0.9rem",
                             color: "#000000",
                             backgroundColor: theme.palette.secondary.main,
                             borderRadius: "20px",
@@ -141,7 +141,7 @@ const Navbar = () => {
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",
-                            fontSize: "1.1rem",
+                            fontSize: "0.9rem",
                             borderRadius: "20px",
                             "&:hover": {
                                 backgroundColor: "#ffe3a3",
@@ -155,7 +155,7 @@ const Navbar = () => {
                     <AccountCircle 
                         sx={{
                             color: "#ffffff",
-                            fontSize: "2.1rem",
+                            fontSize: "1.9rem",
                             borderRadius: "20%"
                         }}
                     />
@@ -167,7 +167,7 @@ const Navbar = () => {
                 <Menu 
                     sx={{
                         color: "#ffffff",
-                        fontSize: "2rem",
+                        fontSize: "1.8rem",
                     }}
                 />
                 </IconButton>
@@ -203,7 +203,7 @@ const Navbar = () => {
                     gap="3rem"
                 >
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/")}
                         sx={{
@@ -217,7 +217,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/about")}
                         sx={{
@@ -231,7 +231,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/products")}
                         sx={{
@@ -245,7 +245,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/projects")}
                         sx={{
@@ -259,7 +259,7 @@ const Navbar = () => {
                     </Typography>
 
                     <Typography
-                        fontSize="1.2rem"
+                        fontSize="1rem"
                         color="#ffffff"
                         onClick={() => navigate("/donate")}
                         sx={{
@@ -276,7 +276,7 @@ const Navbar = () => {
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",
-                            fontSize: "1.1rem",
+                            fontSize: "0.9rem",
                             color: "#000000",
                             backgroundColor: theme.palette.secondary.main,
                             borderRadius: "20px",
@@ -293,7 +293,7 @@ const Navbar = () => {
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",
-                            fontSize: "1.1rem",
+                            fontSize: "0.9rem",
                             borderRadius: "20px",
                             "&:hover": {
                                 backgroundColor: "#ffe3a3",
@@ -307,7 +307,7 @@ const Navbar = () => {
                     <AccountCircle 
                         sx={{
                             color: "#ffffff",
-                            fontSize: "2.1rem",
+                            fontSize: "1.9rem",
                             borderRadius: "20%"
                         }}
                     />

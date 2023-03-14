@@ -82,7 +82,7 @@ const navItems = [
   },
   {
     id: 9,
-    url: "",
+    url: "ruralProjects",
     text: "Rural Projects",
     icon: <FoundationOutlined />,
   },
