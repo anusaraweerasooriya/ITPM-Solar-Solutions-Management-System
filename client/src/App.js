@@ -14,6 +14,7 @@ import PlanRequests from "admin/pages/planRequests";
 import Login from "user/pages/login";
 import RuralProjects from "admin/pages/ruralProjects";
 import Donate from "user/pages/donate";
+import Projects from "user/pages/recentProjects/projects";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -48,7 +49,13 @@ function App() {
     ((<Route path="/login" element={<Login />} />),
     (<Route path="/home" element={<Home />} />));
 
-  const dynamicRoutes = "";
+  const dynamicRoutes = (
+    <Route
+      path="/projects" 
+      element={<Projects/>}
+      />
+  );
+
 
   const userProfileRoutes = "";
 
@@ -83,6 +90,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/projects" element={<Projects />} />
             </Route>
           </Routes>
         </ThemeProvider>
