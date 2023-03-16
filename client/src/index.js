@@ -20,18 +20,18 @@ import authReducer from "hooks/auth-hook";
 import { PersistGate } from "redux-persist/integration/react";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
-const persistConfig = {
-  key: "root",
-  storage,
-  version: 1,
-};
-
 const reduxPersistActions = [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER];
 
 const rootReducer = combineReducers({
   [customApi.reducerPath]: customApi.reducer,
   auth: authReducer,
 });
+const persistConfig = {
+  key: "root",
+  storage,
+
+  whitelist: ["authReducer"],
+};
 
 const persistReducers = persistReducer(persistConfig, rootReducer);
 
