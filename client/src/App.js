@@ -48,6 +48,8 @@ function App() {
     ((<Route path="/login" element={<Login />} />),
     (<Route path="/home" element={<Home />} />));
 
+  const dynamicRoutes = "";
+
   const userProfileRoutes = "";
 
   const donationRoutes = <Route path="/donate" element={<Donate />} />;
@@ -72,6 +74,7 @@ function App() {
             ) : (
             <Route element={<ClientLayout />}>
               {staticRoutes}
+              {dynamicRoutes}
               {userProfileRoutes}
               {donationRoutes}
             </Route>
