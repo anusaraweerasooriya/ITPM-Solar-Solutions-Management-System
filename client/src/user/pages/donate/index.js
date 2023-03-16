@@ -18,7 +18,9 @@ import DonateForm from "./donateForm";
 
 const Donate = () => {
   const { data } = useGetRuralProjectsQuery();
+
   console.log(data);
+
   return (
     <Box>
       <SlideShow />

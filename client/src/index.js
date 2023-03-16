@@ -2,8 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "hooks/auth-hook";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import {
   persistStore,
@@ -16,25 +15,39 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { PersistGate } from "redux-persist/integration/react";
 import { customApi } from "hooks/api-hook";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import authReducer from "hooks/auth-hook";
+import { PersistGate } from "redux-persist/integration/react";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
-const persistConfig = { key: "root", storage, version: 1 };
+const persistConfig = {
+  key: "root",
+  storage,
+  version: 1,
+};
 
-const persistReducers = persistReducer(persistConfig, authReducer);
+const reduxPersistActions = [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER];
+
+const rootReducer = combineReducers({
+  [customApi.reducerPath]: customApi.reducer,
+  auth: authReducer,
+});
+
+const persistReducers = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistReducers,
-  [customApi.reducerPath]: customApi.reducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
+
+  middleware: (getDefault) =>
+    getDefault({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [...reduxPersistActions],
       },
     }).concat(customApi.middleware),
 });
 setupListeners(store.dispatch);
+
+console.log(store.getState());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

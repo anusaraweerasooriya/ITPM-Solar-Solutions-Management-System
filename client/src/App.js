@@ -23,7 +23,7 @@ function App() {
     console.log(role);
   }
 
-  const isAdmin = role === "admin";
+  const isAdmin = true;
   console.log(isAdmin);
 
   const theme = useMemo(() => createTheme(themeSettings()), []);
@@ -34,9 +34,12 @@ function App() {
   );
 
   const ruralProjectRoutes = (
-    <Route path="/admin/ruralProjects" element={isAdmin ? <RuralProjects /> : <Navigate to="/login" />} />
+    <Route
+      path="/admin/ruralProjects"
+      element={isAdmin ? <RuralProjects /> : <Navigate to="/login" />}
+    />
   );
-  
+
   const recentProjectRoutes = "";
   const productRoutes = "";
 
