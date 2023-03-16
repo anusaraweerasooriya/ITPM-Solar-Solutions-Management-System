@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import { HttpError } from "../models/HttpError.js";
 import { validationResult } from "express-validator";
+import BillMetrics from "../models/BillMetrices.js";
 
 export const getMonthlyConsumption = async (req, res, next) => {
   const errors = validationResult(req);
@@ -26,15 +27,29 @@ export const getMonthlyConsumption = async (req, res, next) => {
   console.log(avgUnitsPerDay);
   console.log(avgUnitsPerMonth);
 
-  let categoryV1U1;
-  let v1u1price = 30.0;
-  let v1u2price = 37.0;
+  let metrics;
+  let v1u1price;
+  let v1u2price;
 
-  let v2u1price = 42.0;
-  let v2u2price = 42.0;
-  let v2u3price = 50.0;
-  let v2u4price = 50.0;
-  let v2u5price = 75.0;
+  let v2u1price;
+  let v2u2price;
+  let v2u3price;
+  let v2u4price;
+  let v2u5price;
+
+  try {
+    metrics = await BillMetrics.findOne({ version: "Version1" });
+    v1u1price = metrics.version1Category1Price;
+    v1u2price = metrics.version1Category2Price;
+
+    v2u1price = metrics.version2Category1Price;
+    v2u2price = metrics.version2Category2Price;
+    v2u3price = metrics.version2Category3Price;
+    v2u4price = metrics.version2Category4Price;
+    v2u5price = metrics.version2Category5Price;
+  } catch (error) {
+    next(new HttpError("Failed to fetch data from the server!"));
+  }
 
   let v1u1total = 0;
   let v1u2total = 0;
@@ -80,23 +95,23 @@ export const getMonthlyConsumption = async (req, res, next) => {
   }
 
   if (avgUnitsPerMonth <= 30) {
-    fixedCharge = 400.0;
+    fixedCharge = metrics.category1FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
   }
   if (30 < avgUnitsPerMonth <= 60) {
-    fixedCharge = 550.0;
+    fixedCharge = metrics.category2FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
   }
   if (60 < avgUnitsPerMonth <= 90) {
-    fixedCharge = 650.0;
+    fixedCharge = metrics.category3FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
   }
   if (90 < avgUnitsPerMonth <= 180) {
-    fixedCharge = 1500.0;
+    fixedCharge = metrics.category4FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
   }
   if (avgUnitsPerMonth > 180) {
-    fixedCharge = 2000.0;
+    fixedCharge = metrics.category5FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
   }
 

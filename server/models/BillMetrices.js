@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const BillMetricsSchema = new mongoose.Schema(
   {
+    version: {
+      type: String,
+    },
     version1Category1Price: {
       type: Number,
       require: true,
