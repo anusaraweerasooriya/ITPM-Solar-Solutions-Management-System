@@ -137,7 +137,7 @@ const Navbar = () => {
                         Get a Quote
                     </Button>
 
-                    {/*<Button variant="outlined" size="medium" color="warning"
+                    {/*<Button variant="outlined" size="medium" color="error"
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",
@@ -289,7 +289,7 @@ const Navbar = () => {
                         Get a Quote
                     </Button>
 
-                    {/*<Button variant="outlined" size="medium" color="warning"
+                    {/*<Button variant="outlined" size="medium" color="error"
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",

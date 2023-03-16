@@ -1,14 +1,27 @@
-import React from "react";
-import { Box, useTheme, useMediaQuery } from "@mui/material";
+import React, { useState } from "react";
+import { Box, useTheme, useMediaQuery, Button, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useGetRuralProjectsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
-import RuralProjectForm from "./ruralProjectForm";
+import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
 const AdminRuralProjects = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-  const { data, isLoading } = useGetRuralProjectsQuery();
+  
+  // values to be sent to backend
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(20);
+  const [sort, setSort] = useState({});
+  const [search, setSearch] = useState("");
+
+  const [searchInput, setSearchInput] = useState("");
+  const { data, isLoading } = useGetRuralProjectsQuery({
+    page,
+    pageSize,
+    sort: JSON.stringify(sort),
+    search,
+  });
 
   const columns = [
     {
@@ -45,58 +58,110 @@ const AdminRuralProjects = () => {
       field: "estimTotalCost",
       headerName: "Total Cost",
       flex: 0.8,
+      renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
     {
-      field: "",
+      field: "action",
       headerName: "Actions",
-      flex: 1,
+      width: 180,
+      sortable: false,
+      disableClickEventBubbling: true,
+
+      renderCell: (params) => {
+        const onClick = (e) => {
+          const currentRow = params.row;
+          return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        return (
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              onClick={onClick}
+              sx={{
+                textTransform:"unset",
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              size="small"
+              onClick={onClick}
+              sx={{
+                textTransform:"unset",
+              }}
+            >
+              Delete
+            </Button>
+          </Stack>
+        );
+      },
     },
   ];
 
   return (
-    <>
     <Box m="1.5rem 2.5rem">
       <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />
-      <Box mt="40px" height="75vh"
+      <Box mt="40px" height="70vh" mb="10px"
         sx={{
           "& .MuiDataGrid-root": {
-            border: "none"
+            border: "none",
           },
           "& .MuiDataGrid-cell": {
-            borderBottom: "none"
+            borderBottom: "none",
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.primary[400],
+            backgroundColor: theme.palette.primary[500],
             color: "#ffffff",
-            borderBottom: "none"
+            borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary[200],
+            backgroundColor: "#ffffff",
           },
           "& .MuiDataGrid-footerContainer": {
             backgroundColor: theme.palette.primary[200],
             color: "#ffffff",
-            borderTop: "none"
+            borderTop: "none",
           },
-          "& .MuiDataGrid-toolbarContainer .MuiButtonText": {
-            backgroundColor: `${theme.palette.primary[200]} !important`,
-            color: "#ffffff",
-            borderTop: "none"
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${theme.palette.primary[500]} !important`,
           },
         }}
       >
         <DataGrid 
           loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data || []}
+          rows={(data && data.ruralProjects) || []}
           columns={columns}
+          rowCount={(data && data.total) || 0}
+          rowsPerPageOptions={[20, 50, 100]}
+          pagination
+          page={page}
+          pageSize={pageSize}
+          paginationMode="server"
+          sortingMode="server"
+          onPaginationModelChange={(newPage) => setPage(newPage)}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          onSortModelChange={(newSortModel) => setSort(...newSortModel)}
+          components={{ Toolbar: DataGridCustomToolbar }}
+          componentsProps={{
+            toolbar: { searchInput, setSearchInput, setSearch },
+          }}
         />
       </Box>
+      <Button
+        variant="contained"
+        color="success"
+        size="small"
+        onClick={"/"}
+      >
+        ADD
+      </Button>
     </Box>
-
-    {/*<RuralProjectForm />*/}
-
-    </>
   );
 };
 

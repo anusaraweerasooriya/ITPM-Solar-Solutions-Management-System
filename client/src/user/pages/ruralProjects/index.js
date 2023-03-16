@@ -54,9 +54,8 @@ const Project = ({
           </CardContent>
         </CardActionArea>
         <CardActions sx={{justifyContent: "center"}}>
-          <Button variant="contained" size="medium" 
+          <Button variant="contained" size="medium" color="error"
               sx={{
-                  backgroundColor:"#f44336",
                   textTransform:"unset",
                   fontSize: "0.7rem",
                   "&:hover": {
