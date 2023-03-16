@@ -12,7 +12,11 @@ export const customApi = createApi({
   },
   endpoints: (build) => ({
     getRuralProjects: build.query({
-      query: () => "projects/ruralProjects",
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "projects/ruralProjects",
+        method: "GET",
+        params: { page, pageSize, sort, search }
+      }),
       providesTags: ["RuralProjects"],
     }),
     getUsers: build.query({
