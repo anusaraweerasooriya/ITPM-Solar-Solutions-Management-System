@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import { HttpError } from "../models/HttpError.js";
 import { validationResult } from "express-validator";
 import BillMetrics from "../models/BillMetrices.js";
+import BillGenStat from "../models/BillGeneratorStat.js";
 
 export const getMonthlyConsumption = async (req, res, next) => {
   const errors = validationResult(req);
@@ -11,16 +12,7 @@ export const getMonthlyConsumption = async (req, res, next) => {
     );
   }
 
-  const {
-    email,
-    category,
-    lastReadingDate,
-    currReadingDate,
-    noOfDays,
-    prevMeterReading,
-    currMeterReading,
-    noOfUnits,
-  } = req.body;
+  const { email, category, noOfDays, noOfUnits } = req.body;
 
   const avgUnitsPerDay = noOfUnits / noOfDays;
   const avgUnitsPerMonth = avgUnitsPerDay * 30;
@@ -63,16 +55,30 @@ export const getMonthlyConsumption = async (req, res, next) => {
   let totalBill = 0;
   let fixedCharge = 0;
 
+  let dailyBill = [];
+  let dailyTotal = 0;
+  let dailyUnits = 0;
+
   if (avgUnitsPerMonth <= 60) {
     for (let i = 0; i < avgUnitsPerMonth; i++) {
       if (i < 30) {
         v1u1total = v1u1total + v1u1price;
-      } else {
+      }
+      if (i >= 30) {
         v1u2total = v1u2total + v1u2price;
       }
+
+      if ((i + 1) % avgUnitsPerDay == 0) {
+        dailyUnits = i + 1;
+        dailyTotal = v1u1total + v1u2total;
+        dailyBill.push({ dailyUnits, dailyTotal });
+      }
     }
+
+    console.log(v1u1total, v1u2total);
     totalPriceForElectricity = v1u1total + v1u2total;
-  } else {
+  }
+  if (avgUnitsPerMonth > 60) {
     for (let i = 0; i < avgUnitsPerMonth; i++) {
       if (i < 60) {
         v2u1total = v2u1total + v2u1price;
@@ -89,7 +95,14 @@ export const getMonthlyConsumption = async (req, res, next) => {
       if (i >= 180) {
         v2u5total = v2u5total + v2u5price;
       }
+
+      if ((i + 1) % avgUnitsPerDay == 0) {
+        dailyUnits = i + 1;
+        dailyTotal = v2u1total + v2u2total + v2u3total + v2u4total + v2u5total;
+        dailyBill.push({ dailyUnits, dailyTotal });
+      }
     }
+
     totalPriceForElectricity =
       v2u1total + v2u2total + v2u3total + v2u4total + v2u5total;
   }
@@ -98,21 +111,41 @@ export const getMonthlyConsumption = async (req, res, next) => {
     fixedCharge = metrics.category1FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
   }
-  if (30 < avgUnitsPerMonth <= 60) {
+  if (avgUnitsPerMonth > 30 && avgUnitsPerMonth <= 60) {
     fixedCharge = metrics.category2FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
   }
-  if (60 < avgUnitsPerMonth <= 90) {
+  if (avgUnitsPerMonth > 60 && avgUnitsPerMonth <= 90) {
     fixedCharge = metrics.category3FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
   }
-  if (90 < avgUnitsPerMonth <= 180) {
+  if (avgUnitsPerMonth > 90 && avgUnitsPerMonth <= 180) {
     fixedCharge = metrics.category4FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
   }
   if (avgUnitsPerMonth > 180) {
     fixedCharge = metrics.category5FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
+  }
+  console.log(fixedCharge);
+  dailyBill.push({ avgUnitsPerMonth, totalBill });
+
+  try {
+    const generatedData = new BillGenStat({
+      email,
+      category,
+      noOfDays,
+      noOfUnits,
+      avgUnitsPerDay: avgUnitsPerDay,
+      avgUnitsPerMonth: avgUnitsPerMonth,
+      predictedMonthlyBill: totalBill,
+      dailyData: dailyBill,
+    });
+
+    await generatedData.save();
+  } catch (err) {
+    const error = new HttpError("Something went wrong! Please try again.", 403);
+    return next(error);
   }
 
   res.status(200).json({
@@ -126,5 +159,6 @@ export const getMonthlyConsumption = async (req, res, next) => {
     totalPriceForElectricity,
     fixedCharge,
     totalBill,
+    dailyBill,
   });
 };
