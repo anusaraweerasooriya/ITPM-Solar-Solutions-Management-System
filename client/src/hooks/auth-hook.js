@@ -10,6 +10,8 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setLogin: (state, action) => {
+      console.log("setLogin action:", action.payload.user); // Add a console.log statement to check if the action is being called correctly
+
       state.user = action.payload.user;
       state.token = action.payload.token;
     },

@@ -16,14 +16,14 @@ import RuralProjects from "admin/pages/ruralProjects";
 import Donate from "user/pages/donate";
 
 function App() {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth.user);
   let role;
   if (user) {
     role = user.role;
     console.log(role);
   }
 
-  const isAdmin = true;
+  const isAdmin = role === "admin";
   console.log(isAdmin);
 
   const theme = useMemo(() => createTheme(themeSettings()), []);
@@ -47,6 +47,8 @@ function App() {
   const staticRoutes =
     ((<Route path="/login" element={<Login />} />),
     (<Route path="/home" element={<Home />} />));
+
+  const dynamicRoutes = "";
 
   const userProfileRoutes = "";
 
@@ -72,6 +74,7 @@ function App() {
             ) : (
             <Route element={<ClientLayout />}>
               {staticRoutes}
+              {dynamicRoutes}
               {userProfileRoutes}
               {donationRoutes}
             </Route>

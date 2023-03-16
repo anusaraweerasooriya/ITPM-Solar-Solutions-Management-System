@@ -3,12 +3,13 @@ import { Box, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NavbarAdmin from "admin/components/NavbarAdmin";
+import authReducer from "hooks/auth-hook";
 import Sidebar from "admin/components/Sidebar";
 
 const AdminLayout = () => {
   const isNonMobileScreen = useMediaQuery("(min-width: 600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <Box
