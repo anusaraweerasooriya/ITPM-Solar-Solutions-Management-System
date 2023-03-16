@@ -12,8 +12,8 @@ import Home from "user/pages/static/home";
 import ClientLayout from "user/pages/layout";
 import PlanRequests from "admin/pages/planRequests";
 import Login from "user/pages/login";
-import RuralProjects from "admin/pages/ruralProjects";
-import Donate from "user/pages/donate";
+import AdminRuralProjects from "admin/pages/ruralProjects";
+import RuralProjects from "user/pages/ruralProjects";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -36,7 +36,7 @@ function App() {
   const ruralProjectRoutes = (
     <Route
       path="/admin/ruralProjects"
-      element={isAdmin ? <RuralProjects /> : <Navigate to="/login" />}
+      element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />}
     />
   );
 
@@ -52,7 +52,7 @@ function App() {
 
   const userProfileRoutes = "";
 
-  const donationRoutes = <Route path="/donate" element={<Donate />} />;
+  const donationRoutes = <Route path="/donate" element={<RuralProjects />} />;
 
   return (
     <div className="app">

@@ -137,7 +137,7 @@ const Navbar = () => {
                         Get a Quote
                     </Button>
 
-                    {/*<Button variant="outlined" size="large" color="warning"
+                    {/*<Button variant="outlined" size="medium" color="warning"
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",
@@ -272,7 +272,7 @@ const Navbar = () => {
                         Donate
                     </Typography>
 
-                    <Button variant="contained" size="large"
+                    <Button variant="contained" size="medium"
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",
@@ -289,7 +289,7 @@ const Navbar = () => {
                         Get a Quote
                     </Button>
 
-                    {/*<Button variant="outlined" size="large" color="warning"
+                    {/*<Button variant="outlined" size="medium" color="warning"
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",

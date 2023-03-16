@@ -4,7 +4,7 @@ import Header from "admin/components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import RuralProjectForm from "./ruralProjectForm";
 
-const RuralProjects = () => {
+const AdminRuralProjects = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -31,4 +31,4 @@ const RuralProjects = () => {
   );
 };
 
-export default RuralProjects;
+export default AdminRuralProjects;
