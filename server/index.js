@@ -14,7 +14,6 @@ import { createRuralProject } from "./controllers/ruralProjects.js";
 import ruralRoutes from "./routes/ruralProjects.js";
 import billRoutes from "./routes/bill.js";
 
-
 /* MIDDLEWARE CONFIGURATION =====================*/
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,11 +23,10 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(bodyParser.json({ limit: "30mb", extended: false }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: false }));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
-
 
 /* FILE STORAGE =================================*/
 const storage = multer.diskStorage({
@@ -49,7 +47,6 @@ app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
 app.use("/auth", authRoutes);
 app.use("/projects", ruralRoutes);
 app.use("/bill", billRoutes);
-
 
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
