@@ -14,6 +14,7 @@ import PlanRequests from "admin/pages/planRequests";
 import Login from "user/pages/login";
 import RuralProjects from "admin/pages/ruralProjects";
 import Donate from "user/pages/donate";
+import BillGenerator from "user/pages/billGenerator";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -48,7 +49,9 @@ function App() {
     ((<Route path="/login" element={<Login />} />),
     (<Route path="/home" element={<Home />} />));
 
-  const dynamicRoutes = "";
+  const dynamicRoutes = (
+    <Route path="/generateBill" element={<BillGenerator />} />
+  );
 
   const userProfileRoutes = "";
 
@@ -83,6 +86,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/home" element={<Home />} />
+              {dynamicRoutes}
             </Route>
           </Routes>
         </ThemeProvider>

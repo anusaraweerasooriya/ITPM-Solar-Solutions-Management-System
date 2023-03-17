@@ -13,7 +13,7 @@ export const getMonthlyConsumption = async (req, res, next) => {
   }
 
   const { email, category, noOfDays, noOfUnits } = req.body;
-
+  console.log(noOfDays, noOfUnits);
   const avgUnitsPerDay = noOfUnits / noOfDays;
   const avgUnitsPerMonth = avgUnitsPerDay * 30;
   console.log(avgUnitsPerDay);
@@ -28,6 +28,8 @@ export const getMonthlyConsumption = async (req, res, next) => {
   let v2u3price;
   let v2u4price;
   let v2u5price;
+  let priceList;
+  let noOfUnitsList;
 
   try {
     metrics = await BillMetrics.findOne({ version: "Version1" });
@@ -39,6 +41,15 @@ export const getMonthlyConsumption = async (req, res, next) => {
     v2u3price = metrics.version2Category3Price;
     v2u4price = metrics.version2Category4Price;
     v2u5price = metrics.version2Category5Price;
+    priceList = [
+      { v1u1price },
+      { v1u2price },
+      { v2u1price },
+      { v2u2price },
+      { v2u3price },
+      { v2u4price },
+      { v2u5price },
+    ];
   } catch (error) {
     next(new HttpError("Failed to fetch data from the server!"));
   }
@@ -50,6 +61,14 @@ export const getMonthlyConsumption = async (req, res, next) => {
   let v2u3total = 0;
   let v2u4total = 0;
   let v2u5total = 0;
+
+  let v1u1units = 0;
+  let v1u2units = 0;
+  let v2u1units = 0;
+  let v2u2units = 0;
+  let v2u3units = 0;
+  let v2u4units = 0;
+  let v2u5units = 0;
 
   let totalPriceForElectricity = 0;
   let totalBill = 0;
@@ -63,9 +82,11 @@ export const getMonthlyConsumption = async (req, res, next) => {
     for (let i = 0; i < avgUnitsPerMonth; i++) {
       if (i < 30) {
         v1u1total = v1u1total + v1u1price;
+        v1u1units = v1u1units + 1;
       }
       if (i >= 30) {
         v1u2total = v1u2total + v1u2price;
+        v1u2units = v1u2units + 1;
       }
 
       if ((i + 1) % avgUnitsPerDay == 0) {
@@ -82,18 +103,23 @@ export const getMonthlyConsumption = async (req, res, next) => {
     for (let i = 0; i < avgUnitsPerMonth; i++) {
       if (i < 60) {
         v2u1total = v2u1total + v2u1price;
+        v2u1units = v2u1units + 1;
       }
       if (i < 90 && i >= 60) {
         v2u2total = v2u2total + v2u2price;
+        v2u2units = v2u2units + 1;
       }
       if (i < 120 && i >= 90) {
         v2u3total = v2u3total + v2u3price;
+        v2u3units = v2u3units + 1;
       }
       if (i < 180 && i >= 120) {
         v2u4total = v2u4total + v2u4price;
+        v2u4units = v2u4units + 1;
       }
       if (i >= 180) {
         v2u5total = v2u5total + v2u5price;
+        v2u5units = v2u5units + 1;
       }
 
       if ((i + 1) % avgUnitsPerDay == 0) {
@@ -106,6 +132,15 @@ export const getMonthlyConsumption = async (req, res, next) => {
     totalPriceForElectricity =
       v2u1total + v2u2total + v2u3total + v2u4total + v2u5total;
   }
+  noOfUnitsList = [
+    { v1u1units },
+    { v1u2units },
+    { v2u1units },
+    { v2u2units },
+    { v2u3units },
+    { v2u4units },
+    { v2u5units },
+  ];
 
   if (avgUnitsPerMonth <= 30) {
     fixedCharge = metrics.category1FixedCharge;
@@ -130,6 +165,7 @@ export const getMonthlyConsumption = async (req, res, next) => {
   console.log(fixedCharge);
   dailyBill.push({ avgUnitsPerMonth, totalBill });
 
+  let data;
   try {
     const generatedData = new BillGenStat({
       email,
@@ -142,7 +178,7 @@ export const getMonthlyConsumption = async (req, res, next) => {
       dailyData: dailyBill,
     });
 
-    await generatedData.save();
+    data = await generatedData.save();
   } catch (err) {
     const error = new HttpError("Something went wrong! Please try again.", 403);
     return next(error);
@@ -160,5 +196,8 @@ export const getMonthlyConsumption = async (req, res, next) => {
     fixedCharge,
     totalBill,
     dailyBill,
+    data,
+    priceList,
+    noOfUnitsList,
   });
 };
