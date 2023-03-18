@@ -18,6 +18,7 @@ import RuralProjects from "user/pages/ruralProjects";
 
 import RuralProjects from "admin/pages/ruralProjects";
 import Donate from "user/pages/donate";
+import Projects from "user/pages/recentProjects/projects";
 
 import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
@@ -59,11 +60,12 @@ function App() {
     ((<Route path="/login" element={<Login />} />),
     (<Route path="/home" element={<Home />} />));
 
-
   const dynamicRoutes = 
     ((<Route path="/products" element={<Products />} />),
     (<Route path="/product" element={<Product />} />),
-      ( <Route path="/generateBill" element={<BillGenerator />} />));
+    ( <Route path="/generateBill" element={<BillGenerator />} />),
+    (<Route path="/projects" element={<Projects/>}/>));
+
 
   const userProfileRoutes = "";
 
@@ -98,6 +100,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/projects" element={<Projects />} />
               {dynamicRoutes}
             </Route>
           </Routes>
