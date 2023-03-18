@@ -5,14 +5,13 @@ import {
     Button,
     TextField,
     Typography,
-    useTheme
+    useTheme,
 } from "@mui/material";
 import Dropzone from "react-dropzone";
 import FlexBox from "admin/components/FlexBox";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
 
 const ruralProjectSchema = yup.object().shape({
     projectName: yup.string().required("Project name cannot be empty"),
@@ -45,10 +44,10 @@ const initialValuesRuralProject = {
 }
 
 const RuralProjectForm = () => {
-    const navigate = useNavigate();
     const { palette } = useTheme();
     const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
-
+    const today = new Date().toISOString().split('T')[0];
+    
     const handleFormSubmit = async(values, onSubmitProps) => {
         //send form info with an image
         const formData = new FormData();
@@ -162,6 +161,7 @@ const RuralProjectForm = () => {
                             />
                             <TextField
                                 label="Estimated Initiation Date"
+                                type="date"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 value={values.estimInitiateDate}
@@ -169,9 +169,12 @@ const RuralProjectForm = () => {
                                 error={Boolean(touched.estimInitiateDate) && Boolean(errors.estimInitiateDate)}
                                 helperText={(touched.estimInitiateDate) && (errors.estimInitiateDate)}
                                 sx={{ gridColumn: "span 2" }}
+                                InputLabelProps={{ shrink: true }}
+                                inputProps={{ min: today }}
                             />
                             <TextField
                                 label="Estimated End Date"
+                                type="date"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 value={values.estimEndDate}
@@ -179,6 +182,8 @@ const RuralProjectForm = () => {
                                 error={Boolean(touched.estimEndDate) && Boolean(errors.estimEndDate)}
                                 helperText={(touched.estimEndDate) && (errors.estimEndDate)}
                                 sx={{ gridColumn: "span 2" }}
+                                InputLabelProps={{ shrink: true }}
+                                inputProps={{ min: today }}
                             />
                             <TextField 
                                 label="Estimated Cost"
@@ -235,15 +240,28 @@ const RuralProjectForm = () => {
                             />
                         </Box>
 
-                        {/* ADD BUTTON */}
-                        <Button type="submit" variant="contained" color="success" fullWidth
-                            sx={{
-                                m: "2rem 0",
-                                p: "1rem",
-                            }}
-                        >
-                            ADD
-                        </Button>
+                        {/* BUTTONs */}
+                        <FlexBox gap="1rem">
+                            <Button variant="outlined" color="primary"
+                                onClick={() => {resetForm();}}
+                                sx={{
+                                    m: "2rem 0",
+                                    p: "0.8rem",
+                                    width: "8rem"
+                                }}
+                            >
+                                Clear
+                            </Button>
+                            <Button type="submit" variant="contained" color="success"
+                                sx={{
+                                    m: "2rem 0",
+                                    p: "0.8rem",
+                                    width: "8rem"
+                                }}
+                            >
+                                ADD
+                            </Button>
+                        </FlexBox>
                     </form >
                 )}
             </Formik>

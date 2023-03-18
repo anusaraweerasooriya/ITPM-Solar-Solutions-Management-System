@@ -40,8 +40,8 @@ export const createRuralProject = async (req, res) => {
     }
 };
 
-/* READ */
-export const getRuralProjects = async (req, res) => {
+/* ADMIN DISPLAY */
+export const getAdminRuralProjects = async (req, res) => {
     try {
         const { page=1, pageSize=20, sort=null, search="" } = req.query;
         
@@ -76,6 +76,16 @@ export const getRuralProjects = async (req, res) => {
             ruralProjects,
             total
         });
+    } catch (err) {
+        res.status(409).json({ error: err.message });
+    }
+};
+
+/* CLIENT DISPLAY */
+export const getRuralProjects = async (req, res) => {
+    try {
+        const ruralProjects = await RuralProject.find();
+        res.status(200).json(ruralProjects);
     } catch (err) {
         res.status(409).json({ error: err.message });
     }

@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, useTheme, useMediaQuery, Button, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useGetRuralProjectsQuery } from "hooks/api-hook";
+import { useGetAdminRuralProjectsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
+import RuralProjectCards from "./ruralProjectCards";
+import RuralProjectForm from "./ruralProjectForm";
+
 const AdminRuralProjects = () => {
   const theme = useTheme();
-  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+  const navigate = useNavigate();
+  const isDesktop = useMediaQuery("(min-width: 1700px)");
   
   // values to be sent to backend
   const [page, setPage] = useState(0);
@@ -16,7 +21,7 @@ const AdminRuralProjects = () => {
   const [search, setSearch] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useGetRuralProjectsQuery({
+  const { data, isLoading } = useGetAdminRuralProjectsQuery({
     page,
     pageSize,
     sort: JSON.stringify(sort),
@@ -105,8 +110,14 @@ const AdminRuralProjects = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />
-      <Box mt="40px" height="70vh" mb="10px"
+      <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />    
+      
+      {isDesktop && (
+        <RuralProjectCards />
+      )}
+      
+
+      <Box mt="20px" height="70vh" mb="10px"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -132,6 +143,7 @@ const AdminRuralProjects = () => {
           },
         }}
       >
+
         <DataGrid 
           loading={isLoading || !data}
           getRowId={(row) => row._id}
@@ -157,10 +169,11 @@ const AdminRuralProjects = () => {
         variant="contained"
         color="success"
         size="small"
-        onClick={"/"}
+        onClick={() => navigate(<RuralProjectForm />)}
       >
         ADD
       </Button>
+      <RuralProjectForm />
     </Box>
   );
 };

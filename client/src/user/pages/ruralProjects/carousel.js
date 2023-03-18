@@ -8,7 +8,7 @@ const SlideShow = () => {
                 <img
                 height= "500px"
                 className="d-block w-100"
-                src="https://images.unsplash.com/photo-1550884632-95ab8633b454?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80"
+                src="https://images.unsplash.com/photo-1522048833462-609c0b10f384?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1233&q=80"
                 alt="First slide"
                 />
                 <Carousel.Caption>
@@ -20,7 +20,7 @@ const SlideShow = () => {
                 <img
                 height= "500px"
                 className="d-block w-100"
-                src="https://images.unsplash.com/photo-1607537670164-a9bfae0a8df1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
+                src="https://images.unsplash.com/photo-1531216122116-e7265fde45d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1227&q=80"
                 alt="Second slide"
                 />
                 <Carousel.Caption>
@@ -32,7 +32,7 @@ const SlideShow = () => {
                 <img
                 height= "500px"
                 className="d-block w-100"
-                src="https://images.unsplash.com/photo-1546975490-e8b92a360b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                src="https://images.unsplash.com/photo-1600937803855-9bf21a20e919?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1258&q=80"
                 alt="Third slide"
                 />
                 <Carousel.Caption>

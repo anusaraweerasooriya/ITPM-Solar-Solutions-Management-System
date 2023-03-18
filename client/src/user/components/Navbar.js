@@ -152,8 +152,8 @@ const Navbar = () => {
 
                     {!isAuth ? (
                         <Button 
-                            variant="outlined" 
-                            size="medium" 
+                            variant="contained" 
+                            size="medium"
                             color="error"
                             onClick={() => navigate("/login")}
                             sx={{
@@ -162,8 +162,6 @@ const Navbar = () => {
                                 fontSize: "0.9rem",
                                 borderRadius: "20px",
                                 "&:hover": {
-                                    backgroundColor: "#d32f2f",
-                                    color: "#ffffff",
                                     cursor: "pointer",
                                 },
                             }}
@@ -339,7 +337,7 @@ const Navbar = () => {
 
                     {!isAuth ? (
                         <Button 
-                            variant="outlined" 
+                            variant="contained" 
                             size="medium" 
                             color="error"
                             onClick={() => navigate("/login")}
