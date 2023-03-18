@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { 
     Box, 
     useMediaQuery,
@@ -6,9 +5,7 @@ import {
     TextField,
     Typography,
     useTheme,
-    Select,
     MenuItem,
-    InputLabel
 } from "@mui/material";
 import Dropzone from "react-dropzone";
 import FlexBox from "admin/components/FlexBox";
