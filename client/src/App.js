@@ -15,6 +15,7 @@ import Login from "user/pages/login";
 import RuralProjects from "admin/pages/ruralProjects";
 import Donate from "user/pages/donate";
 import Products from "user/pages/product/products";
+import Product from "user/pages/product/product";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -49,7 +50,10 @@ function App() {
     ((<Route path="/login" element={<Login />} />),
     (<Route path="/home" element={<Home />} />));
 
-  const dynamicRoutes = (<Route path="/products" element={<Products />}/>);
+  const dynamicRoutes = 
+    ((<Route path="/products" element={<Products />} />),
+    (<Route path="/product" element={<Product />} />));
+
 
   const userProfileRoutes = "";
 
@@ -84,6 +88,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/home" element={<Home />} />
+              {dynamicRoutes}
             </Route>
           </Routes>
         </ThemeProvider>
