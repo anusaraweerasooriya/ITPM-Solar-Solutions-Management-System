@@ -18,7 +18,12 @@ import RuralProjects from "user/pages/ruralProjects";
 
 import RuralProjects from "admin/pages/ruralProjects";
 import Donate from "user/pages/donate";
+
+import Products from "user/pages/product/products";
+import Product from "user/pages/product/product";
+
 import BillGenerator from "user/pages/billGenerator";
+
 
 
 function App() {
@@ -54,9 +59,11 @@ function App() {
     ((<Route path="/login" element={<Login />} />),
     (<Route path="/home" element={<Home />} />));
 
-  const dynamicRoutes = (
-    <Route path="/generateBill" element={<BillGenerator />} />
-  );
+
+  const dynamicRoutes = 
+    ((<Route path="/products" element={<Products />} />),
+    (<Route path="/product" element={<Product />} />),
+      ( <Route path="/generateBill" element={<BillGenerator />} />));
 
   const userProfileRoutes = "";
 
