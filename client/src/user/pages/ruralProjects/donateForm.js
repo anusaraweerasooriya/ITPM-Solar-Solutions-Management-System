@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useLocation } from 'react-router-dom';
 import { 
   Box, 
@@ -5,13 +6,11 @@ import {
   Button,
   TextField,
   Typography,
-  useTheme,
-  MenuItem,
 } from "@mui/material";
-import Dropzone from "react-dropzone";
-import FlexBox from "admin/components/FlexBox";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useSelector } from "react-redux";
+import FlexBox from "admin/components/FlexBox";
 import * as yup from "yup";
 
 const donationSchema = yup.object().shape({
@@ -22,23 +21,21 @@ const donationSchema = yup.object().shape({
   date: yup.date()
 })
 
-const today = new Date().toISOString().split('T')[0];
-
-const initialValuesDonation = {
-  fullName:  "",
-  email:  "",
-  amount:  "",
-  contributingProject: "",
-  date:  today,
-}
-
 const DonateForm = () => {
-  const { palette } = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
-  //get project info
-  const location = useLocation();
+  const user = useSelector((state) => state.auth.user);const location = useLocation();
   const id = location.state.id;
   const projectName = location.state.name;
+  const today = new Date().toISOString().split('T')[0];
+  const [captchaKey, setCaptchaKey] = useState("");
+
+  const initialValuesDonation = {
+    fullName:  "",
+    email:  "",
+    amount:  "",
+    contributingProject: projectName,
+    date:  today,
+  }
 
   const handleFormSubmit = async(values, onSubmitProps) => {
     const savedDonationResponse = await fetch(
@@ -55,7 +52,11 @@ const DonateForm = () => {
     if (savedDonation) {
         console.log("project saved!!!!!!!!!!!!!!!!!!");
     }
-};
+  };
+
+  const recaptchaHandler = (value) => {
+    setCaptchaKey(value);
+  };
 
     return (
       <Box
@@ -102,7 +103,7 @@ const DonateForm = () => {
                           label="Full Name"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.fullName}
+                          value={user ? user.name : values.fullName}
                           name="fullName"
                           error={Boolean(touched.fullName) && Boolean(errors.fullName)}
                           helperText={(touched.fullName) && (errors.fullName)}
@@ -112,7 +113,7 @@ const DonateForm = () => {
                           label="E-mail"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.email}
+                          value={user ? user.email : values.email}
                           name="email"
                           error={Boolean(touched.email) && Boolean(errors.email)}
                           helperText={(touched.email) && (errors.email)}
@@ -138,6 +139,21 @@ const DonateForm = () => {
                           helperText={(touched.contributingProject) && (errors.contributingProject)}
                           sx={{ gridColumn: "span 4" }}
                       />
+                      <TextField
+                          disabled
+                          label="Date"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={today}
+                          name="date"
+                          error={Boolean(touched.date) && Boolean(errors.date)}
+                          helperText={(touched.date) && (errors.date)}
+                          sx={{ gridColumn: "span 4" }}
+                      />
+                      <ReCAPTCHA
+                        sitekey="6LcreUskAAAAABVC02ZrdpVnOfFSwC7bxP-oN5cp"
+                        onChange={recaptchaHandler}
+                      />
                   </Box>
 
                   {/* BUTTONs */}
@@ -153,6 +169,7 @@ const DonateForm = () => {
                           Clear
                       </Button>
                       <Button type="submit" variant="contained" color="success"
+                          disabled={!captchaKey}
                           sx={{
                               m: "2rem 0",
                               p: "0.8rem",
