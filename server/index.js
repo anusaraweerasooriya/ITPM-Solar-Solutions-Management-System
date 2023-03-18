@@ -12,6 +12,7 @@ import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import { createRuralProject } from "./controllers/ruralProjects.js";
 import ruralRoutes from "./routes/ruralProjects.js";
+import { createDonation } from "./controllers/donations.js";
 import billRoutes from "./routes/bill.js";
 import BillMetrics from "./models/BillMetrices.js";
 
@@ -48,6 +49,7 @@ app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
 app.use("/auth", authRoutes);
 app.use("/projects", ruralRoutes);
 app.use("/bill", billRoutes);
+app.use("/submitDonation", createDonation);
 
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
