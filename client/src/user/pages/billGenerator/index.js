@@ -33,6 +33,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "react-datepicker/dist/react-datepicker.css";
 import BillTable from "./BillTable";
+import OverviewChart from "./OverviewChart";
 
 const DayHandlingRadioGroup = ({ isDays, setIsDays }) => {
   const onChangeHandler = (event) => {
@@ -121,6 +122,8 @@ const BillGenerator = () => {
   const [isDays, setIsDays] = useState(true);
   const [isUnits, setIsUnits] = useState(true);
   const [units, setUnits] = useState(0);
+  const [prevUnits, setPrevUnits] = useState(0);
+  const [currUnits, setCurrUnits] = useState(0);
   const [startDate, setStartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(dayjs());
   const [billData, setBillData] = useState();
@@ -159,7 +162,15 @@ const BillGenerator = () => {
     }
   };
 
-  const NoOfUnitsHandler = () => {};
+  const currentReadingHandler = (event) => {
+    setCurrUnits(event.target.value);
+  };
+  const prevReadingHandler = (event) => {
+    setPrevUnits(event.target.value);
+  };
+  // const noOfUnitsHandler = () => {
+  //   return currUnits - prevUnits;
+  // };
 
   return (
     <Box>
@@ -340,6 +351,7 @@ const BillGenerator = () => {
                         type="number"
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        onKeyUp={prevReadingHandler}
                         name="noOfDays"
                         size="medium"
                         color="success"
@@ -355,7 +367,8 @@ const BillGenerator = () => {
                         type="number"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        name="noOfDays"
+                        onKeyUp={currentReadingHandler}
+                        // name="noOfDays"
                         size="medium"
                         color="success"
                         disabled={!isUnits}
@@ -368,10 +381,10 @@ const BillGenerator = () => {
                       <TextField
                         label="Number of Units"
                         type="number"
-                        value={NoOfUnitsHandler}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         name="noOfUnits"
+                        // value={noOfUnitsHandler}
                         size="medium"
                         disabled={isUnits}
                         color="success"
@@ -419,6 +432,9 @@ const BillGenerator = () => {
         <Box mb="2rem">{isTable && <BillTable billData={billData} />}</Box>
         <Box m="1rem">
           <Divider sx={{ backgroundColor: "black" }} />
+        </Box>
+        <Box m="3.2rem">
+          {isTable && <OverviewChart chartData={billData} />}
         </Box>
       </Box>
     </Box>

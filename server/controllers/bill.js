@@ -142,6 +142,19 @@ export const getMonthlyConsumption = async (req, res, next) => {
     { v2u5units },
   ];
 
+  let updatedBill;
+  if (dailyBill.length < 30) {
+    console.log("length: ", dailyBill.length);
+    const period = parseFloat((30.0 / dailyBill.length).toFixed(2));
+    console.log("period", period);
+
+    let i = 0;
+    const updatedBill = dailyBill.map((obj) => {
+      i = i + period;
+      obj.day = i;
+    });
+  }
+
   if (avgUnitsPerMonth <= 30) {
     fixedCharge = metrics.category1FixedCharge;
     totalBill = totalPriceForElectricity + fixedCharge;
