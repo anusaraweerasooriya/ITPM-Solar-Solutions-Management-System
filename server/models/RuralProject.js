@@ -53,6 +53,7 @@ const RuralProjectSchema = new mongoose.Schema(
         status: {
             type: String,
             default: "Pending",
+            enum: ['Pending', 'In Progress', 'Completed'],
         },
         
     }
