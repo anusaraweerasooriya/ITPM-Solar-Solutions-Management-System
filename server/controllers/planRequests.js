@@ -3,7 +3,7 @@ import { HttpError } from "../models/HttpError.js";
 import { validationResult } from "express-validator";
 import PlanRequest from "../models/PlanRequest.js";
 
-export const submitRequestPlan = (req, res, next) => {
+export const submitRequestPlan = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -42,7 +42,19 @@ export const submitRequestPlan = (req, res, next) => {
     });
   } catch (err) {
     const error = new HttpError("Something went wrong! Please try again.", 500);
+    return next(error);
   }
 
   let savedRequest;
+  try {
+    savedRequest = await createdRequest.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Could not submit the request! Please try again.",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ savedRequest });
 };
