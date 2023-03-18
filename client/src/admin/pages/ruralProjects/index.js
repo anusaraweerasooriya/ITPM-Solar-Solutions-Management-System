@@ -12,7 +12,7 @@ import RuralProjectForm from "./ruralProjectForm";
 const AdminRuralProjects = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const isDesktop = useMediaQuery("(min-width: 1700px)");
+  const isDesktop = useMediaQuery("(min-width: 1500px)");
   
   // values to be sent to backend
   const [page, setPage] = useState(0);

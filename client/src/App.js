@@ -15,6 +15,7 @@ import Login from "user/pages/login";
 
 import AdminRuralProjects from "admin/pages/ruralProjects";
 import RuralProjects from "user/pages/ruralProjects";
+import DonateForm from "user/pages/ruralProjects/donateForm";
 
 import Projects from "user/pages/recentProjects/projects";
 
@@ -65,7 +66,10 @@ function App() {
 
   const userProfileRoutes = "";
 
-  const donationRoutes = <Route path="/donate" element={<RuralProjects />} />;
+  const donationRoutes = [
+    <Route path="/donate" element={<RuralProjects />} />,
+    <Route path="/donate/submit" element={<DonateForm />} />,
+  ];
 
   return (
     <div className="app">
