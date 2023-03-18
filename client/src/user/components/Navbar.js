@@ -1,33 +1,43 @@
 import { useState } from "react";
 import {
-  InputBase,
   Box,
   Typography,
   IconButton,
-  Select,
   MenuItem,
-  FormControl,
   Button,
   useMediaQuery,
-  useTheme
+  useTheme,
+  Menu as MenuComponent,
 } from "@mui/material";
 import {
-  Menu,
+  Menu as MenuIcon,
   AccountCircle,
-  Close
+  Close,
+  ArrowDropDownOutlined,
 } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setLogout } from "hooks/auth-hook";
 import FlexBox from "admin/components/FlexBox";
 
 const Navbar = () => {
 
     const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
-    const dispatch = useDispatch();
+    const isAuth = useSelector((state) => state.auth.isAuth);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const theme = useTheme();
-    const user = useSelector((state) => state.user);
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+    
+    const [anchorEl, setAnchorEl] = useState(null);
+    const isOpen = Boolean(anchorEl);
+    const handleClick = (event) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
+
+    const handleLogout = () => {
+        dispatch(setLogout());
+        navigate("/login");
+    };
 
     return (
         <FlexBox padding="1rem 6%" backgroundColor={theme.palette.primary[500]}>
@@ -119,8 +129,11 @@ const Navbar = () => {
                         >
                         Donate
                     </Typography>
-
-                    <Button variant="contained" size="medium" 
+                            
+                    <Button 
+                        variant="contained" 
+                        size="medium"
+                        onClick={() => {isAuth? navigate("/") : navigate("/login")}}
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",
@@ -137,34 +150,64 @@ const Navbar = () => {
                         Get a Quote
                     </Button>
 
-                    {/*<Button variant="outlined" size="large" color="warning"
-                        sx={{
-                            textTransform:"unset",
-                            fontWeight: "bold",
-                            fontSize: "0.9rem",
-                            borderRadius: "20px",
-                            "&:hover": {
-                                backgroundColor: "#ffe3a3",
-                                cursor: "pointer",
-                            },
-                        }}
-                    >
-                        Login
-                    </Button>*/}
-
-                    <AccountCircle 
-                        sx={{
-                            color: "#ffffff",
-                            fontSize: "1.9rem",
-                            borderRadius: "20%"
-                        }}
-                    />
+                    {!isAuth ? (
+                        <Button 
+                            variant="contained" 
+                            size="medium"
+                            color="error"
+                            onClick={() => navigate("/login")}
+                            sx={{
+                                textTransform:"unset",
+                                fontWeight: "bold",
+                                fontSize: "0.9rem",
+                                borderRadius: "20px",
+                                "&:hover": {
+                                    cursor: "pointer",
+                                },
+                            }}
+                        >
+                            Login
+                        </Button>
+                    ) : (
+                        <FlexBox>
+                            <Button
+                            onClick={handleClick}
+                            sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                textTransform: "none",
+                                gap: "0.5rem",
+                            }}
+                            >
+                            <AccountCircle 
+                                sx={{
+                                    color: "#ffffff",
+                                    fontSize: "1.9rem",
+                                    borderRadius: "20%"
+                                }}
+                            />
+                            <ArrowDropDownOutlined
+                                sx={{ color: "#ffffff", fontSize: "25px" }}
+                            />
+                            </Button>
+                            <MenuComponent
+                            anchorEl={anchorEl}
+                            open={isOpen}
+                            onClose={handleClose}
+                            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                            >
+                            <MenuItem onClick={() => navigate("/")}>Profile</MenuItem>
+                            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                            </MenuComponent>
+                        </FlexBox>
+                    )}
                 </FlexBox>
             ) : (
                 <IconButton
                 onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
                 >
-                <Menu 
+                <MenuIcon
                     sx={{
                         color: "#ffffff",
                         fontSize: "1.8rem",
@@ -272,7 +315,10 @@ const Navbar = () => {
                         Donate
                     </Typography>
 
-                    <Button variant="contained" size="large"
+                    <Button 
+                        variant="contained" 
+                        size="medium"
+                        onClick={() => navigate("/")}
                         sx={{
                             textTransform:"unset",
                             fontWeight: "bold",
@@ -289,37 +335,64 @@ const Navbar = () => {
                         Get a Quote
                     </Button>
 
-                    {/*<Button variant="outlined" size="large" color="warning"
-                        sx={{
-                            textTransform:"unset",
-                            fontWeight: "bold",
-                            fontSize: "0.9rem",
-                            borderRadius: "20px",
-                            "&:hover": {
-                                backgroundColor: "#ffe3a3",
-                                cursor: "pointer",
-                            },
-                        }}
-                    >
-                        Login
-                    </Button>*/}
-
-                    <AccountCircle 
-                        sx={{
-                            color: "#ffffff",
-                            fontSize: "1.9rem",
-                            borderRadius: "20%"
-                        }}
-                    />
+                    {!isAuth ? (
+                        <Button 
+                            variant="contained" 
+                            size="medium" 
+                            color="error"
+                            onClick={() => navigate("/login")}
+                            sx={{
+                                textTransform:"unset",
+                                fontWeight: "bold",
+                                fontSize: "0.9rem",
+                                borderRadius: "20px",
+                                "&:hover": {
+                                    backgroundColor: "#d32f2f",
+                                    color: "#ffffff",
+                                    cursor: "pointer",
+                                },
+                            }}
+                        >
+                            Login
+                        </Button>
+                    ) : (
+                        <FlexBox>
+                            <Button
+                            onClick={handleClick}
+                            sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                textTransform: "none",
+                                gap: "0.5rem",
+                            }}
+                            >
+                            <AccountCircle 
+                                sx={{
+                                    color: "#ffffff",
+                                    fontSize: "1.9rem",
+                                    borderRadius: "20%"
+                                }}
+                            />
+                            <ArrowDropDownOutlined
+                                sx={{ color: "#ffffff", fontSize: "25px" }}
+                            />
+                            </Button>
+                            <MenuComponent
+                            anchorEl={anchorEl}
+                            open={isOpen}
+                            onClose={handleClose}
+                            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                            >
+                            <MenuItem onClick={() => navigate("/")}>Profile</MenuItem>
+                            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                            </MenuComponent>
+                        </FlexBox>
+                    )}
                 </FlexBox>
                 
                 </Box>
             )}
-            
-
-            
-
-        
         </FlexBox>
     );
 }
