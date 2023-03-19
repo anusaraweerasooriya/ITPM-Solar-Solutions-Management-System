@@ -39,6 +39,8 @@ export const submitRequestPlan = async (req, res, next) => {
       gridType,
       clientAddress,
       description,
+      status: "pending",
+      rejectMessage: null,
     });
   } catch (err) {
     const error = new HttpError("Something went wrong! Please try again.", 500);
@@ -53,7 +55,7 @@ export const submitRequestPlan = async (req, res, next) => {
       "Could not submit the request! Please try again.",
       500
     );
-    return next(err);
+    return next(error);
   }
 
   res.status(200).json({ savedRequest });

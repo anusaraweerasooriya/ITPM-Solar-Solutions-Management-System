@@ -49,9 +49,14 @@ const PlanRequestSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["pending", "plan-created", "rejected"],
+      default: "On-Grid",
+    },
+    rejectMessage: String,
   },
   { timestamps: true }
 );
