@@ -13,6 +13,7 @@ import authRoutes from "./routes/auth.js";
 import { createRuralProject } from "./controllers/ruralProjects.js";
 import ruralRoutes from "./routes/ruralProjects.js";
 import { createDonation } from "./controllers/donations.js";
+import donationRoutes from "./routes/donations.js";
 import billRoutes from "./routes/bill.js";
 import BillMetrics from "./models/BillMetrices.js";
 
@@ -50,6 +51,7 @@ app.use("/auth", authRoutes);
 app.use("/projects", ruralRoutes);
 app.use("/bill", billRoutes);
 app.use("/submitDonation", createDonation);
+app.use("/donations", donationRoutes)
 
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
