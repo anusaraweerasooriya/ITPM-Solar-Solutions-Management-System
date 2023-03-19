@@ -7,7 +7,6 @@ import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
 import RuralProjectCards from "./ruralProjectCards";
-import RuralProjectForm from "./ruralProjectForm";
 
 const AdminRuralProjects = () => {
   const theme = useTheme();
@@ -169,11 +168,10 @@ const AdminRuralProjects = () => {
         variant="contained"
         color="success"
         size="small"
-        onClick={() => navigate(<RuralProjectForm />)}
+        onClick={() => navigate("/admin/addRuralProject")}
       >
         ADD
       </Button>
-      <RuralProjectForm />
     </Box>
   );
 };

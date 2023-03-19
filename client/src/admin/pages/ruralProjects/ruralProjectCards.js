@@ -35,7 +35,7 @@ const RuralProjectCards = () => {
 
   return (
     <Box mt="2.5rem">
-      <Grid container spacing={15}>
+      <Grid container spacing={10}>
             {cardItems.map(({ title, count, icon }) => {
                 return (
                     <Grid item xs={4}>

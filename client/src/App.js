@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import Dashboard from "admin/pages/dashboard";
 import AdminLayout from "admin/pages/layout";
@@ -14,6 +15,7 @@ import PlanRequests from "admin/pages/planRequests";
 import Login from "user/pages/login";
 
 import AdminRuralProjects from "admin/pages/ruralProjects";
+import RuralProjectForm from "admin/pages/ruralProjects/ruralProjectForm";
 import RuralProjects from "user/pages/ruralProjects";
 import DonateForm from "user/pages/ruralProjects/donateForm";
 
@@ -42,12 +44,10 @@ function App() {
     <Route path="/admin/planRequests" element={<PlanRequests />} />
   );
 
-  const ruralProjectRoutes = (
-    <Route
-      path="/admin/ruralProjects"
-      element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />}
-    />
-  );
+  const ruralProjectRoutes = [
+    <Route path="/admin/ruralProjects" element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />} />,
+    <Route path="/admin/addRuralProject" element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />} />
+  ];
 
   const recentProjectRoutes = "";
   const productRoutes = "";
@@ -72,6 +72,7 @@ function App() {
   ];
 
   return (
+    <PayPalScriptProvider options={{"client-id" : process.env.REACT_APP_PAYPAL_CLIENT_ID}}>
     <div className="app">
       <BrowserRouter>
         <ThemeProvider theme={theme}>
@@ -110,6 +111,7 @@ function App() {
         </ThemeProvider>
       </BrowserRouter>
     </div>
+    </PayPalScriptProvider>
   );
 }
 

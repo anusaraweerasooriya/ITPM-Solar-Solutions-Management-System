@@ -6,12 +6,14 @@ import {
   Button,
   TextField,
   Typography,
+  Modal
 } from "@mui/material";
 import { Formik } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useSelector } from "react-redux";
 import FlexBox from "admin/components/FlexBox";
 import * as yup from "yup";
+import PayPalButton from "../donations/paypalButton";
 
 const donationSchema = yup.object().shape({
   fullName: yup.string().required("Name cannot be empty"),
@@ -37,6 +39,11 @@ const DonateForm = () => {
     date:  today,
   }
 
+  // modal actions
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const handleFormSubmit = async(values, onSubmitProps) => {
     const savedDonationResponse = await fetch(
         "http://localhost:5001/submitDonation",
@@ -48,8 +55,9 @@ const DonateForm = () => {
     );
     const savedDonation = await savedDonationResponse.json();
     onSubmitProps.resetForm();
-
-    if (savedDonation) {
+    
+    if (savedDonation) {     
+        handleOpen();
         console.log("project saved!!!!!!!!!!!!!!!!!!");
     }
   };
@@ -57,6 +65,11 @@ const DonateForm = () => {
   const recaptchaHandler = (value) => {
     setCaptchaKey(value);
   };
+
+  const donation = {
+    description: "description",
+    price: "8"
+  }
 
     return (
       <Box
@@ -89,6 +102,7 @@ const DonateForm = () => {
               setFieldValue,
               resetForm,
           }) => (
+            
               <form  onSubmit={handleSubmit}>
                   <Box 
                       pt="20px"
@@ -169,6 +183,7 @@ const DonateForm = () => {
                           Clear
                       </Button>
                       <Button type="submit" variant="contained" color="success"
+                          onClick={handleOpen}
                           disabled={!captchaKey}
                           sx={{
                               m: "2rem 0",
@@ -178,10 +193,40 @@ const DonateForm = () => {
                       >
                           Proceed to Pay
                       </Button>
+                      
                   </FlexBox>
               </form >
           )}
       </Formik>
+    
+        {/* paypal */}
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box 
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    p: 4,
+                }}
+            >
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+                Title
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </Typography>
+            <PayPalButton donation={donation} />
+            </Box>
+        </Modal>
+
   </Box>
     );
 }
