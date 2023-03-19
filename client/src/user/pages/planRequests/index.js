@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Typography, useMediaQuery, Grid, Divider } from "@mui/material";
 import Form from "./Form";
+import Wallpaper from "../../assets/requestwallpaper.jpg";
 
 const PlanRequest = () => {
   const isNonMobileScreen = useMediaQuery("(min-width: 600px)");
@@ -21,7 +22,7 @@ const PlanRequest = () => {
           <Grid
             xs={5}
             sx={{
-              backgroundImage: `url(${"Wallpaper"})`,
+              backgroundImage: `url(${Wallpaper})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               borderRadius: "1.5rem 0 0 1.5rem",
@@ -39,12 +40,14 @@ const PlanRequest = () => {
                 color="#375379"
                 sx={{ mb: "1.5rem" }}
               >
-                Plan Request
+                Request a Plan
               </Typography>
               <Box pr="3rem" pl="3rem">
                 <Divider color="black" />
               </Box>
-              <Box m="3rem">{/* <Form isLoginHandle={isLoginHandle} /> */}</Box>
+              <Box m="3rem">
+                <Form />
+              </Box>
             </Box>
           </Grid>
         </Grid>

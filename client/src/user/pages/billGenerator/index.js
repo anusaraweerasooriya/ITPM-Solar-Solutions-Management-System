@@ -681,7 +681,12 @@ const BillGenerator = () => {
                   alignItems="flex-end"
                   mr="3.2rem"
                 >
-                  <Button variant="outlined" size="large" sx={{ mr: "1rem" }}>
+                  <Button
+                    onClick={() => resetForm()}
+                    variant="outlined"
+                    size="large"
+                    sx={{ mr: "1rem" }}
+                  >
                     Clear
                   </Button>
                   <Button

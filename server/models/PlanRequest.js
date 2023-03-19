@@ -16,12 +16,10 @@ const PlanRequestSchema = new mongoose.Schema(
       type: String,
       require: true,
       max: 50,
-      unique: true,
     },
     phone: {
       type: String,
       required: true,
-      min: 10,
     },
     type: {
       type: String,
@@ -48,11 +46,10 @@ const PlanRequestSchema = new mongoose.Schema(
     },
     clientAddress: {
       type: String,
-      min: 8,
     },
     description: {
       type: String,
-      min: 10,
+
       required: true,
     },
   },

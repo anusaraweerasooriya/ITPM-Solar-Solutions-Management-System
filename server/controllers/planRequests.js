@@ -53,7 +53,7 @@ export const submitRequestPlan = async (req, res, next) => {
       "Could not submit the request! Please try again.",
       500
     );
-    return next(error);
+    return next(err);
   }
 
   res.status(200).json({ savedRequest });
