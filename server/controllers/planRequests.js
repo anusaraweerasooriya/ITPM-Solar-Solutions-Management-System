@@ -60,3 +60,15 @@ export const submitRequestPlan = async (req, res, next) => {
 
   res.status(200).json({ savedRequest });
 };
+
+export const getRequestPlans = async (req, res, next) => {
+  let requests;
+  try {
+    requests = await PlanRequest.find();
+  } catch (err) {
+    const error = new HttpError("Failed to fetch data. Please try again!", 404);
+    return next(error);
+  }
+
+  res.status(200).json(requests);
+};
