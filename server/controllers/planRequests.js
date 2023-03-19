@@ -73,10 +73,11 @@ export const getRequestPlans = async (req, res, next) => {
   res.status(200).json(requests);
 };
 
-export const getAdminRequestPlans = async (res, req, next) => {
+export const getAdminRequestPlans = async (req, res, next) => {
   try {
-    const { page = 1, pagSize = 20, sort = null, search = "" } = req.query;
+    const { page = 1, pageSize = 20, sort = null, search = "" } = req.query;
 
+    //format sort
     const generateSort = () => {
       const sortParsed = JSON.parse(sort);
       const sortFormatted = {
@@ -88,7 +89,6 @@ export const getAdminRequestPlans = async (res, req, next) => {
 
     const requests = await PlanRequest.find({
       $or: [
-        { _id: { $regex: new RegExp(search, "i") } },
         { user: { $regex: new RegExp(search, "i") } },
         { clientName: { $regex: new RegExp(search, "i") } },
         { type: { $regex: new RegExp(search, "i") } },
@@ -98,16 +98,75 @@ export const getAdminRequestPlans = async (res, req, next) => {
       ],
     })
       .sort(sortFormatted)
-      .skip(page * pagSize)
-      .limit(pagSize);
+      .skip(page * pageSize)
+      .limit(pageSize);
 
     const total = await PlanRequest.countDocuments({
-      _id: { $regex: search, $options: "i" },
+      clientName: { $regex: search, $options: "i" },
     });
 
-    res.status(200).json({ requests, total });
+    res.status(200).json({
+      requests,
+      total,
+    });
   } catch (err) {
-    const error = new HttpError("Something went wrong! Please try again.");
+    console.log(err);
+    const error = new HttpError("Something went wrong! Please try again.", 404);
+    return next(err);
+  }
+};
+
+export const updatePendingRequest = async (res, req, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(
+      new HttpError("Invalid inputs passed, please check your data", 403)
+    );
+  }
+
+  const {
+    clientName,
+    email,
+    phone,
+    type,
+    companyName,
+    companyAddress,
+    monthlyPowerConsumption,
+    gridType,
+    clientAddress,
+    description,
+  } = req.body;
+
+  const requestId = req.params.rid;
+
+  let request;
+  try {
+    request = await PlanRequest.findById(requestId);
+  } catch (err) {
+    const error = new HttpError("Something went wrong. Please try again.", 422);
     return next(error);
   }
+
+  request.clientName = clientName;
+  request.email = email;
+  request.phone = phone;
+  request.type = type;
+  request.companyName = companyName;
+  request.companyAddress = companyAddress;
+  request.monthlyPowerConsumption = monthlyPowerConsumption;
+  request.gridType = gridType;
+  request.clientAddress = clientAddress;
+  request.description = description;
+
+  try {
+    await request.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update the request",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ request });
 };
