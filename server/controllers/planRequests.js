@@ -72,3 +72,42 @@ export const getRequestPlans = async (req, res, next) => {
 
   res.status(200).json(requests);
 };
+
+export const getAdminRequestPlans = async (res, req, next) => {
+  try {
+    const { page = 1, pagSize = 20, sort = null, search = "" } = req.query;
+
+    const generateSort = () => {
+      const sortParsed = JSON.parse(sort);
+      const sortFormatted = {
+        [sortParsed.field]: (sortParsed.sort = "asc" ? 1 : -1),
+      };
+      return sortFormatted;
+    };
+    const sortFormatted = Boolean(sort) ? generateSort() : {};
+
+    const requests = await PlanRequest.find({
+      $or: [
+        { _id: { $regex: new RegExp(search, "i") } },
+        { user: { $regex: new RegExp(search, "i") } },
+        { clientName: { $regex: new RegExp(search, "i") } },
+        { type: { $regex: new RegExp(search, "i") } },
+        { monthlyPowerConsumption: { $regex: new RegExp(search, "i") } },
+        { gridType: { $regex: new RegExp(search, "i") } },
+        { status: { $regex: new RegExp(search, "i") } },
+      ],
+    })
+      .sort(sortFormatted)
+      .skip(page * pagSize)
+      .limit(pagSize);
+
+    const total = await PlanRequest.countDocuments({
+      _id: { $regex: search, $options: "i" },
+    });
+
+    res.status(200).json({ requests, total });
+  } catch (err) {
+    const error = new HttpError("Something went wrong! Please try again.");
+    return next(error);
+  }
+};
