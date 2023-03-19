@@ -18,6 +18,7 @@ import AdminRuralProjects from "admin/pages/ruralProjects";
 import RuralProjectForm from "admin/pages/ruralProjects/ruralProjectForm";
 import RuralProjects from "user/pages/ruralProjects";
 import DonateForm from "user/pages/ruralProjects/donateForm";
+import AdminDonations from "admin/pages/donations";
 
 import Projects from "user/pages/recentProjects/projects";
 
@@ -49,6 +50,10 @@ function App() {
     <Route path="/admin/addRuralProject" element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />} />
   ];
 
+  const donationRoutes = [
+    <Route path="/admin/donations" element={isAdmin ? <AdminDonations /> : <Navigate to="/login" />} />,
+  ];
+
   const recentProjectRoutes = "";
   const productRoutes = "";
 
@@ -62,14 +67,11 @@ function App() {
     <Route path="/product" element={<Product />} />,
     <Route path="/generateBill" element={<BillGenerator />} />,
     <Route path="/projects" element={<Projects />} />,
-  ];
-
-  const userProfileRoutes = "";
-
-  const donationRoutes = [
     <Route path="/donate" element={<RuralProjects />} />,
     <Route path="/donate/submit" element={<DonateForm />} />,
   ];
+
+  const userProfileRoutes = "";
 
   return (
     <PayPalScriptProvider options={{"client-id" : process.env.REACT_APP_PAYPAL_CLIENT_ID}}>
@@ -86,6 +88,7 @@ function App() {
               />
               {clientProjectRoutes}
               {ruralProjectRoutes}
+              {donationRoutes}
               {recentProjectRoutes}
               {productRoutes}
             </Route>
@@ -94,7 +97,6 @@ function App() {
               {staticRoutes}
               {dynamicRoutes}
               {userProfileRoutes}
-              {donationRoutes}
             </Route>
             ) )
             <Route element={<ClientLayout />}>

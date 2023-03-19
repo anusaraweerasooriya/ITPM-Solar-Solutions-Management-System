@@ -76,7 +76,7 @@ const navItems = [
   },
   {
     id: 8,
-    url: "",
+    url: "donations",
     text: "Donations",
     icon: <VolunteerActivismOutlined />,
   },
