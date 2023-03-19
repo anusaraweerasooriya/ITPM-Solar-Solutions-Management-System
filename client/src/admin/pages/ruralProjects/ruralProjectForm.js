@@ -7,6 +7,7 @@ import {
     useTheme,
     MenuItem,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import FlexBox from "admin/components/FlexBox";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -45,6 +46,7 @@ const initialValuesRuralProject = {
 
 const RuralProjectForm = () => {
     const { palette } = useTheme();
+    const navigate = useNavigate();
     const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
     const today = new Date().toISOString().split('T')[0];
     
@@ -67,7 +69,7 @@ const RuralProjectForm = () => {
         onSubmitProps.resetForm();
 
         if (savedProject) {
-            console.log("project saved!!!!!!!!!!!!!!!!!!");
+            navigate("/admin/ruralProjects")
         }
     };
 
