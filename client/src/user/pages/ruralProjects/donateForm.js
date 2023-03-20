@@ -6,7 +6,6 @@ import {
   Button,
   TextField,
   Typography,
-  Modal
 } from "@mui/material";
 import { Formik } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -39,14 +38,9 @@ const DonateForm = () => {
     date:  today,
   }
 
-  // modal actions
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const handleFormSubmit = async(values, onSubmitProps) => {
     const savedDonationResponse = await fetch(
-        "http://localhost:5001/submitDonation",
+        "http://localhost:5001/donations/createDonation",
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -57,7 +51,6 @@ const DonateForm = () => {
     onSubmitProps.resetForm();
     
     if (savedDonation) {     
-        handleOpen();
         console.log("project saved!!!!!!!!!!!!!!!!!!");
     }
   };
@@ -183,7 +176,6 @@ const DonateForm = () => {
                           Clear
                       </Button>
                       <Button type="submit" variant="contained" color="success"
-                          onClick={handleOpen}
                           disabled={!captchaKey}
                           sx={{
                               m: "2rem 0",
@@ -193,39 +185,11 @@ const DonateForm = () => {
                       >
                           Proceed to Pay
                       </Button>
-                      
+                      <PayPalButton donation={donation} />
                   </FlexBox>
               </form >
           )}
       </Formik>
-    
-        {/* paypal */}
-        <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box 
-                sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    bgcolor: 'background.paper',
-                    boxShadow: 24,
-                    p: 4,
-                }}
-            >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-                Title
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-            <PayPalButton donation={donation} />
-            </Box>
-        </Modal>
 
   </Box>
     );
