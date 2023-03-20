@@ -9,7 +9,7 @@ import { DataGrid } from "@mui/x-data-grid";
 const PlanRequests = () => {
   const theme = useTheme();
 
-  //data to be sending to the backend
+  //data to be sending to the backend api
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
   const [sort, setSort] = useState({});
