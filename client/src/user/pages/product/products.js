@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
-import { Container, InputAdornment, TextField, Button } from '@mui/material';
+import { InputAdornment, Button, IconButton, CardActionArea, Grid, Divider } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { borderRadius, color } from '@mui/system';
-import { Input } from '@mui/icons-material';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import { Box } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Typography from '@mui/material/Typography';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-const Products = () => {
+import { useGetProductsQuery } from "hooks/api-hook";
+
+const Products = ({
+    _id,
+    productName,
+    price,
+    productType,
+    imagePath,
+    category,
+    description,
+    features
+}) => {
 
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -15,7 +34,7 @@ const Products = () => {
 
   return (
     <>
-        <section>
+        <div>
             <div
                 style={{
                     display: "flex",
@@ -69,92 +88,63 @@ const Products = () => {
                     },
                 }}
                 >Search</Button>
-            </div>
-        </section>
-        <section>
-            <div class="container"
-                style={{
-                    boxSizing: "border-box",
-                    marginTop: "50px",
-                    paddingLeft: "50px",
-                    paddingRight: "50px",
-                }}
-            >
-                <div class="row row-cols1 row-cols-md-2 g-4">
-                    <div class="col-md-3">
-                        <div
-                            style={{
-                                borderRadius: "20px",
-                                width: "14rem",
-                               // boxShadow: "0 1px 10px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.19)"
-                            }}
-                        >     
-                            <div 
-                                style={{
-                                    width: "19rem",
-                                    height: "12rem"
+            </div>  
+            <div>
+                <Box flex={4} p={20} mt="2.5rem">
+                    <Grid container spacing={15}>
+                        <Card sx={{ maxWidth: 265, maxHeight: 420, borderRadius: "0.55rem",boxShadow: "2px -1px 18px 2px #616161"  }}>
+                        <CardActionArea>
+                            <Divider>
+                            <CardMedia
+                                sx={{
+                              //      height: "200px"
                                 }}
-                            >
-                                <img 
-                                alt= ""
-                                src="https://www.mustups.com/wp-content/webpc-passthru.php?src=https://www.mustups.com/wp-content/uploads/2018/12/PV18PRO-1-1.jpg&nocache=1"
-                                style={{
-                                    boxShadow: "2px -1px 18px 2px",
-                                    borderTopRightRadius: "20px",
-                                    borderTopLeftRadius: "20px",
-                                    maxHeight: "14rem",
-                                    maxWidth: "14rem",
-                                }}
-                                />
-                            </div>
-                            
-
-                            <div 
-                                style={{
-                                    width: "14rem",
-                                    marginTop: "33px",
-                                    fontSize: "18px",
-                                    fontWeight: "bold",
-                                    color: "white",
-                                    borderBottomLeftRadius: "20px",
-                                    borderBottomRightRadius: "20px",
-                                    boxShadow: "2px -1px 18px 2px #616161",
-                                    backgroundColor: "#1a237e",
-                                    padding: "10px 15px"
-                                }}
-                            >
-                                <h6 
-                                    style={{
-                                        fontWeight: "bold",
-                                    }}
-                                >High Frequency Off Grid Solar Inverter</h6>
-                                <h7 
-                                    style={{
-                                        fontSize: "0.8rem",
-                                        fontWeight: "bold",
-                                        color: "#b2102f"
-                                    }}
-                                ><strong>PV1800 Pro Series(PV:450V 3/5.2KW)</strong></h7><br/>
-                                <StarOutlineIcon style={{color: "#b2102f"}}/><span 
-                                style={{fontSize: "0.85rem"}}>
-                                    Rated Power: 3/5.2KW</span><br />
-                                <StarOutlineIcon style={{color: "#b2102f"}}/><span
-                                style={{fontSize: "0.8rem"}}>
-                                    Battery Voltage: 24/48VDC</span><br />
-                                <StarOutlineIcon style={{color: "#b2102f"}}/><span
-                                style={{fontSize: "0.8rem", fontWeight: "bold",}}>Pv Charge Current: 80A</span>
-                            </div>
-                            <div class="card-text">
-                                <div class="tags">
-                                    <span class="badge bg-info border-0"></span>
-                                </div> 
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> 
+                                image={imagePath}
+                                height=""
+                                //image="https://www.mustups.com/wp-content/webpc-passthru.php?src=https://www.mustups.com/wp-content/uploads/2018/12/PV18PRO-1-1.jpg&nocache=1"
+                                alt="power inverter"
+                            />
+                            </Divider>
+                            <CardHeader 
+                                sx={{ backgroundColor: "#1a237e" }}
+                                height=""
+                                action={
+                                    <IconButton aria-label="settings">
+                                        <MoreVertIcon />
+                                    </IconButton> 
+                                }
+                                title="EP1100 Pro Series High Frequency Power Inverter/Charger"
+                                subheader="EP1100 Pro 1200VA/2400VA"
+                            />
+                            <CardContent sx={{ backgroundColor: "#1a237e" }}>
+                                <Typography variant="h4" color="white" fontWeight="bold">
+                                    {productName}
+                                </Typography>
+                                <Typography variant="h4" color="white" fontWeight="bold">
+                                    {productType}
+                                </Typography>
+                                <Typography variant="h6" color="red" fontWeight="bold">
+                                    <StarBorderIcon /> Rated Power: 720-1440W <br/>
+                                    <StarBorderIcon /> Battery Voltage: 12/24VDC<br/>
+                                    <StarBorderIcon /> PV Charge Current: 50A
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>        
+                            <CardActions disableSpacing sx={{ backgroundColor: "#1a237e" }}>
+                                <IconButton aria-label="add to favorites">
+                                    <FavoriteIcon />
+                                </IconButton>
+                                <IconButton aria-label="share">
+                                    <ShareIcon />
+                                </IconButton>
+                            </CardActions>
+                        </Card>
+                        
+                    </Grid>    
+                    
+                </Box>            
+            </div>    
+        </div>
     </>
     
     

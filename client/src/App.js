@@ -20,6 +20,8 @@ import Projects from "user/pages/recentProjects/projects";
 
 import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
+import AdminProducts from "admin/pages/product";
+import ProductForm from "admin/pages/product/productFrom";
 
 import BillGenerator from "user/pages/billGenerator";
 
@@ -49,7 +51,16 @@ function App() {
   );
 
   const recentProjectRoutes = "";
-  const productRoutes = "";
+  const productRoutes = [
+    <Route 
+    path="/admin/products"
+    element={isAdmin ? <AdminProducts /> : <Navigate to="/login" />}
+    />,
+    <Route 
+    path="/admin/addProduct"
+    element={isAdmin ? <ProductForm /> : <Navigate to="/login" />}
+    />
+  ];
 
   //============================ CLIENT ROUTES =========================
   const staticRoutes =

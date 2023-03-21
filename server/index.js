@@ -14,6 +14,8 @@ import { createRuralProject } from "./controllers/ruralProjects.js";
 import ruralRoutes from "./routes/ruralProjects.js";
 import billRoutes from "./routes/bill.js";
 import BillMetrics from "./models/BillMetrices.js";
+import { createProduct } from "./controllers/products.js";
+import productsRoutes from "./routes/products.js";
 
 /* MIDDLEWARE CONFIGURATION =====================*/
 const __filename = fileURLToPath(import.meta.url);
@@ -43,11 +45,14 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILE UPLOAD ================================= */
 app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
+app.post("/createProduct", upload.single("imagePath"), createProduct);
+
 
 /* ROUTES =====================*/
 app.use("/auth", authRoutes);
 app.use("/projects", ruralRoutes);
 app.use("/bill", billRoutes);
+app.use("/products", productsRoutes);
 
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
