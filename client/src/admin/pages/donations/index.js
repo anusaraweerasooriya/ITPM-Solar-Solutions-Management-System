@@ -10,6 +10,7 @@ const AdminDonations = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isDesktop = useMediaQuery("(min-width: 1500px)");
+  
   //view modal
   const [openView, setOpenView] = React.useState(false);
   const handleOpen = () => setOpenView(true);
@@ -73,11 +74,11 @@ const AdminDonations = () => {
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
-              color="secondary"
               size="small"
               onClick={handleOpen}
               sx={{
                 textTransform:"unset",
+                background:"#007bff"
               }}
             >
               View
@@ -145,13 +146,6 @@ const AdminDonations = () => {
           }}
         />
       </Box>
-      <Button
-        variant="contained"
-        color="success"
-        size="small"
-      >
-        ADD
-      </Button>
 
       <Modal open={openView} onClose={handleClose}>
         <Box sx={{

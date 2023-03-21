@@ -261,12 +261,12 @@ const Sidebar = ({
                   fontSize="0.8rem"
                   sx={{ color: theme.palette.secondary[200] }}
                 >
-                  Manager
+                  System Admin
                 </Typography>
               </Box>
-              <SettingsOutlined
+              {/*<SettingsOutlined
                 sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
-              />
+              />*/}
             </FlexBox>
           </Box>
         </Drawer>
