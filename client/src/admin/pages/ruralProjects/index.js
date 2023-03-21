@@ -54,11 +54,6 @@ const AdminRuralProjects = () => {
       flex: 0.5,
     },
     {
-      field: "estimInitiateDate",
-      headerName: "Initiation Date",
-      flex: 1,
-    },
-    {
       field: "estimTotalCost",
       headerName: "Total Cost",
       flex: 0.8,
@@ -67,7 +62,7 @@ const AdminRuralProjects = () => {
     {
       field: "action",
       headerName: "Actions",
-      width: 180,
+      width: 250,
       sortable: false,
       disableClickEventBubbling: true,
 
@@ -81,7 +76,7 @@ const AdminRuralProjects = () => {
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               size="small"
               onClick={onClick}
               sx={{
@@ -101,6 +96,17 @@ const AdminRuralProjects = () => {
             >
               Delete
             </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              onClick={onClick}
+              sx={{
+                textTransform:"unset",
+              }}
+            >
+              View
+            </Button>
           </Stack>
         );
       },
@@ -112,7 +118,7 @@ const AdminRuralProjects = () => {
       <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />    
       
       {isDesktop && (
-        <RuralProjectCards />
+        <></>
       )}
       
 

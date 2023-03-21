@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, useTheme, useMediaQuery, Button, Stack } from "@mui/material";
+import { Box, useTheme, useMediaQuery, Button, Stack, Modal, Typography  } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useGetAdminDonationsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
@@ -10,6 +10,10 @@ const AdminDonations = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isDesktop = useMediaQuery("(min-width: 1500px)");
+  //view modal
+  const [openView, setOpenView] = React.useState(false);
+  const handleOpen = () => setOpenView(true);
+  const handleClose = () => setOpenView(false);
   
   // values to be sent to backend
   const [page, setPage] = useState(0);
@@ -60,39 +64,23 @@ const AdminDonations = () => {
     {
       field: "action",
       headerName: "Actions",
-      width: 180,
+      width: 100,
       sortable: false,
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-        const onClick = (e) => {
-          const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
-        };
-
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
               color="secondary"
               size="small"
-              onClick={onClick}
+              onClick={handleOpen}
               sx={{
                 textTransform:"unset",
               }}
             >
-              Edit
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={onClick}
-              sx={{
-                textTransform:"unset",
-              }}
-            >
-              Delete
+              View
             </Button>
           </Stack>
         );
@@ -161,10 +149,30 @@ const AdminDonations = () => {
         variant="contained"
         color="success"
         size="small"
-        onClick={() => navigate("/")}
       >
         ADD
       </Button>
+
+      <Modal open={openView} onClose={handleClose}>
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4,
+        }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
+
     </Box>
   );
 };

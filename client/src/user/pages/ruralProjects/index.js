@@ -48,7 +48,7 @@ const Project = ({
             sx={{
               height: "200px"
             }}
-            image={imagePath}
+            image={`http://localhost:5001/assets/${imagePath}`}
             title={location}
           />
           <CardContent>

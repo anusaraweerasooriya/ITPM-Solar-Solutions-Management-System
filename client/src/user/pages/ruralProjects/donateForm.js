@@ -6,6 +6,7 @@ import {
   Button,
   TextField,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { Formik } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -29,6 +30,7 @@ const DonateForm = () => {
   const projectName = location.state.name;
   const today = new Date().toISOString().split('T')[0];
   const [captchaKey, setCaptchaKey] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const initialValuesDonation = {
     fullName:  "",
@@ -51,7 +53,7 @@ const DonateForm = () => {
     onSubmitProps.resetForm();
     
     if (savedDonation) {     
-        console.log("project saved!!!!!!!!!!!!!!!!!!");
+        console.log("project saved!");
     }
   };
 
@@ -62,6 +64,11 @@ const DonateForm = () => {
   const donation = {
     description: "description",
     price: "8"
+  }
+
+  if(user) {
+    initialValuesDonation.fullName = user.name;
+    initialValuesDonation.email = user.email;
   }
 
     return (
@@ -110,7 +117,7 @@ const DonateForm = () => {
                           label="Full Name"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={user ? user.name : values.fullName}
+                          value={values.fullName}
                           name="fullName"
                           error={Boolean(touched.fullName) && Boolean(errors.fullName)}
                           helperText={(touched.fullName) && (errors.fullName)}
@@ -120,7 +127,7 @@ const DonateForm = () => {
                           label="E-mail"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={user ? user.email : values.email}
+                          value={values.email}
                           name="email"
                           error={Boolean(touched.email) && Boolean(errors.email)}
                           helperText={(touched.email) && (errors.email)}
@@ -175,17 +182,23 @@ const DonateForm = () => {
                       >
                           Clear
                       </Button>
-                      <Button type="submit" variant="contained" color="success"
-                          disabled={!captchaKey}
-                          sx={{
-                              m: "2rem 0",
-                              p: "0.8rem",
-                              width: "8rem"
-                          }}
-                      >
-                          Proceed to Pay
-                      </Button>
-                      <PayPalButton donation={donation} />
+                      {!isOpen && (
+                        <Tooltip title="You will be directed to the PayPal gateway">
+                          <Button type="submit" variant="contained" color="success"
+                              disabled={!captchaKey}
+                              onClick={() => setIsOpen(!isOpen)}
+                              sx={{
+                                  m: "2rem 0",
+                                  p: "0.8rem",
+                                  width: "8rem"
+                              }}
+                          >
+                              Proceed to Pay
+                          </Button>
+                        </Tooltip>
+                      )}
+                      {isOpen && <PayPalButton donation={donation} />}
+                      
                   </FlexBox>
               </form >
           )}
