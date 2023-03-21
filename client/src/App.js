@@ -23,6 +23,7 @@ import Product from "user/pages/product/product";
 
 import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
+import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -91,6 +92,12 @@ function App() {
                 path="/submitRequest"
                 element={
                   isCustomer ? <PlanRequest /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/pendingRequests"
+                element={
+                  isCustomer ? <PendingRequests /> : <Navigate to="/login" />
                 }
               />
             </Route>

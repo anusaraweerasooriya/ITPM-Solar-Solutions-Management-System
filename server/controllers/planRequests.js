@@ -116,6 +116,21 @@ export const getAdminRequestPlans = async (req, res, next) => {
   }
 };
 
+export const getRequestsByUser = async (req, res, next) => {
+  try {
+    const { user } = req.query;
+    const userPendingRequests = await PlanRequest.find({
+      user: user,
+      status: "pending",
+    });
+
+    res.status(200).json(userPendingRequests);
+  } catch (err) {
+    const error = new HttpError("Something went wrong! Please try again.", 404);
+    return next(error);
+  }
+};
+
 export const updatePendingRequest = async (res, req, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

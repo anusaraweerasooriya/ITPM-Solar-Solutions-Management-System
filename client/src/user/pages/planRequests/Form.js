@@ -58,7 +58,12 @@ const Form = () => {
   const [isCommercial, setIsCommercial] = useState(false);
   const [isGridModal, setIsGridModal] = useState(false);
   const user = useSelector((state) => state.auth.user._id);
+  const userEmail = useSelector((state) => state.auth.user.email);
+  const userName = useSelector((state) => state.auth.user.name);
   let type;
+
+  initialValues.email = userEmail;
+  initialValues.clientName = userName;
 
   const submitRequest = async (values, onSubmitProps) => {
     if (isCommercial) {
@@ -85,7 +90,7 @@ const Form = () => {
     if (response.ok) {
       if (responseData.savedRequest) {
         onSubmitProps.resetForm();
-        navigate("/home");
+        navigate("/pendingRequests");
       }
     }
   };

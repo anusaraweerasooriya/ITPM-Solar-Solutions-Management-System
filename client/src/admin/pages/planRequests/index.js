@@ -83,7 +83,7 @@ const PlanRequests = () => {
                 textTransform: "unset",
               }}
             >
-              Edit
+              Create
             </Button>
             <Button
               variant="contained"
@@ -94,7 +94,7 @@ const PlanRequests = () => {
                 textTransform: "unset",
               }}
             >
-              Delete
+              Reject
             </Button>
           </Stack>
         );
