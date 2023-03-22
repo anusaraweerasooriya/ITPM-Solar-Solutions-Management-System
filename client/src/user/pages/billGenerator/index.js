@@ -34,9 +34,7 @@ import * as yup from "yup";
 import "react-datepicker/dist/react-datepicker.css";
 import BillTable from "./BillTable";
 import OverviewChart from "./OverviewChart";
-<<<<<<< HEAD
 import { useSelector } from "react-redux";
-=======
 import { ResponsiveLine } from "@nivo/line";
 
 const data = [
@@ -311,7 +309,6 @@ const data = [
     ],
   },
 ];
->>>>>>> master
 
 const DayHandlingRadioGroup = ({ isDays, setIsDays }) => {
   const onChangeHandler = (event) => {

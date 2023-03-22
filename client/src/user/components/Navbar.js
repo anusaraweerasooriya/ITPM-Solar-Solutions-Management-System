@@ -90,7 +90,6 @@ const Navbar = () => {
           <Typography
             fontSize="1rem"
             color="#ffffff"
-<<<<<<< HEAD
             onClick={() => navigate("/generateBill")}
             sx={{
               "&:hover": {
@@ -105,8 +104,6 @@ const Navbar = () => {
           <Typography
             fontSize="1rem"
             color="#ffffff"
-=======
->>>>>>> master
             onClick={() => navigate("/products")}
             sx={{
               "&:hover": {
@@ -150,11 +147,7 @@ const Navbar = () => {
             variant="contained"
             size="medium"
             onClick={() => {
-<<<<<<< HEAD
-              isAuth ? navigate("/") : navigate("/login");
-=======
               isAuth ? navigate("/submitRequest") : navigate("/login");
->>>>>>> master
             }}
             sx={{
               textTransform: "unset",

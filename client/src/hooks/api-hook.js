@@ -46,7 +46,7 @@ export const customApi = createApi({
       query: ({ page, pageSize, sort, search }) => ({
         url: "donations/adminDonations",
         method: "GET",
-        params: { page, pageSize, sort, search }
+        params: { page, pageSize, sort, search },
       }),
       providesTags: ["AdminDonations"],
     }),
@@ -54,7 +54,7 @@ export const customApi = createApi({
       query: ({ page, pageSize, sort, search }) => ({
         url: "recentProjects/completedProjects",
         method: "GET",
-        params: { page, pageSize, sort, search }
+        params: { page, pageSize, sort, search },
       }),
       providesTags: ["CompletedProjects"],
     }),
@@ -66,12 +66,13 @@ export const customApi = createApi({
       query: ({ page, pageSize, sort, search }) => ({
         url: "products/adminProducts",
         method: "GET",
-        params: { page, pageSize, sort, search }
+        params: { page, pageSize, sort, search },
       }),
     }),
     getProducts: build.query({
       query: () => "products/viewProducts",
       providesTags: ["Products"],
+    }),
     getRequestByUserId: build.query({
       query: ({ user }) => ({
         url: "requests/getRequestsByUser",
@@ -83,7 +84,6 @@ export const customApi = createApi({
   }),
 });
 
-
 export const {
   useGetAdminRuralProjectsQuery,
   useGetRuralProjectsQuery,
@@ -92,7 +92,6 @@ export const {
   useGetRequestByUserIdQuery,
   useGetAdminDonationsQuery,
   useGetAdminCompletedProjectsQuery,
-  useGetAdminProductsQuery, 
+  useGetAdminProductsQuery,
   useGetProductsQuery,
 } = customApi;
-

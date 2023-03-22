@@ -26,7 +26,6 @@ import Project from "user/pages/recentProjects/project";
 import AdminRecentProjects from "admin/pages/recentProjects";
 import AddToRecentForm from "admin/pages/recentProjects/addToRecentForm";
 
-
 import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
 import AdminProducts from "admin/pages/product";
@@ -55,31 +54,44 @@ function App() {
   );
 
   const ruralProjectRoutes = [
-    <Route path="/admin/ruralProjects" element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />} />,
-    <Route path="/admin/addRuralProject" element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />} />
+    <Route
+      path="/admin/ruralProjects"
+      element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/admin/addRuralProject"
+      element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />}
+    />,
   ];
 
   const donationRoutes = [
-    <Route path="/admin/donations" element={isAdmin ? <AdminDonations /> : <Navigate to="/login" />} />,
+    <Route
+      path="/admin/donations"
+      element={isAdmin ? <AdminDonations /> : <Navigate to="/login" />}
+    />,
   ];
 
-  const recentProjectRoutes = "";
   const productRoutes = [
-    <Route 
-    path="/admin/products"
-    element={isAdmin ? <AdminProducts /> : <Navigate to="/login" />}
+    <Route
+      path="/admin/products"
+      element={isAdmin ? <AdminProducts /> : <Navigate to="/login" />}
     />,
-    <Route 
-    path="/admin/addProduct"
-    element={isAdmin ? <ProductForm /> : <Navigate to="/login" />}
-    />
+    <Route
+      path="/admin/addProduct"
+      element={isAdmin ? <ProductForm /> : <Navigate to="/login" />}
+    />,
   ];
 
   const recentProjectRoutes = [
-    <Route path="/admin/recentProjects" element={isAdmin ? <AdminRecentProjects /> : <Navigate to="/login" />} />,
-    <Route path="/admin/addToRecent/:id" element={isAdmin ? <AddToRecentForm /> : <Navigate to="/login" />} />
+    <Route
+      path="/admin/recentProjects"
+      element={isAdmin ? <AdminRecentProjects /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/admin/addToRecent/:id"
+      element={isAdmin ? <AddToRecentForm /> : <Navigate to="/login" />}
+    />,
   ];
-
 
   //============================ CLIENT ROUTES =========================
   const staticRoutes =
@@ -98,59 +110,61 @@ function App() {
   const userProfileRoutes = "";
 
   return (
-    <PayPalScriptProvider options={{"client-id" : process.env.REACT_APP_PAYPAL_CLIENT_ID}}>
-    <div className="app">
-      <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Routes>
-            (isAdmin ? (
-            <Route element={<AdminLayout />}>
-              <Route
-                path="/admin/dashboard"
-                element={isAdmin ? <Dashboard /> : <Navigate to="/login" />}
-              />
-              {clientProjectRoutes}
-              {ruralProjectRoutes}
-              {donationRoutes}
-              {recentProjectRoutes}
-              {productRoutes}
-            </Route>
-            ) :() ) (isCustomer && (
-            <Route element={<ClientLayout />}>
-              {staticRoutes}
-              {dynamicRoutes}
-              {userProfileRoutes}
-              <Route
-                path="/submitRequest"
-                element={
-                  isCustomer ? <PlanRequest /> : <Navigate to="/login" />
-                }
-              />
-              <Route
-                path="/pendingRequests"
-                element={
-                  isCustomer ? <PendingRequests /> : <Navigate to="/login" />
-                }
-              />
-            </Route>
-            ) ) :()
-            <Route element={<ClientLayout />}>
-              <Route path="/" element={<Login />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/products" element={<Products />} />,
-              <Route path="/product" element={<Product />} />,
-              <Route path="/generateBill" element={<BillGenerator />} />,
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/project" element={<Project />} />
-              <Route path="/generateBill" element={<BillGenerator />} />
-            </Route>
-          </Routes>
-        </ThemeProvider>
-      </BrowserRouter>
-    </div>
+    <PayPalScriptProvider
+      options={{ "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID }}
+    >
+      <div className="app">
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Routes>
+              (isAdmin ? (
+              <Route element={<AdminLayout />}>
+                <Route
+                  path="/admin/dashboard"
+                  element={isAdmin ? <Dashboard /> : <Navigate to="/login" />}
+                />
+                {clientProjectRoutes}
+                {ruralProjectRoutes}
+                {donationRoutes}
+                {recentProjectRoutes}
+                {productRoutes}
+              </Route>
+              ) :() ) (isCustomer && (
+              <Route element={<ClientLayout />}>
+                {staticRoutes}
+                {dynamicRoutes}
+                {userProfileRoutes}
+                <Route
+                  path="/submitRequest"
+                  element={
+                    isCustomer ? <PlanRequest /> : <Navigate to="/login" />
+                  }
+                />
+                <Route
+                  path="/pendingRequests"
+                  element={
+                    isCustomer ? <PendingRequests /> : <Navigate to="/login" />
+                  }
+                />
+              </Route>
+              ) ) :()
+              <Route element={<ClientLayout />}>
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/products" element={<Products />} />,
+                <Route path="/product" element={<Product />} />,
+                <Route path="/generateBill" element={<BillGenerator />} />,
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/project" element={<Project />} />
+                <Route path="/generateBill" element={<BillGenerator />} />
+              </Route>
+            </Routes>
+          </ThemeProvider>
+        </BrowserRouter>
+      </div>
     </PayPalScriptProvider>
   );
 }
