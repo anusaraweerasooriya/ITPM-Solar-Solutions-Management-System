@@ -17,6 +17,8 @@ import billRoutes from "./routes/bill.js";
 import BillMetrics from "./models/BillMetrices.js";
 import projectRoutes from "./routes/projects.js";
 import recentProjectRoutes from "./routes/recentProjects.js";
+import requestRoutes from "./routes/requests.js";
+
 
 /* MIDDLEWARE CONFIGURATION =====================*/
 const __filename = fileURLToPath(import.meta.url);
@@ -54,6 +56,8 @@ app.use("/bill", billRoutes);
 app.use("/donations", donationRoutes);
 app.use("/projects", projectRoutes);
 app.use("/recentProjects", recentProjectRoutes);
+app.use("/requests", requestRoutes);
+
 
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
