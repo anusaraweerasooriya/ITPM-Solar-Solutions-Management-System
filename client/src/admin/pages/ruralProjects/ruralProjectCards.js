@@ -11,6 +11,7 @@ import {
 import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import { color } from 'd3-color';
 
 const cardItems = [
     {
@@ -34,12 +35,19 @@ const RuralProjectCards = () => {
 
   return (
     <Box mt="2.5rem">
-      <Grid container spacing={15}>
+      <Grid container spacing={10}>
             {cardItems.map(({ title, count, icon }) => {
                 return (
                     <Grid item xs={4}>
-                        <Card sx={{ display: 'flex', borderRadius: '15px', p: '0.5rem' }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', m:"0 3.5rem" }}>
+                        <Card 
+                            sx={{ 
+                                display: 'flex', 
+                                borderRadius: '15px', 
+                                p: '0.5rem',
+                                background: "#7a7f9d"
+                                //background: "linear-gradient(to right, #7a7f9d, #a6a9be)",
+                            }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', m:"0 3.5rem", color: '#ffffff' }}>
                                 <CardContent>
                                     <Typography component="div" variant="h5">
                                         {title}
@@ -52,7 +60,8 @@ const RuralProjectCards = () => {
                             <IconButton
                                 sx={{
                                     "& .MuiSvgIcon-root": {
-                                        fontSize: "3rem"
+                                        fontSize: "3rem",
+                                        color: "#ffffff"
                                     }
                                 }}
                             >

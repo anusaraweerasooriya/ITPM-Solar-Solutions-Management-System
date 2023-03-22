@@ -1,23 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, useTheme, useMediaQuery, Button, Stack, Modal, Typography } from "@mui/material";
+import { Box, useTheme, Button, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useGetAdminRuralProjectsQuery } from "hooks/api-hook";
-import Header from "admin/components/Header";
+import { useGetAdminCompletedProjectsQuery } from "hooks/api-hook";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
-import RuralProjectCards from "./ruralProjectCards";
-
-const AdminRuralProjects = () => {
+const CompletedProjects = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const isDesktop = useMediaQuery("(min-width: 1500px)");
 
-  //view modal
-  const [openView, setOpenView] = React.useState(false);
-  const handleOpen = () => setOpenView(true);
-  const handleClose = () => setOpenView(false);
-  
   // values to be sent to backend
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
@@ -25,12 +16,13 @@ const AdminRuralProjects = () => {
   const [search, setSearch] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useGetAdminRuralProjectsQuery({
+  const { data, isLoading } = useGetAdminCompletedProjectsQuery({
     page,
     pageSize,
     sort: JSON.stringify(sort),
     search,
   });
+  console.log(data);
 
   const columns = [
     {
@@ -44,73 +36,46 @@ const AdminRuralProjects = () => {
       flex: 1.5,
     },
     {
+      field: "planId",
+      headerName: "Plan ID",
+      flex: 0.8,
+    },
+    {
       field: "location",
       headerName: "Location",
       flex: 1,
     },
     {
+      field: "client",
+      headerName: "Client",
+      flex: 1,
+    },
+    {
       field: "projectType",
-      headerName: "Type",
-      flex: 0.8,
-    },
-    {
-      field: "gridType",
-      headerName: "Grid Type",
-      flex: 0.5,
-    },
-    {
-      field: "estimTotalCost",
-      headerName: "Total Cost",
+      headerName: "Project Type",
       flex: 0.8,
       renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
     {
       field: "action",
       headerName: "Actions",
-      width: 250,
+      width: 150,
       sortable: false,
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-        const onClick = (e) => {
-          const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
-        };
-
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
               size="small"
-              onClick={handleOpen}
+              onClick={() => navigate(`/admin/addToRecent/${params.row}`)}
               sx={{
                 textTransform:"unset",
                 background:"#007bff"
               }}
             >
-              View
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              onClick={onClick}
-              sx={{
-                textTransform:"unset",
-              }}
-            >
-              Edit
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={onClick}
-              sx={{
-                textTransform:"unset",
-              }}
-            >
-              Delete
+              Add to recent
             </Button>
           </Stack>
         );
@@ -119,15 +84,7 @@ const AdminRuralProjects = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
-      <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />    
-      
-      {isDesktop && (
-        <></>
-      )}
-      
-
-      <Box mt="20px" height="70vh" mb="10px"
+      <Box mt="20px" height="35vh" mb="10px"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -157,7 +114,7 @@ const AdminRuralProjects = () => {
         <DataGrid 
           loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={(data && data.ruralProjects) || []}
+          rows={(data && data.completedProjects) || []}
           columns={columns}
           rowCount={(data && data.total) || 0}
           rowsPerPageOptions={[20, 50, 100]}
@@ -169,43 +126,13 @@ const AdminRuralProjects = () => {
           onPaginationModelChange={(newPage) => setPage(newPage)}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           onSortModelChange={(newSortModel) => setSort(...newSortModel)}
-          components={{ Toolbar: DataGridCustomToolbar }}
+          //components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
             toolbar: { searchInput, setSearchInput, setSearch },
           }}
         />
       </Box>
-      <Button
-        variant="contained"
-        color="success"
-        size="small"
-        onClick={() => navigate("/admin/addRuralProject")}
-      >
-        ADD
-      </Button>
-
-      <Modal open={openView} onClose={handleClose}>
-        <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          p: 4,
-        }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
-
-    </Box>
   );
 };
 
-export default AdminRuralProjects;
+export default CompletedProjects;

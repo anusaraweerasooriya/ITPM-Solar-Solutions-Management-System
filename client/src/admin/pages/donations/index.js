@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, useTheme, useMediaQuery, Button, Stack, Modal, Typography } from "@mui/material";
+import { Box, useTheme, useMediaQuery, Button, Stack, Modal, Typography  } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useGetAdminRuralProjectsQuery } from "hooks/api-hook";
+import { useGetAdminDonationsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
-import RuralProjectCards from "./ruralProjectCards";
-
-const AdminRuralProjects = () => {
+const AdminDonations = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isDesktop = useMediaQuery("(min-width: 1500px)");
-
+  
   //view modal
   const [openView, setOpenView] = React.useState(false);
   const handleOpen = () => setOpenView(true);
@@ -25,7 +23,7 @@ const AdminRuralProjects = () => {
   const [search, setSearch] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useGetAdminRuralProjectsQuery({
+  const { data, isLoading } = useGetAdminDonationsQuery({
     page,
     pageSize,
     sort: JSON.stringify(sort),
@@ -39,44 +37,39 @@ const AdminRuralProjects = () => {
       flex: 1,
     },
     {
-      field: "projectName",
-      headerName: "Project Name",
+      field: "fullName",
+      headerName: "Donor Full Name",
       flex: 1.5,
     },
     {
-      field: "location",
-      headerName: "Location",
-      flex: 1,
+      field: "email",
+      headerName: "E-mail",
+      flex: 1.5,
     },
     {
-      field: "projectType",
-      headerName: "Type",
-      flex: 0.8,
-    },
-    {
-      field: "gridType",
-      headerName: "Grid Type",
-      flex: 0.5,
-    },
-    {
-      field: "estimTotalCost",
-      headerName: "Total Cost",
-      flex: 0.8,
+      field: "amount",
+      headerName: "Amount",
+      flex: 0.7,
       renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
+    },
+    {
+      field: "contributingProject",
+      headerName: "Contributing Project",
+      flex: 1.5,
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      flex: 1,
     },
     {
       field: "action",
       headerName: "Actions",
-      width: 250,
+      width: 100,
       sortable: false,
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-        const onClick = (e) => {
-          const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
-        };
-
         return (
           <Stack direction="row" spacing={2}>
             <Button
@@ -90,28 +83,6 @@ const AdminRuralProjects = () => {
             >
               View
             </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              onClick={onClick}
-              sx={{
-                textTransform:"unset",
-              }}
-            >
-              Edit
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={onClick}
-              sx={{
-                textTransform:"unset",
-              }}
-            >
-              Delete
-            </Button>
           </Stack>
         );
       },
@@ -120,7 +91,7 @@ const AdminRuralProjects = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />    
+      <Header title="DONATIONS" subtitle="Donations Management" />    
       
       {isDesktop && (
         <></>
@@ -157,7 +128,7 @@ const AdminRuralProjects = () => {
         <DataGrid 
           loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={(data && data.ruralProjects) || []}
+          rows={(data && data.donations) || []}
           columns={columns}
           rowCount={(data && data.total) || 0}
           rowsPerPageOptions={[20, 50, 100]}
@@ -175,14 +146,6 @@ const AdminRuralProjects = () => {
           }}
         />
       </Box>
-      <Button
-        variant="contained"
-        color="success"
-        size="small"
-        onClick={() => navigate("/admin/addRuralProject")}
-      >
-        ADD
-      </Button>
 
       <Modal open={openView} onClose={handleClose}>
         <Box sx={{
@@ -208,4 +171,4 @@ const AdminRuralProjects = () => {
   );
 };
 
-export default AdminRuralProjects;
+export default AdminDonations;

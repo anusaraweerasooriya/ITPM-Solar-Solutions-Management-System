@@ -10,6 +10,8 @@ export const customApi = createApi({
     "RuralProjects",
     "Users",
     "UserRequests",
+    "AdminDonations",
+    "CompletedProjects",
   ],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
@@ -37,6 +39,22 @@ export const customApi = createApi({
       query: () => "projects/ruralProjects",
       providesTags: ["RuralProjects"],
     }),
+    getAdminDonations: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "donations/adminDonations",
+        method: "GET",
+        params: { page, pageSize, sort, search }
+      }),
+      providesTags: ["AdminDonations"],
+    }),
+    getAdminCompletedProjects: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "recentProjects/completedProjects",
+        method: "GET",
+        params: { page, pageSize, sort, search }
+      }),
+      providesTags: ["CompletedProjects"],
+    }),
     getUsers: build.query({
       query: () => "auth/users",
       providesTags: ["Users"],
@@ -52,10 +70,14 @@ export const customApi = createApi({
   }),
 });
 
+
 export const {
   useGetAdminRuralProjectsQuery,
   useGetRuralProjectsQuery,
   useGetUsersQuery,
   useGetAdminPlanRequestsQuery,
   useGetRequestByUserIdQuery,
+  useGetAdminDonationsQuery,
+   useGetAdminCompletedProjectsQuery,
 } = customApi;
+
