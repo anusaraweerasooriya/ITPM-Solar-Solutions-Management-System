@@ -21,8 +21,11 @@ import DonateForm from "user/pages/ruralProjects/donateForm";
 import AdminDonations from "admin/pages/donations";
 
 import Projects from "user/pages/recentProjects/projects";
+import Project from "user/pages/recentProjects/project";
+
 import AdminRecentProjects from "admin/pages/recentProjects";
 import AddToRecentForm from "admin/pages/recentProjects/addToRecentForm";
+
 
 import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
@@ -139,6 +142,9 @@ function App() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/products" element={<Products />} />,
               <Route path="/product" element={<Product />} />,
+              <Route path="/generateBill" element={<BillGenerator />} />,
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/project" element={<Project />} />
               <Route path="/generateBill" element={<BillGenerator />} />
             </Route>
           </Routes>
