@@ -40,7 +40,7 @@ export const createRuralProject = async (req, res) => {
     }
 };
 
-/* ADMIN DISPLAY */
+/* ADMIN READ */
 export const getAdminRuralProjects = async (req, res) => {
     try {
         const { page=1, pageSize=20, sort=null, search="" } = req.query;
@@ -81,7 +81,7 @@ export const getAdminRuralProjects = async (req, res) => {
     }
 };
 
-/* CLIENT DISPLAY */
+/* CLIENT READ */
 export const getRuralProjects = async (req, res) => {
     try {
         const ruralProjects = await RuralProject.find();

@@ -34,7 +34,284 @@ import * as yup from "yup";
 import "react-datepicker/dist/react-datepicker.css";
 import BillTable from "./BillTable";
 import OverviewChart from "./OverviewChart";
+<<<<<<< HEAD
 import { useSelector } from "react-redux";
+=======
+import { ResponsiveLine } from "@nivo/line";
+
+const data = [
+  {
+    id: "japan",
+    color: "hsl(211, 70%, 50%)",
+    data: [
+      {
+        x: "plane",
+        y: 16,
+      },
+      {
+        x: "helicopter",
+        y: 4,
+      },
+      {
+        x: "boat",
+        y: 4,
+      },
+      {
+        x: "train",
+        y: 297,
+      },
+      {
+        x: "subway",
+        y: 135,
+      },
+      {
+        x: "bus",
+        y: 73,
+      },
+      {
+        x: "car",
+        y: 210,
+      },
+      {
+        x: "moto",
+        y: 294,
+      },
+      {
+        x: "bicycle",
+        y: 190,
+      },
+      {
+        x: "horse",
+        y: 262,
+      },
+      {
+        x: "skateboard",
+        y: 161,
+      },
+      {
+        x: "others",
+        y: 133,
+      },
+    ],
+  },
+  {
+    id: "france",
+    color: "hsl(250, 70%, 50%)",
+    data: [
+      {
+        x: "plane",
+        y: 95,
+      },
+      {
+        x: "helicopter",
+        y: 126,
+      },
+      {
+        x: "boat",
+        y: 31,
+      },
+      {
+        x: "train",
+        y: 283,
+      },
+      {
+        x: "subway",
+        y: 106,
+      },
+      {
+        x: "bus",
+        y: 15,
+      },
+      {
+        x: "car",
+        y: 256,
+      },
+      {
+        x: "moto",
+        y: 105,
+      },
+      {
+        x: "bicycle",
+        y: 47,
+      },
+      {
+        x: "horse",
+        y: 219,
+      },
+      {
+        x: "skateboard",
+        y: 237,
+      },
+      {
+        x: "others",
+        y: 170,
+      },
+    ],
+  },
+  {
+    id: "us",
+    color: "hsl(303, 70%, 50%)",
+    data: [
+      {
+        x: "plane",
+        y: 122,
+      },
+      {
+        x: "helicopter",
+        y: 239,
+      },
+      {
+        x: "boat",
+        y: 263,
+      },
+      {
+        x: "train",
+        y: 67,
+      },
+      {
+        x: "subway",
+        y: 81,
+      },
+      {
+        x: "bus",
+        y: 71,
+      },
+      {
+        x: "car",
+        y: 45,
+      },
+      {
+        x: "moto",
+        y: 260,
+      },
+      {
+        x: "bicycle",
+        y: 34,
+      },
+      {
+        x: "horse",
+        y: 168,
+      },
+      {
+        x: "skateboard",
+        y: 174,
+      },
+      {
+        x: "others",
+        y: 78,
+      },
+    ],
+  },
+  {
+    id: "germany",
+    color: "hsl(168, 70%, 50%)",
+    data: [
+      {
+        x: "plane",
+        y: 126,
+      },
+      {
+        x: "helicopter",
+        y: 116,
+      },
+      {
+        x: "boat",
+        y: 195,
+      },
+      {
+        x: "train",
+        y: 30,
+      },
+      {
+        x: "subway",
+        y: 80,
+      },
+      {
+        x: "bus",
+        y: 221,
+      },
+      {
+        x: "car",
+        y: 45,
+      },
+      {
+        x: "moto",
+        y: 188,
+      },
+      {
+        x: "bicycle",
+        y: 61,
+      },
+      {
+        x: "horse",
+        y: 150,
+      },
+      {
+        x: "skateboard",
+        y: 15,
+      },
+      {
+        x: "others",
+        y: 50,
+      },
+    ],
+  },
+  {
+    id: "norway",
+    color: "hsl(314, 70%, 50%)",
+    data: [
+      {
+        x: "plane",
+        y: 228,
+      },
+      {
+        x: "helicopter",
+        y: 30,
+      },
+      {
+        x: "boat",
+        y: 66,
+      },
+      {
+        x: "train",
+        y: 15,
+      },
+      {
+        x: "subway",
+        y: 81,
+      },
+      {
+        x: "bus",
+        y: 250,
+      },
+      {
+        x: "car",
+        y: 29,
+      },
+      {
+        x: "moto",
+        y: 198,
+      },
+      {
+        x: "bicycle",
+        y: 230,
+      },
+      {
+        x: "horse",
+        y: 116,
+      },
+      {
+        x: "skateboard",
+        y: 149,
+      },
+      {
+        x: "others",
+        y: 279,
+      },
+    ],
+  },
+];
+>>>>>>> master
 
 const DayHandlingRadioGroup = ({ isDays, setIsDays }) => {
   const onChangeHandler = (event) => {
@@ -432,7 +709,12 @@ const BillGenerator = () => {
                   alignItems="flex-end"
                   mr="3.2rem"
                 >
-                  <Button variant="outlined" size="large" sx={{ mr: "1rem" }}>
+                  <Button
+                    onClick={() => resetForm()}
+                    variant="outlined"
+                    size="large"
+                    sx={{ mr: "1rem" }}
+                  >
                     Clear
                   </Button>
                   <Button
@@ -458,8 +740,73 @@ const BillGenerator = () => {
         <Box m="1rem">
           <Divider sx={{ backgroundColor: "black" }} />
         </Box>
-        <Box m="3.2rem">
+        <Box height={isTable && "75vh"}>
           {isTable && <OverviewChart chartData={billData} />}
+          {/* <ResponsiveLine
+            data={data}
+            margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+            xScale={{ type: "point" }}
+            yScale={{
+              type: "linear",
+              min: "auto",
+              max: "auto",
+              stacked: true,
+              reverse: false,
+            }}
+            yFormat=" >-.2f"
+            axisTop={null}
+            axisRight={null}
+            axisBottom={{
+              orient: "bottom",
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: "transportation",
+              legendOffset: 36,
+              legendPosition: "middle",
+            }}
+            axisLeft={{
+              orient: "left",
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: "count",
+              legendOffset: -40,
+              legendPosition: "middle",
+            }}
+            pointSize={10}
+            pointColor={{ theme: "background" }}
+            pointBorderWidth={2}
+            pointBorderColor={{ from: "serieColor" }}
+            pointLabelYOffset={-12}
+            useMesh={true}
+            legends={[
+              {
+                anchor: "bottom-right",
+                direction: "column",
+                justify: false,
+                translateX: 100,
+                translateY: 0,
+                itemsSpacing: 0,
+                itemDirection: "left-to-right",
+                itemWidth: 80,
+                itemHeight: 20,
+                itemOpacity: 0.75,
+                symbolSize: 12,
+                symbolShape: "circle",
+                symbolBorderColor: "rgba(0, 0, 0, .5)",
+                effects: [
+                  {
+                    on: "hover",
+                    style: {
+                      itemBackground: "rgba(0, 0, 0, .03)",
+                      itemOpacity: 1,
+                    },
+                  },
+                ],
+              },
+            ]}
+          /> */}
         </Box>
       </Box>
     </Box>
