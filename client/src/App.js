@@ -17,6 +17,7 @@ import AdminRuralProjects from "admin/pages/ruralProjects";
 import RuralProjects from "user/pages/ruralProjects";
 
 import Projects from "user/pages/recentProjects/projects";
+import Project from "user/pages/recentProjects/project";
 
 import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
@@ -61,6 +62,7 @@ function App() {
     <Route path="/product" element={<Product />} />,
     <Route path="/generateBill" element={<BillGenerator />} />,
     <Route path="/projects" element={<Projects />} />,
+
   ];
 
   const userProfileRoutes = "";
@@ -101,6 +103,7 @@ function App() {
               <Route path="/product" element={<Product />} />,
               <Route path="/generateBill" element={<BillGenerator />} />,
               <Route path="/projects" element={<Projects />} />
+              <Route path="/project" element={<Project />} />
             </Route>
           </Routes>
         </ThemeProvider>
