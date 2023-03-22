@@ -16,18 +16,21 @@ const OverviewChart = ({ chartData }) => {
       color: "#042878",
       data: [],
     };
-    Object.values(dailyBill).reduce(
-      ({ day, dailyTotal }) => {
-        console.log(day, dailyTotal);
-        dailyChargeLine.data = [
-          ...dailyChargeLine.data,
-          { x: day, y: dailyTotal },
-        ];
+    // Object.values(dailyBill).reduce(({ day, dailyTotal }) => {
+    //   console.log(day, dailyTotal);
+    //   dailyChargeLine.data = [
+    //     ...dailyChargeLine.data,
+    //     { x: day, y: dailyTotal },
+    //   ];
 
-        return { day: day, dailyTotal };
-      },
-      { day: 0, dailyTotal: 0 }
-    );
+    //   return { day, dailyTotal };
+    // });
+
+    for (let value of dailyBill) {
+      console.log(value.day, value.dailyTotal);
+      dailyChargeLine.data.push({ x: value.day, y: value.dailyTotal });
+    }
+
     console.log(dailyChargeLine);
     return [[dailyChargeLine]];
   }, [chartData]); //eslint-disable-line react-hooks/exhaustive-deps

@@ -1,27 +1,28 @@
 import React, { useState } from "react";
-import { Box, useTheme, Stack, Button } from "@mui/material";
-import Header from "admin/components/Header";
-import { useGetAdminPlanRequestsQuery } from "hooks/api-hook";
+import { useNavigate } from "react-router-dom";
+import { Box, useTheme, Button, Stack } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { useGetAdminCompletedProjectsQuery } from "hooks/api-hook";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
-import { DataGrid } from "@mui/x-data-grid";
-
-const PlanRequests = () => {
+const CompletedProjects = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
-  //data to be sending to the backend api
+  // values to be sent to backend
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
   const [sort, setSort] = useState({});
   const [search, setSearch] = useState("");
-  const [searchInput, setSearchInput] = useState("");
 
-  const { data, isLoading } = useGetAdminPlanRequestsQuery({
+  const [searchInput, setSearchInput] = useState("");
+  const { data, isLoading } = useGetAdminCompletedProjectsQuery({
     page,
     pageSize,
     sort: JSON.stringify(sort),
     search,
   });
+  console.log(data);
 
   const columns = [
     {
@@ -30,71 +31,51 @@ const PlanRequests = () => {
       flex: 1,
     },
     {
-      field: "user",
-      headerName: "User",
-      flex: 1,
+      field: "projectName",
+      headerName: "Project Name",
+      flex: 1.5,
     },
     {
-      field: "clientName",
-      headerName: "Client Name",
-      flex: 1,
-    },
-    {
-      field: "type",
-      headerName: "Project Type",
+      field: "planId",
+      headerName: "Plan ID",
       flex: 0.8,
     },
     {
-      field: "gridType",
-      headerName: "Grid Type",
+      field: "location",
+      headerName: "Location",
       flex: 1,
     },
     {
-      field: "monthlyPowerConsumption",
-      headerName: "Power Consumption/month",
+      field: "client",
+      headerName: "Client",
       flex: 1,
     },
     {
-      field: "status",
-      headerName: "Request Status",
-      flex: 0.9,
+      field: "projectType",
+      headerName: "Project Type",
+      flex: 0.8,
+      renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
     {
       field: "action",
       headerName: "Actions",
-      width: 180,
+      width: 150,
       sortable: false,
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-        const onClick = (e) => {
-          const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
-        };
-
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
-              color="secondary"
               size="small"
-              onClick={onClick}
+              onClick={() => navigate(`/admin/addToRecent/${params.row}`)}
               sx={{
-                textTransform: "unset",
+                textTransform:"unset",
+                background:"#007bff"
               }}
             >
-              Create
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={onClick}
-              sx={{
-                textTransform: "unset",
-              }}
-            >
-              Reject
+              Add to recent
             </Button>
           </Stack>
         );
@@ -103,12 +84,7 @@ const PlanRequests = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
-      <Header title="REQUEST PLANS" subtitle="Request Plan Management" />
-      <Box
-        mt="20px"
-        height="70vh"
-        mb="10px"
+      <Box mt="20px" height="35vh" mb="10px"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -134,10 +110,11 @@ const PlanRequests = () => {
           },
         }}
       >
-        <DataGrid
+
+        <DataGrid 
           loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={(data && data.requests) || []}
+          rows={(data && data.completedProjects) || []}
           columns={columns}
           rowCount={(data && data.total) || 0}
           rowsPerPageOptions={[20, 50, 100]}
@@ -149,14 +126,13 @@ const PlanRequests = () => {
           onPaginationModelChange={(newPage) => setPage(newPage)}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           onSortModelChange={(newSortModel) => setSort(...newSortModel)}
-          components={{ Toolbar: DataGridCustomToolbar }}
+          //components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
             toolbar: { searchInput, setSearchInput, setSearch },
           }}
         />
       </Box>
-    </Box>
   );
 };
 
-export default PlanRequests;
+export default CompletedProjects;

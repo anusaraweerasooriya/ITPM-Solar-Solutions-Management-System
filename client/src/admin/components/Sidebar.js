@@ -76,7 +76,7 @@ const navItems = [
   },
   {
     id: 8,
-    url: "",
+    url: "donations",
     text: "Donations",
     icon: <VolunteerActivismOutlined />,
   },
@@ -93,7 +93,7 @@ const navItems = [
   },
   {
     id: 11,
-    url: "",
+    url: "products",
     text: "Products",
     icon: <ShoppingCartOutlined />,
   },
@@ -110,7 +110,7 @@ const navItems = [
   },
   {
     id: 14,
-    url: "",
+    url: "recentProjects",
     text: "Recent Projects",
     icon: <AccessTimeOutlined />,
   },
@@ -261,12 +261,12 @@ const Sidebar = ({
                   fontSize="0.8rem"
                   sx={{ color: theme.palette.secondary[200] }}
                 >
-                  Manager
+                  System Admin
                 </Typography>
               </Box>
-              <SettingsOutlined
+              {/*<SettingsOutlined
                 sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
-              />
+              />*/}
             </FlexBox>
           </Box>
         </Drawer>

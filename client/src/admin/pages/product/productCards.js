@@ -8,46 +8,37 @@ import {
     IconButton, 
     useTheme  
 } from "@mui/material";
-import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
-import WatchLaterIcon from '@mui/icons-material/WatchLater';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import { color } from 'd3-color';
+import WorkIcon from '@mui/icons-material/Work';
+import LayersIcon from '@mui/icons-material/Layers';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 const cardItems = [
     {
-        title: "Total Projects",
-        count: 25,
-        icon: <EmojiObjectsIcon/>,
+        title: "Products",
+        count: 78,
+        icon: <WorkIcon />,
     },
     {
-        title: "In Progress",
-        count: 10,
-        icon: <WatchLaterIcon />,
+        title: "Categories",
+        count: 6,
+        icon: <LayersIcon />,
     },
     {
-        title: "Completed",
-        count: 5,
-        icon: <EventAvailableIcon />,
-    },
+        title: "Count",
+        count: 102,
+        icon: <BarChartIcon />,
+    }
 ];
 
-const RuralProjectCards = () => {
-
+const ProductCards = () => {
   return (
     <Box mt="2.5rem">
-      <Grid container spacing={10}>
+        <Grid container spacing={15}>
             {cardItems.map(({ title, count, icon }) => {
                 return (
                     <Grid item xs={4}>
-                        <Card 
-                            sx={{ 
-                                display: 'flex', 
-                                borderRadius: '15px', 
-                                p: '0.5rem',
-                                background: "#7a7f9d"
-                                //background: "linear-gradient(to right, #7a7f9d, #a6a9be)",
-                            }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', m:"0 3.5rem", color: '#ffffff' }}>
+                        <Card sx={{ display: 'flex', borderRadius: '15px', p: '0.5rem' }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', m:"0 3.5rem" }}>
                                 <CardContent>
                                     <Typography component="div" variant="h5">
                                         {title}
@@ -60,8 +51,7 @@ const RuralProjectCards = () => {
                             <IconButton
                                 sx={{
                                     "& .MuiSvgIcon-root": {
-                                        fontSize: "3rem",
-                                        color: "#ffffff"
+                                        fontSize: "3rem"
                                     }
                                 }}
                             >
@@ -71,9 +61,9 @@ const RuralProjectCards = () => {
                     </Grid>
                 )
             })}
-      </Grid>
-    </Box>
+        </Grid>
+    </Box>        
   )
 }
 
-export default RuralProjectCards;
+export default ProductCards;
