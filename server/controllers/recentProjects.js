@@ -45,3 +45,14 @@ export const getAdminCompletedProjects = async (req, res) => {
         res.status(409).json({ error: err.message });
     }
 };
+
+
+export const addRecentProject = async(req,res) => {
+    try {
+
+        const {id} = req.param;
+        
+    } catch (err) {
+        res.status(404).jason({error:"Something went wrong please try agin!"})
+    }
+};

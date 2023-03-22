@@ -69,7 +69,7 @@ const CompletedProjects = () => {
             <Button
               variant="contained"
               size="small"
-              onClick={() => navigate(`/admin/addToRecent/${params.row}`)}
+              onClick={() => navigate(`/admin/addToRecent/${data._id}`)}
               sx={{
                 textTransform:"unset",
                 background:"#007bff"
