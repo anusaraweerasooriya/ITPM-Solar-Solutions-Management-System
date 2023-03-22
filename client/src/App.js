@@ -22,6 +22,8 @@ import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
 
 import BillGenerator from "user/pages/billGenerator";
+import PlanRequest from "user/pages/planRequests";
+import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -32,7 +34,7 @@ function App() {
   }
 
   const isAdmin = role === "admin";
-  console.log(isAdmin);
+  const isCustomer = role === "customer";
 
   const theme = useMemo(() => createTheme(themeSettings()), []);
 
@@ -84,16 +86,24 @@ function App() {
               {recentProjectRoutes}
               {productRoutes}
             </Route>
-            ) : (
+            ) :() ) (isCustomer && (
             <Route element={<ClientLayout />}>
-              {staticRoutes}
-              {dynamicRoutes}
-              {userProfileRoutes}
-              {donationRoutes}
+              <Route
+                path="/submitRequest"
+                element={
+                  isCustomer ? <PlanRequest /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/pendingRequests"
+                element={
+                  isCustomer ? <PendingRequests /> : <Navigate to="/login" />
+                }
+              />
             </Route>
-            ) )
+            ) ) :()
             <Route element={<ClientLayout />}>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Login />} />
               <Route path="/login" element={<Login />} />
               <Route path="/home" element={<Home />} />
               <Route path="/projects" element={<Projects />} />

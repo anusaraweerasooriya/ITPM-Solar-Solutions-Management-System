@@ -4,7 +4,13 @@ import { REHYDRATE } from "redux-persist";
 export const customApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001/" }),
   reducerPath: "customApi",
-  tagTypes: ["AdminRuralProjects", "RuralProjects", "Users"],
+  tagTypes: [
+    "AdminRuralProjects",
+    "AdminPlanRequests",
+    "RuralProjects",
+    "Users",
+    "UserRequests",
+  ],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
       return action.payload[reducerPath];
@@ -15,9 +21,17 @@ export const customApi = createApi({
       query: ({ page, pageSize, sort, search }) => ({
         url: "projects/adminRuralProjects",
         method: "GET",
-        params: { page, pageSize, sort, search }
+        params: { page, pageSize, sort, search },
       }),
       providesTags: ["AdminRuralProjects"],
+    }),
+    getAdminPlanRequests: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "requests/adminGetPlanRequests",
+        method: "GET",
+        params: { page, pageSize, sort, search },
+      }),
+      providesTags: ["AdminPlanRequests"],
     }),
     getRuralProjects: build.query({
       query: () => "projects/ruralProjects",
@@ -27,7 +41,21 @@ export const customApi = createApi({
       query: () => "auth/users",
       providesTags: ["Users"],
     }),
+    getRequestByUserId: build.query({
+      query: ({ user }) => ({
+        url: "requests/getRequestsByUser",
+        method: "GET",
+        params: { user },
+      }),
+      providesTags: ["UserRequests"],
+    }),
   }),
 });
 
-export const { useGetAdminRuralProjectsQuery, useGetRuralProjectsQuery, useGetUsersQuery } = customApi;
+export const {
+  useGetAdminRuralProjectsQuery,
+  useGetRuralProjectsQuery,
+  useGetUsersQuery,
+  useGetAdminPlanRequestsQuery,
+  useGetRequestByUserIdQuery,
+} = customApi;
