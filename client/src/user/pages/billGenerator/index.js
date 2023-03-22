@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -29,11 +29,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 
-import { Formik } from "formik";
+import { Formik, useFormikContext } from "formik";
 import * as yup from "yup";
 import "react-datepicker/dist/react-datepicker.css";
 import BillTable from "./BillTable";
 import OverviewChart from "./OverviewChart";
+<<<<<<< HEAD
+import { useSelector } from "react-redux";
+=======
 import { ResponsiveLine } from "@nivo/line";
 
 const data = [
@@ -308,6 +311,7 @@ const data = [
     ],
   },
 ];
+>>>>>>> master
 
 const DayHandlingRadioGroup = ({ isDays, setIsDays }) => {
   const onChangeHandler = (event) => {
@@ -396,15 +400,45 @@ const BillGenerator = () => {
   const [isDays, setIsDays] = useState(true);
   const [isUnits, setIsUnits] = useState(true);
   const [units, setUnits] = useState(0);
+
   const [prevUnits, setPrevUnits] = useState(0);
   const [currUnits, setCurrUnits] = useState(0);
+  const [noOfUnits, setNoOfUnits] = useState(0);
+
   const [startDate, setStartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(dayjs());
   const [billData, setBillData] = useState();
   const [isTable, setIsTable] = useState(false);
   const isNonMobileScreen = useMediaQuery("(min-width: 1000px)");
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const user = useSelector((state) => state.auth.user);
 
-  console.log(isUnits);
+  const formikRef = useRef(null);
+
+  const currentReadingHandler = (event) => {
+    const currValue = event.target.value;
+    setCurrUnits(currValue);
+  };
+  const prevReadingHandler = (event) => {
+    const prevValue = event.target.value;
+    setPrevUnits(prevValue);
+  };
+
+  if (isAuth) {
+    initialFormValues.email = user.email;
+  }
+  console.log(prevUnits && currUnits);
+  // const formRef = useRef(null);
+  // useEffect(() => {
+  //   console.log(formRef.current.handleChange.);
+  // }, [formRef.values]);
+
+  // useEffect(() => {
+  //   // Check if setFieldValue is available before using it
+  //   if (setFieldValue) {
+  //     setFieldValue("noOfDays", currUnits - prevUnits);
+  //   }
+  // }, [setFieldValue]);
 
   const generateBill = async (values, onSubmitProps) => {
     console.log(values);
@@ -435,17 +469,13 @@ const BillGenerator = () => {
       console.log(error);
     }
   };
+  if (prevUnits && currUnits) {
+  }
 
-  const currentReadingHandler = (event) => {
-    setCurrUnits(event.target.value);
+  const noOfUnitsHandler = (event) => {
+    event.target.value = currUnits - prevUnits;
   };
-  const prevReadingHandler = (event) => {
-    setPrevUnits(event.target.value);
-  };
-  // const noOfUnitsHandler = () => {
-  //   return currUnits - prevUnits;
-  // };
-
+  console.log(prevUnits, currUnits, currUnits - prevUnits);
   return (
     <Box>
       <Box
@@ -459,6 +489,7 @@ const BillGenerator = () => {
           onSubmit={handleFormSubmit}
           initialValues={initialFormValues}
           validationSchema={billGeneratorSchema}
+          innerRef={formikRef}
         >
           {({
             values,
@@ -467,6 +498,7 @@ const BillGenerator = () => {
             handleBlur,
             handleChange,
             handleSubmit,
+
             resetForm,
           }) => (
             <form onSubmit={handleSubmit}>
@@ -624,32 +656,28 @@ const BillGenerator = () => {
                         label="Previous Meter Reading"
                         type="number"
                         onBlur={handleBlur}
-                        onChange={handleChange}
-                        onKeyUp={prevReadingHandler}
-                        name="noOfDays"
+                        onChange={prevReadingHandler}
                         size="medium"
                         color="success"
                         disabled={!isUnits}
-                        error={
-                          Boolean(touched.noOfDays) && Boolean(errors.noOfDays)
-                        }
-                        helperText={touched.noOfDays && errors.noOfDays}
+                        // error={
+                        //   Boolean(touched.noOfDays) && Boolean(errors.noOfDays)
+                        // }
+                        // helperText={touched.noOfDays && errors.noOfDays}
                         sx={{ width: "100%", mt: "2rem", mb: "2rem" }}
                       />
                       <TextField
                         label="Current Meter Reading"
                         type="number"
                         onBlur={handleBlur}
-                        onChange={handleChange}
-                        onKeyUp={currentReadingHandler}
-                        // name="noOfDays"
+                        onChange={currentReadingHandler}
                         size="medium"
                         color="success"
                         disabled={!isUnits}
-                        error={
-                          Boolean(touched.noOfDays) && Boolean(errors.noOfDays)
-                        }
-                        helperText={touched.noOfDays && errors.noOfDays}
+                        // error={
+                        //   Boolean(touched.noOfDays) && Boolean(errors.noOfDays)
+                        // }
+                        // helperText={touched.noOfDays && errors.noOfDays}
                         sx={{ width: "100%", mb: "2rem" }}
                       />
                       <TextField
@@ -658,9 +686,9 @@ const BillGenerator = () => {
                         onBlur={handleBlur}
                         onChange={handleChange}
                         name="noOfUnits"
-                        // value={noOfUnitsHandler}
+                        value={values.noOfUnits}
                         size="medium"
-                        disabled={isUnits}
+                        // disabled={isUnits}
                         color="success"
                         error={
                           Boolean(touched.noOfUnits) &&
