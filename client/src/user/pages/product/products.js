@@ -99,9 +99,10 @@ const Products = ({
                                 sx={{
                               //      height: "200px"
                                 }}
-                                image={imagePath}
+                                component="img"
+                                //image={imagePath}
                                 height=""
-                                //image="https://www.mustups.com/wp-content/webpc-passthru.php?src=https://www.mustups.com/wp-content/uploads/2018/12/PV18PRO-1-1.jpg&nocache=1"
+                                image="https://www.mustups.com/wp-content/webpc-passthru.php?src=https://www.mustups.com/wp-content/uploads/2018/12/PV18PRO-1-1.jpg&nocache=1"
                                 alt="power inverter"
                             />
                             </Divider>
