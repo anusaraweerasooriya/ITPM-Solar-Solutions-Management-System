@@ -4,7 +4,18 @@ import { REHYDRATE } from "redux-persist";
 export const customApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001/" }),
   reducerPath: "customApi",
-  tagTypes: ["AdminRuralProjects", "RuralProjects", "Products", "AdminProducts", "Users"],
+
+  tagTypes: [
+    "AdminRuralProjects",
+    "AdminPlanRequests",
+    "RuralProjects",
+    "Users",
+    "UserRequests",
+    "AdminDonations",
+    "CompletedProjects",
+    "Products",
+    "AdminProducts",
+  ],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
       return action.payload[reducerPath];
@@ -15,13 +26,37 @@ export const customApi = createApi({
       query: ({ page, pageSize, sort, search }) => ({
         url: "projects/adminRuralProjects",
         method: "GET",
-        params: { page, pageSize, sort, search }
+        params: { page, pageSize, sort, search },
       }),
       providesTags: ["AdminRuralProjects"],
+    }),
+    getAdminPlanRequests: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "requests/adminGetPlanRequests",
+        method: "GET",
+        params: { page, pageSize, sort, search },
+      }),
+      providesTags: ["AdminPlanRequests"],
     }),
     getRuralProjects: build.query({
       query: () => "projects/ruralProjects",
       providesTags: ["RuralProjects"],
+    }),
+    getAdminDonations: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "donations/adminDonations",
+        method: "GET",
+        params: { page, pageSize, sort, search }
+      }),
+      providesTags: ["AdminDonations"],
+    }),
+    getAdminCompletedProjects: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "recentProjects/completedProjects",
+        method: "GET",
+        params: { page, pageSize, sort, search }
+      }),
+      providesTags: ["CompletedProjects"],
     }),
     getUsers: build.query({
       query: () => "auth/users",
@@ -37,8 +72,27 @@ export const customApi = createApi({
     getProducts: build.query({
       query: () => "products/viewProducts",
       providesTags: ["Products"],
+    getRequestByUserId: build.query({
+      query: ({ user }) => ({
+        url: "requests/getRequestsByUser",
+        method: "GET",
+        params: { user },
+      }),
+      providesTags: ["UserRequests"],
     }),
   }),
 });
 
-export const { useGetAdminRuralProjectsQuery, useGetRuralProjectsQuery, useGetAdminProductsQuery, useGetProductsQuery, useGetUsersQuery } = customApi;
+
+export const {
+  useGetAdminRuralProjectsQuery,
+  useGetRuralProjectsQuery,
+  useGetUsersQuery,
+  useGetAdminPlanRequestsQuery,
+  useGetRequestByUserIdQuery,
+  useGetAdminDonationsQuery,
+  useGetAdminCompletedProjectsQuery,
+  useGetAdminProductsQuery, 
+  useGetProductsQuery,
+} = customApi;
+

@@ -1,18 +1,22 @@
  import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, useTheme, useMediaQuery, Button, Stack } from "@mui/material";
+import { Box, useTheme, useMediaQuery, Button, Stack, Modal, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useGetAdminRuralProjectsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
 import RuralProjectCards from "./ruralProjectCards";
-import RuralProjectForm from "./ruralProjectForm";
 
 const AdminRuralProjects = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const isDesktop = useMediaQuery("(min-width: 1700px)");
+  const isDesktop = useMediaQuery("(min-width: 1500px)");
+
+  //view modal
+  const [openView, setOpenView] = React.useState(false);
+  const handleOpen = () => setOpenView(true);
+  const handleClose = () => setOpenView(false);
   
   // values to be sent to backend
   const [page, setPage] = useState(0);
@@ -55,11 +59,6 @@ const AdminRuralProjects = () => {
       flex: 0.5,
     },
     {
-      field: "estimInitiateDate",
-      headerName: "Initiation Date",
-      flex: 1,
-    },
-    {
       field: "estimTotalCost",
       headerName: "Total Cost",
       flex: 0.8,
@@ -68,7 +67,7 @@ const AdminRuralProjects = () => {
     {
       field: "action",
       headerName: "Actions",
-      width: 180,
+      width: 250,
       sortable: false,
       disableClickEventBubbling: true,
 
@@ -80,6 +79,17 @@ const AdminRuralProjects = () => {
 
         return (
           <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleOpen}
+              sx={{
+                textTransform:"unset",
+                background:"#007bff"
+              }}
+            >
+              View
+            </Button>
             <Button
               variant="contained"
               color="secondary"
@@ -113,7 +123,7 @@ const AdminRuralProjects = () => {
       <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />    
       
       {isDesktop && (
-        <RuralProjectCards />
+        <></>
       )}
       
 
@@ -169,11 +179,31 @@ const AdminRuralProjects = () => {
         variant="contained"
         color="success"
         size="small"
-        onClick={() => navigate(<RuralProjectForm />)}
+        onClick={() => navigate("/admin/addRuralProject")}
       >
         ADD
       </Button>
-      <RuralProjectForm />
+
+      <Modal open={openView} onClose={handleClose}>
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4,
+        }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
+
     </Box>
   );
 };
