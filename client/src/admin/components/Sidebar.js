@@ -93,7 +93,7 @@ const navItems = [
   },
   {
     id: 11,
-    url: "",
+    url: "products",
     text: "Products",
     icon: <ShoppingCartOutlined />,
   },

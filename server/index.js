@@ -15,9 +15,14 @@ import ruralRoutes from "./routes/ruralProjects.js";
 import donationRoutes from "./routes/donations.js";
 import billRoutes from "./routes/bill.js";
 import BillMetrics from "./models/BillMetrices.js";
+
+import { createProduct } from "./controllers/products.js";
+import productsRoutes from "./routes/products.js";
+
 import projectRoutes from "./routes/projects.js";
 import recentProjectRoutes from "./routes/recentProjects.js";
 import requestRoutes from "./routes/requests.js";
+
 
 
 /* MIDDLEWARE CONFIGURATION =====================*/
@@ -48,11 +53,14 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILE UPLOAD ================================= */
 app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
+app.post("/createProduct", upload.single("imagePath"), createProduct);
+
 
 /* ROUTES =====================*/
 app.use("/auth", authRoutes);
 app.use("/projects", ruralRoutes);
 app.use("/bill", billRoutes);
+app.use("/products", productsRoutes);
 app.use("/donations", donationRoutes);
 app.use("/projects", projectRoutes);
 app.use("/recentProjects", recentProjectRoutes);

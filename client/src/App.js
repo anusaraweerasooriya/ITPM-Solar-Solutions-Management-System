@@ -26,6 +26,8 @@ import AddToRecentForm from "admin/pages/recentProjects/addToRecentForm";
 
 import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
+import AdminProducts from "admin/pages/product";
+import ProductForm from "admin/pages/product/productFrom";
 
 import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
@@ -58,11 +60,23 @@ function App() {
     <Route path="/admin/donations" element={isAdmin ? <AdminDonations /> : <Navigate to="/login" />} />,
   ];
 
+  const recentProjectRoutes = "";
+  const productRoutes = [
+    <Route 
+    path="/admin/products"
+    element={isAdmin ? <AdminProducts /> : <Navigate to="/login" />}
+    />,
+    <Route 
+    path="/admin/addProduct"
+    element={isAdmin ? <ProductForm /> : <Navigate to="/login" />}
+    />
+  ];
+
   const recentProjectRoutes = [
     <Route path="/admin/recentProjects" element={isAdmin ? <AdminRecentProjects /> : <Navigate to="/login" />} />,
     <Route path="/admin/addToRecent/:id" element={isAdmin ? <AddToRecentForm /> : <Navigate to="/login" />} />
   ];
-  const productRoutes = "";
+
 
   //============================ CLIENT ROUTES =========================
   const staticRoutes =
