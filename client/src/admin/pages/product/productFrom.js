@@ -1,18 +1,19 @@
-import { useState } from 'react';
-import { 
-  Box, 
+import { useState } from "react";
+import {
+  Box,
   useMediaQuery,
   Button,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
-import Dropzone from 'react-dropzone';
-import FlexBox from 'admin/components/FlexBox';
+import { useNavigate } from "react-router-dom";
+import Dropzone from "react-dropzone";
+import FlexBox from "admin/components/FlexBox";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { Formik } from 'formik';
+import { Formik } from "formik";
 import * as yup from "yup";
-import { Power } from '@mui/icons-material';
+import { Power } from "@mui/icons-material";
 
 const ProductSchema = yup.object().shape({
   productName: yup.string().required("Product name cannot be empty"),
@@ -24,8 +25,7 @@ const ProductSchema = yup.object().shape({
   ratedPower: yup.string().required("Please fill this field"),
   batteryVoltage: yup.string().required("Please fill this field"),
   MPPTVoltage: yup.string().required("Please fill this field"),
-
-})
+});
 
 const initialValuesProduct = {
   productName: "",
@@ -37,19 +37,20 @@ const initialValuesProduct = {
   ratedPower: "",
   batteryVoltage: "",
   MPPTVoltage: "",
-}
+};
 
 const ProductForm = () => {
+  const navigate = useNavigate();
   const { palette } = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
 
-  const handleFormSubmit = async(values, onSubmitProps) => {
+  const handleFormSubmit = async (values, onSubmitProps) => {
     // send form information with an image
     console.log(values);
     const formData = new FormData();
-        for (let value in values) {
-            formData.append(value, values[value]);
+    for (let value in values) {
+      formData.append(value, values[value]);
     }
     formData.append("imagePath", values.imagePath.name);
 
@@ -64,7 +65,7 @@ const ProductForm = () => {
     onSubmitProps.resetForm();
 
     if (savedProduct) {
-      console.log("product saved!");
+      navigate("/admin/products");
     }
   };
 
@@ -76,7 +77,11 @@ const ProductForm = () => {
       borderRadius="1.5rem"
       backgroundColor="#ffffff"
     >
-      <Typography fontWeight="bold" variant="h4" sx={{ mb: "1.5rem", textAlign:"center" }}>
+      <Typography
+        fontWeight="bold"
+        variant="h4"
+        sx={{ mb: "1.5rem", textAlign: "center" }}
+      >
         ADD PRODUCTS
       </Typography>
       <hr></hr>
@@ -87,53 +92,59 @@ const ProductForm = () => {
         validationSchema={ProductSchema}
       >
         {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-            setFieldValue,
-            resetForm,
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+          setFieldValue,
+          resetForm,
         }) => (
           <form onSubmit={handleSubmit}>
-            <Box 
+            <Box
               pt="20px"
-              display="grid" 
+              display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx = {{
-                  "& > div": { gridColumn : isNonMobileScreens ? undefined : "span 4"},      
+              sx={{
+                "& > div": {
+                  gridColumn: isNonMobileScreens ? undefined : "span 4",
+                },
               }}
             >
-              <TextField 
+              <TextField
                 label="Product Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.productName}
                 name="productName"
-                error={Boolean(touched.productName) && Boolean(errors.productName)}
-                helperText={(touched.productName) && (errors.productName)}
+                error={
+                  Boolean(touched.productName) && Boolean(errors.productName)
+                }
+                helperText={touched.productName && errors.productName}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField 
+              <TextField
                 label="Price"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.price}
                 name="price"
                 error={Boolean(touched.price) && Boolean(errors.price)}
-                helperText={(touched.price) && (errors.price)}
+                helperText={touched.price && errors.price}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField 
+              <TextField
                 label="Product Type"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.productType}
                 name="productType"
-                error={Boolean(touched.productType) && Boolean(errors.productType)}
-                helperText={(touched.productType) && (errors.productType)}
+                error={
+                  Boolean(touched.productType) && Boolean(errors.productType)
+                }
+                helperText={touched.productType && errors.productType}
                 sx={{ gridColumn: "span 4" }}
               />
               <Box
@@ -143,103 +154,119 @@ const ProductForm = () => {
                 p="1rem"
               >
                 <Dropzone
-                    acceptedFiles=".jpg,.jpeg,.png"
-                    multiple={false}
-                    onDrop={(acceptedFiles) =>
-                        setFieldValue("imagePath", acceptedFiles[0])
-                    }
+                  acceptedFiles=".jpg,.jpeg,.png"
+                  multiple={false}
+                  onDrop={(acceptedFiles) =>
+                    setFieldValue("imagePath", acceptedFiles[0])
+                  }
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <Box
+                      {...getRootProps()}
+                      border={`2px dashed ${palette.primary.main}`}
+                      p="1rem"
+                      sx={{ "&:hover": { cursor: "pointer" } }}
                     >
-                    {({ getRootProps, getInputProps }) => (
-                        <Box
-                        {...getRootProps()}
-                        border={`2px dashed ${palette.primary.main}`}
-                        p="1rem"
-                        sx={{ "&:hover": { cursor: "pointer" } }}
-                        >
-                        <input {...getInputProps()} />
-                        {!values.imagePath ? (
-                            <p>Add Picture Here</p>
-                        ) : (
-                            <FlexBox>
-                            <Typography>{values.imagePath.name}</Typography>
-                            <EditOutlinedIcon />
-                            </FlexBox>
-                        )}
-                        </Box>
-                    )}
+                      <input {...getInputProps()} />
+                      {!values.imagePath ? (
+                        <p>Add Picture Here</p>
+                      ) : (
+                        <FlexBox>
+                          <Typography>{values.imagePath.name}</Typography>
+                          <EditOutlinedIcon />
+                        </FlexBox>
+                      )}
+                    </Box>
+                  )}
                 </Dropzone>
               </Box>
-              <TextField 
+              <TextField
                 label="Description"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.description}
                 name="description"
-                error={Boolean(touched.description) && Boolean(errors.description)}
-                helperText={(touched.description) && (errors.description)}
+                error={
+                  Boolean(touched.description) && Boolean(errors.description)
+                }
+                helperText={touched.description && errors.description}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField 
+              <TextField
                 label="Category"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.category}
                 name="category"
                 error={Boolean(touched.category) && Boolean(errors.category)}
-                helperText={(touched.category) && (errors.category)}
+                helperText={touched.category && errors.category}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField 
+              <TextField
                 label="Rated Power"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.ratedPower}
                 name="ratedPower"
-                error={Boolean(touched.ratedPower) && Boolean(errors.ratedPower)}
-                helperText={(touched.ratedPower) && (errors.ratedPower)}
+                error={
+                  Boolean(touched.ratedPower) && Boolean(errors.ratedPower)
+                }
+                helperText={touched.ratedPower && errors.ratedPower}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField 
+              <TextField
                 label="Battery Voltage"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.batteryVoltage}
                 name="batteryVoltage"
-                error={Boolean(touched.batteryVoltage) && Boolean(errors.batteryVoltage)}
-                helperText={(touched.batteryVoltage) && (errors.batteryVoltage)}
+                error={
+                  Boolean(touched.batteryVoltage) &&
+                  Boolean(errors.batteryVoltage)
+                }
+                helperText={touched.batteryVoltage && errors.batteryVoltage}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField 
+              <TextField
                 label="MPPT Voltage"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.MPPTVoltage}
                 name="MPPTVoltage"
-                error={Boolean(touched.MPPTVoltage) && Boolean(errors.MPPTVoltage)}
-                helperText={(touched.MPPTVoltage) && (errors.MPPTVoltage)}
+                error={
+                  Boolean(touched.MPPTVoltage) && Boolean(errors.MPPTVoltage)
+                }
+                helperText={touched.MPPTVoltage && errors.MPPTVoltage}
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
             {/* BUTTONs */}
             <FlexBox gap="1rem">
-              <Button variant="outlined" color="primary"
-                  onClick={() => {resetForm();}}
-                  sx={{
-                      m: "2rem 0",
-                      p: "0.8rem",
-                      width: "8rem"
-                  }}
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  resetForm();
+                }}
+                sx={{
+                  m: "2rem 0",
+                  p: "0.8rem",
+                  width: "8rem",
+                }}
               >
-                  Clear
+                Clear
               </Button>
-              <Button type="submit" variant="contained" color="success"
-                  sx={{
-                      m: "2rem 0",
-                      p: "0.8rem",
-                      width: "8rem"
-                  }}
+              <Button
+                type="submit"
+                variant="contained"
+                color="success"
+                sx={{
+                  m: "2rem 0",
+                  p: "0.8rem",
+                  width: "8rem",
+                }}
               >
-                  ADD
+                ADD
               </Button>
             </FlexBox>
           </form>
@@ -247,6 +274,6 @@ const ProductForm = () => {
       </Formik>
     </Box>
   );
-}
+};
 
 export default ProductForm;

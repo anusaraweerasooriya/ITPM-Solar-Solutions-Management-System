@@ -1,6 +1,14 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, useTheme, useMediaQuery, Button, Stack, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  useTheme,
+  useMediaQuery,
+  Button,
+  Stack,
+  Modal,
+  Typography,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useGetAdminRuralProjectsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
@@ -17,7 +25,7 @@ const AdminRuralProjects = () => {
   const [openView, setOpenView] = React.useState(false);
   const handleOpen = () => setOpenView(true);
   const handleClose = () => setOpenView(false);
-  
+
   // values to be sent to backend
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
@@ -25,12 +33,15 @@ const AdminRuralProjects = () => {
   const [search, setSearch] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useGetAdminRuralProjectsQuery({
-    page,
-    pageSize,
-    sort: JSON.stringify(sort),
-    search,
-  });
+  const { data, isLoading } = useGetAdminRuralProjectsQuery(
+    {
+      page,
+      pageSize,
+      sort: JSON.stringify(sort),
+      search,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const columns = [
     {
@@ -84,8 +95,8 @@ const AdminRuralProjects = () => {
               size="small"
               onClick={handleOpen}
               sx={{
-                textTransform:"unset",
-                background:"#007bff"
+                textTransform: "unset",
+                background: "#007bff",
               }}
             >
               View
@@ -96,7 +107,7 @@ const AdminRuralProjects = () => {
               size="small"
               onClick={onClick}
               sx={{
-                textTransform:"unset",
+                textTransform: "unset",
               }}
             >
               Edit
@@ -107,7 +118,7 @@ const AdminRuralProjects = () => {
               size="small"
               onClick={onClick}
               sx={{
-                textTransform:"unset",
+                textTransform: "unset",
               }}
             >
               Delete
@@ -120,14 +131,14 @@ const AdminRuralProjects = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />    
-      
-      {isDesktop && (
-        <></>
-      )}
-      
+      <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />
 
-      <Box mt="20px" height="70vh" mb="10px"
+      {isDesktop && <></>}
+
+      <Box
+        mt="20px"
+        height="70vh"
+        mb="10px"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -153,8 +164,7 @@ const AdminRuralProjects = () => {
           },
         }}
       >
-
-        <DataGrid 
+        <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
           rows={(data && data.ruralProjects) || []}
@@ -185,16 +195,18 @@ const AdminRuralProjects = () => {
       </Button>
 
       <Modal open={openView} onClose={handleClose}>
-        <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          p: 4,
-        }}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Text in a modal
           </Typography>
@@ -203,7 +215,6 @@ const AdminRuralProjects = () => {
           </Typography>
         </Box>
       </Modal>
-
     </Box>
   );
 };
