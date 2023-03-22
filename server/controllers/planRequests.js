@@ -120,8 +120,7 @@ export const getRequestsByUser = async (req, res, next) => {
   try {
     const { user } = req.query;
     const userPendingRequests = await PlanRequest.find({
-      user: user,
-      status: "pending",
+      user,
     });
 
     res.status(200).json(userPendingRequests);

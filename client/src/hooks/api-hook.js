@@ -9,6 +9,7 @@ export const customApi = createApi({
     "AdminPlanRequests",
     "RuralProjects",
     "Users",
+    "UserRequests",
   ],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
@@ -40,6 +41,14 @@ export const customApi = createApi({
       query: () => "auth/users",
       providesTags: ["Users"],
     }),
+    getRequestByUserId: build.query({
+      query: ({ user }) => ({
+        url: "requests/getRequestsByUser",
+        method: "GET",
+        params: { user },
+      }),
+      providesTags: ["UserRequests"],
+    }),
   }),
 });
 
@@ -48,4 +57,5 @@ export const {
   useGetRuralProjectsQuery,
   useGetUsersQuery,
   useGetAdminPlanRequestsQuery,
+  useGetRequestByUserIdQuery,
 } = customApi;

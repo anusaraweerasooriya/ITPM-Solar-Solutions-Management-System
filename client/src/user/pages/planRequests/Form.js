@@ -26,7 +26,10 @@ const planRequestSchema = yup.object().shape({
     .email("invalid email")
     .required("This field cannot be empty"),
 
-  phone: yup.number().required("This field cannot be empty"),
+  phone: yup
+    .number()
+    .min(10, "Enter a valid phone  number")
+    .required("This field cannot be empty"),
 
   companyName: yup.string().required("This field cannot be empty"),
   companyAddress: yup.string().required("This field cannot be empty"),
