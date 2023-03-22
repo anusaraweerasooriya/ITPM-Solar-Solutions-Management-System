@@ -110,7 +110,7 @@ const navItems = [
   },
   {
     id: 14,
-    url: "",
+    url: "recentProjects",
     text: "Recent Projects",
     icon: <AccessTimeOutlined />,
   },

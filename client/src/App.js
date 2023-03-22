@@ -21,6 +21,8 @@ import DonateForm from "user/pages/ruralProjects/donateForm";
 import AdminDonations from "admin/pages/donations";
 
 import Projects from "user/pages/recentProjects/projects";
+import AdminRecentProjects from "admin/pages/recentProjects";
+import AddToRecentForm from "admin/pages/recentProjects/addToRecentForm";
 
 import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
@@ -54,7 +56,10 @@ function App() {
     <Route path="/admin/donations" element={isAdmin ? <AdminDonations /> : <Navigate to="/login" />} />,
   ];
 
-  const recentProjectRoutes = "";
+  const recentProjectRoutes = [
+    <Route path="/admin/recentProjects" element={isAdmin ? <AdminRecentProjects /> : <Navigate to="/login" />} />,
+    <Route path="/admin/addToRecent/:id" element={isAdmin ? <AddToRecentForm /> : <Navigate to="/login" />} />
+  ];
   const productRoutes = "";
 
   //============================ CLIENT ROUTES =========================

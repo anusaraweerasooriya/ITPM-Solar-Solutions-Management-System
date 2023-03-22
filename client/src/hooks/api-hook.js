@@ -4,7 +4,7 @@ import { REHYDRATE } from "redux-persist";
 export const customApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001/" }),
   reducerPath: "customApi",
-  tagTypes: ["AdminRuralProjects", "RuralProjects", "AdminDonations", "Users"],
+  tagTypes: ["AdminRuralProjects", "RuralProjects", "AdminDonations", "CompletedProjects", "Users"],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
       return action.payload[reducerPath];
@@ -31,6 +31,14 @@ export const customApi = createApi({
       }),
       providesTags: ["AdminDonations"],
     }),
+    getAdminCompletedProjects: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "recentProjects/completedProjects",
+        method: "GET",
+        params: { page, pageSize, sort, search }
+      }),
+      providesTags: ["CompletedProjects"],
+    }),
     getUsers: build.query({
       query: () => "auth/users",
       providesTags: ["Users"],
@@ -38,4 +46,4 @@ export const customApi = createApi({
   }),
 });
 
-export const { useGetAdminRuralProjectsQuery, useGetRuralProjectsQuery, useGetAdminDonationsQuery, useGetUsersQuery } = customApi;
+export const { useGetAdminRuralProjectsQuery, useGetRuralProjectsQuery, useGetAdminDonationsQuery, useGetAdminCompletedProjectsQuery, useGetUsersQuery } = customApi;
