@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { 
     Box, 
     useMediaQuery,
@@ -6,7 +5,9 @@ import {
     TextField,
     Typography,
     useTheme,
+    MenuItem,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import FlexBox from "admin/components/FlexBox";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -45,6 +46,7 @@ const initialValuesRuralProject = {
 
 const RuralProjectForm = () => {
     const { palette } = useTheme();
+    const navigate = useNavigate();
     const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
     const today = new Date().toISOString().split('T')[0];
     
@@ -67,7 +69,7 @@ const RuralProjectForm = () => {
         onSubmitProps.resetForm();
 
         if (savedProject) {
-            console.log("project saved!!!!!!!!!!!!!!!!!!");
+            navigate("/admin/ruralProjects")
         }
     };
 
@@ -130,6 +132,7 @@ const RuralProjectForm = () => {
                                 sx={{ gridColumn: "span 2" }}
                             />
                             <TextField 
+                                select
                                 label="Project Type"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
@@ -138,7 +141,10 @@ const RuralProjectForm = () => {
                                 error={Boolean(touched.projectType) && Boolean(errors.projectType)}
                                 helperText={(touched.projectType) && (errors.projectType)}
                                 sx={{ gridColumn: "span 2" }}
-                            />
+                            >
+                                <MenuItem value="Domestic">Domestic</MenuItem>
+                                <MenuItem value="Commercial">Commercial</MenuItem>
+                            </TextField>
                             <TextField
                                 label="Monthly Consumption"
                                 onBlur={handleBlur}
@@ -150,6 +156,7 @@ const RuralProjectForm = () => {
                                 sx={{ gridColumn: "span 2" }}
                             />
                             <TextField
+                                select
                                 label="Grid Type"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
@@ -158,7 +165,10 @@ const RuralProjectForm = () => {
                                 error={Boolean(touched.gridType) && Boolean(errors.gridType)}
                                 helperText={(touched.gridType) && (errors.gridType)}
                                 sx={{ gridColumn: "span 2" }}
-                            />
+                            >
+                                <MenuItem value="Off-grid">Off-grid</MenuItem>
+                                <MenuItem value="On-grid">On-grid</MenuItem>
+                            </TextField>
                             <TextField
                                 label="Estimated Initiation Date"
                                 type="date"

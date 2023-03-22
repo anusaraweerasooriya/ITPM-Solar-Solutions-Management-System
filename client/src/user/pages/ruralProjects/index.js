@@ -11,7 +11,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useNavigate } from "react-router-dom";
 import { useGetRuralProjectsQuery } from "hooks/api-hook";
 import SlideShow from "./carousel";
 
@@ -30,6 +31,12 @@ const Project = ({
   currentAllocation,
   status
 }) => {
+
+  const navigate = useNavigate();
+  const handleDonateClick = () => {
+    navigate('/donate/submit', { state: { id: _id, name: projectName } });
+  };
+
   return (
     <Card
       sx={{
@@ -41,7 +48,7 @@ const Project = ({
             sx={{
               height: "200px"
             }}
-            image={imagePath}
+            image={`http://localhost:5001/assets/${imagePath}`}
             title={location}
           />
           <CardContent>
@@ -53,17 +60,33 @@ const Project = ({
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions sx={{justifyContent: "center"}}>
-          <Button variant="contained" size="medium" color="error"
+        <CardActions> {/*sx={{justifyContent: "center"}}*/}
+          <Button variant="outlined" size="medium"
               sx={{
                   textTransform:"unset",
                   fontSize: "0.7rem",
+                  width: "8rem",
                   "&:hover": {
-                      cursor: "pointer",
+                      color: "#ffffff",
+                      background: "#4d547d"
                   },
               }}
           >
               Read more
+          </Button>
+          <Button variant="contained" size="medium" color="error"
+              startIcon={<FavoriteIcon />} 
+              onClick={handleDonateClick}
+              sx={{
+                  textTransform:"unset",
+                  fontSize: "0.7rem",
+                  width: "8rem",
+                  '& .MuiSvgIcon-root': {
+                    fontSize: '0.8rem'
+                  }
+              }}
+          >
+              Donate
           </Button>
         </CardActions>
     </Card>
