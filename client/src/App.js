@@ -130,25 +130,30 @@ function App() {
                 {recentProjectRoutes}
                 {productRoutes}
               </Route>
-              ) :() ) (isCustomer && (
-              <Route element={<ClientLayout />}>
-                {staticRoutes}
-                {dynamicRoutes}
-                {userProfileRoutes}
-                <Route
-                  path="/submitRequest"
-                  element={
-                    isCustomer ? <PlanRequest /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/pendingRequests"
-                  element={
-                    isCustomer ? <PendingRequests /> : <Navigate to="/login" />
-                  }
-                />
-              </Route>
-              ) ) :()
+              ) :() ){" "}
+              {isCustomer && (
+                <Route element={<ClientLayout />}>
+                  {staticRoutes}
+                  {dynamicRoutes}
+                  {userProfileRoutes}
+                  <Route
+                    path="/submitRequest"
+                    element={
+                      isCustomer ? <PlanRequest /> : <Navigate to="/login" />
+                    }
+                  />
+                  <Route
+                    path="/pendingRequests"
+                    element={
+                      isCustomer ? (
+                        <PendingRequests />
+                      ) : (
+                        <Navigate to="/login" />
+                      )
+                    }
+                  />
+                </Route>
+              )}
               <Route element={<ClientLayout />}>
                 <Route path="/" element={<Login />} />
                 <Route path="/login" element={<Login />} />
