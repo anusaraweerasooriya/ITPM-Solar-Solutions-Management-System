@@ -36,12 +36,7 @@ import PlanRequest from "user/pages/planRequests";
 import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
 
 function App() {
-  const user = useSelector((state) => state.auth.user);
-  let role;
-  if (user) {
-    role = user.role;
-    console.log(role);
-  }
+  const role = useSelector((state) => state.auth.role);
 
   const isAdmin = role === "admin";
   const isCustomer = role === "customer";
@@ -130,30 +125,25 @@ function App() {
                 {recentProjectRoutes}
                 {productRoutes}
               </Route>
-              ) :() ){" "}
-              {isCustomer && (
-                <Route element={<ClientLayout />}>
-                  {staticRoutes}
-                  {dynamicRoutes}
-                  {userProfileRoutes}
-                  <Route
-                    path="/submitRequest"
-                    element={
-                      isCustomer ? <PlanRequest /> : <Navigate to="/login" />
-                    }
-                  />
-                  <Route
-                    path="/pendingRequests"
-                    element={
-                      isCustomer ? (
-                        <PendingRequests />
-                      ) : (
-                        <Navigate to="/login" />
-                      )
-                    }
-                  />
-                </Route>
-              )}
+              ) :() ) (isCustomer ? (
+              <Route element={<ClientLayout />}>
+                {staticRoutes}
+                {dynamicRoutes}
+                {userProfileRoutes}
+                <Route
+                  path="/submitRequest"
+                  element={
+                    isCustomer ? <PlanRequest /> : <Navigate to="/login" />
+                  }
+                />
+                <Route
+                  path="/pendingRequests"
+                  element={
+                    isCustomer ? <PendingRequests /> : <Navigate to="/login" />
+                  }
+                />
+              </Route>
+              ):())
               <Route element={<ClientLayout />}>
                 <Route path="/" element={<Login />} />
                 <Route path="/login" element={<Login />} />

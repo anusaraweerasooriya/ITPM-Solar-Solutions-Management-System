@@ -104,6 +104,7 @@ const Form = (props) => {
           setLogin({
             user: logged.user,
             token: logged.token,
+            role: logged.user.role,
           })
         );
         if (logged.user.role === "admin") {

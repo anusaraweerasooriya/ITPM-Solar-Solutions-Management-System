@@ -333,7 +333,7 @@ const Navbar = () => {
             <Button
               variant="contained"
               size="medium"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/submitRequest")}
               sx={{
                 textTransform: "unset",
                 fontWeight: "bold",
