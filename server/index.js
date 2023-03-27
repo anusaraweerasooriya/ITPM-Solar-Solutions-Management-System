@@ -23,8 +23,6 @@ import projectRoutes from "./routes/projects.js";
 import recentProjectRoutes from "./routes/recentProjects.js";
 import requestRoutes from "./routes/requests.js";
 
-
-
 /* MIDDLEWARE CONFIGURATION =====================*/
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,8 +32,8 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
-app.use(bodyParser.json({ limit: "30mb", extended: false }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: false }));
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
@@ -55,7 +53,6 @@ const upload = multer({ storage });
 app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
 app.post("/createProduct", upload.single("imagePath"), createProduct);
 
-
 /* ROUTES =====================*/
 app.use("/auth", authRoutes);
 app.use("/projects", ruralRoutes);
@@ -65,7 +62,6 @@ app.use("/donations", donationRoutes);
 app.use("/projects", projectRoutes);
 app.use("/recentProjects", recentProjectRoutes);
 app.use("/requests", requestRoutes);
-
 
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
