@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import {
   Box,
@@ -11,15 +11,22 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useGetRequestByUserIdQuery } from "hooks/api-hook";
+import FormModal from "components/modals/FormModal";
+import UpdateForm from "./UpdateForm";
 
 const PendingRequests = () => {
   const user = useSelector((state) => state.auth.user._id);
   const { data } = useGetRequestByUserIdQuery({ user });
   const isNonMobileScreen = useMediaQuery("(min-width: 900px");
+  const [isForm, setIsForm] = useState(false);
 
   return (
     <Box m="2rem" mr="4rem" ml="4rem">
-      {" "}
+      {isForm && (
+        <FormModal setOpen={setIsForm} open={isForm}>
+          <UpdateForm />
+        </FormModal>
+      )}
       <Grid container spacing={2}>
         <Grid item xs={4}>
           {isNonMobileScreen && <Sidebar />}
@@ -61,6 +68,7 @@ const PendingRequests = () => {
                         variant="contained"
                         sx={{ mt: "1.5rem" }}
                         color="secondary"
+                        onClick={() => setIsForm(!isForm)}
                       >
                         Update
                       </Button>

@@ -173,7 +173,7 @@ export const updatePendingRequest = async (req, res, next) => {
     request.description = description;
   } catch (err) {
     const error = new HttpError("Something went wrong. Please try again.", 422);
-    return next(err);
+    return next(error);
   }
 
   try {
