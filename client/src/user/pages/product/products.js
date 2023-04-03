@@ -57,23 +57,32 @@ const Product = ({
         <CardActionArea>
           <CardMedia
             sx={{
-              height: "400px",
-              width: "350px",
+              height: "350px",
+              width: "340px",
               background: "cover",
+              boxShadow: "-20px -8px 10px 10px #616161"
             }}
             image={`http://localhost:5001/assets/${imagePath}`}
             title={productName}
           />
-          <CardContent>
+          <CardContent
+            sx={{
+              backgroundColor: "#1a237e",
+              boxShadow: "2px -1px 18px 2px #616161"
+            }}
+          >
             <Typography
               gutterBottom
               variant="h5"
               component="div"
               fontWeight="bold"
+              sx={{
+                color: "white",
+              }}
             >
               {productName}
             </Typography>
-            <Typography variant="h6" color="textSecondary" component="p">
+            <Typography variant="h6" color="textSecondary" component="p" fontWeight="bold" sx={{color: "red"}}>
               {productType}
             </Typography>
           </CardContent>
