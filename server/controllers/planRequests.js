@@ -112,16 +112,19 @@ export const getAdminRequestPlans = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     const error = new HttpError("Something went wrong! Please try again.", 404);
-    return next(err);
+    return next(error);
   }
 };
 
 export const getRequestsByUser = async (req, res, next) => {
   try {
     const { user } = req.query;
+
     const userPendingRequests = await PlanRequest.find({
+      status: "pending",
       user,
     });
+    console.log(userPendingRequests);
 
     res.status(200).json(userPendingRequests);
   } catch (err) {
@@ -130,7 +133,7 @@ export const getRequestsByUser = async (req, res, next) => {
   }
 };
 
-export const updatePendingRequest = async (res, req, next) => {
+export const updatePendingRequest = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -138,39 +141,40 @@ export const updatePendingRequest = async (res, req, next) => {
     );
   }
 
-  const {
-    clientName,
-    email,
-    phone,
-    type,
-    companyName,
-    companyAddress,
-    monthlyPowerConsumption,
-    gridType,
-    clientAddress,
-    description,
-  } = req.body;
-
-  const requestId = req.params.rid;
+  console.log(req.body);
 
   let request;
   try {
+    const {
+      clientName,
+      email,
+      phone,
+      type,
+      companyName,
+      companyAddress,
+      monthlyPowerConsumption,
+      gridType,
+      clientAddress,
+      description,
+    } = req.body;
+
+    const requestId = req.params.rid;
     request = await PlanRequest.findById(requestId);
+
+    request.clientName = clientName;
+    request.email = email;
+    request.phone = phone;
+    request.type = type;
+    request.companyName = companyName;
+    request.companyAddress = companyAddress;
+    request.monthlyPowerConsumption = monthlyPowerConsumption;
+    request.gridType = gridType;
+    request.clientAddress = clientAddress;
+    request.description = description;
   } catch (err) {
     const error = new HttpError("Something went wrong. Please try again.", 422);
     return next(error);
   }
-
-  request.clientName = clientName;
-  request.email = email;
-  request.phone = phone;
-  request.type = type;
-  request.companyName = companyName;
-  request.companyAddress = companyAddress;
-  request.monthlyPowerConsumption = monthlyPowerConsumption;
-  request.gridType = gridType;
-  request.clientAddress = clientAddress;
-  request.description = description;
 
   try {
     await request.save();

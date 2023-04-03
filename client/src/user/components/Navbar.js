@@ -333,7 +333,7 @@ const Navbar = () => {
             <Button
               variant="contained"
               size="medium"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/submitRequest")}
               sx={{
                 textTransform: "unset",
                 fontWeight: "bold",
@@ -399,7 +399,9 @@ const Navbar = () => {
                   onClose={handleClose}
                   anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
-                  <MenuItem onClick={() => navigate("/")}>Profile</MenuItem>
+                  <MenuItem onClick={() => navigate("/pendingRequests")}>
+                    Profile
+                  </MenuItem>
                   <MenuItem onClick={handleLogout}>Log Out</MenuItem>
                 </MenuComponent>
               </FlexBox>
