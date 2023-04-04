@@ -17,7 +17,7 @@ import Login from "user/pages/login";
 import AdminRuralProjects from "admin/pages/ruralProjects";
 import RuralProjectForm from "admin/pages/ruralProjects/ruralProjectForm";
 import RuralProjects from "user/pages/ruralProjects";
-import DonateForm from "user/pages/ruralProjects/donateForm";
+import DonateForm from "user/pages/donations/donateForm";
 import AdminDonations from "admin/pages/donations";
 
 import Projects from "user/pages/recentProjects/projects";

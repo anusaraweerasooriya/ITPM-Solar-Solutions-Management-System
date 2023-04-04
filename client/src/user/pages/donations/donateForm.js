@@ -14,7 +14,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useSelector } from "react-redux";
 import FlexBox from "admin/components/FlexBox";
 import * as yup from "yup";
-import PayPalButton from "../donations/paypalButton";
+import FormModal from "components/modals/FormModal";
+import PaymentOptions from "./paymentOptions";
 
 const donationSchema = yup.object().shape({
   fullName: yup.string().required("Name cannot be empty"),
@@ -62,11 +63,6 @@ const DonateForm = () => {
 
   const recaptchaHandler = (value) => {
     setCaptchaKey(value);
-  };
-
-  const donation = {
-    description: "description",
-    price: "8",
   };
 
   if (user) {
@@ -199,11 +195,11 @@ const DonateForm = () => {
               {!isOpen && (
                 <Tooltip title="You will be directed to the PayPal gateway">
                   <Button
-                    type="submit"
+                    //type="submit"
                     variant="contained"
                     color="success"
                     disabled={!captchaKey}
-                    // onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => setIsOpen(!isOpen)}
                     sx={{
                       m: "2rem 0",
                       p: "0.8rem",
@@ -214,7 +210,11 @@ const DonateForm = () => {
                   </Button>
                 </Tooltip>
               )}
-              {isOpen && <PayPalButton donation={donation} />}
+              {isOpen && 
+                <FormModal setOpen={setIsOpen} open={isOpen}>
+                  <PaymentOptions />
+                </FormModal>
+              }
             </FlexBox>
           </form>
         )}
@@ -224,3 +224,5 @@ const DonateForm = () => {
 };
 
 export default DonateForm;
+
+

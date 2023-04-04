@@ -23,7 +23,7 @@ const PendingRequests = () => {
   return (
     <Box m="2rem" mr="4rem" ml="4rem">
       {isForm && (
-        <FormModal setOpen={setIsForm} open={isForm}>
+        <FormModal setOpen={setIsForm} open={isForm} title="Update Pending Request">
           <UpdateForm />
         </FormModal>
       )}
