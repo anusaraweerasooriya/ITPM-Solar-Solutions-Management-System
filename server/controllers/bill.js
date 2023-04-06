@@ -176,7 +176,7 @@ export const getMonthlyConsumption = async (req, res, next) => {
     totalBill = totalPriceForElectricity + fixedCharge;
   }
   console.log(fixedCharge);
-  dailyBill.push({ avgUnitsPerMonth, totalBill });
+  dailyBill.push({ dailyUnits: avgUnitsPerMonth, dailyTotal: totalBill });
 
   let data;
   try {
