@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 
 const ChartBill = ({ chartData }) => {
-  const labels = chartData.dailyBill.map((data, index) => index);
+  const labels = chartData.dailyBill.map((data, index) => "day " + data.day);
+
+  const options = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: "Custom Chart Subtitle",
+      },
+    },
+  };
 
   const data = {
     labels: labels,
     datasets: [
       {
-        label: "My First dataset",
+        label: "Daily Bill Total",
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
         data: chartData.dailyBill.map((data) => data.dailyTotal),
@@ -19,7 +29,7 @@ const ChartBill = ({ chartData }) => {
 
   return (
     <div>
-      <Line data={data} />
+      <Line data={data} options={options} />
     </div>
   );
 };
