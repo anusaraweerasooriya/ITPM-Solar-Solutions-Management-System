@@ -193,9 +193,10 @@ export const getPendingRequestById = async (req, res, next) => {
   try {
     const { reqId } = req.query;
 
-    const request = await PlanRequest.findById({ reqId });
+    const request = await PlanRequest.findById(reqId);
     res.status(200).json(request);
   } catch (err) {
     const error = new HttpError("Failed fetch data! Please try again", 500);
+    return next(err);
   }
 };
