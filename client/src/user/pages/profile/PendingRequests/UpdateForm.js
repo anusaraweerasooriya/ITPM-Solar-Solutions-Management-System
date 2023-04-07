@@ -17,6 +17,8 @@ import { useSelector } from "react-redux";
 import FlexBox from "admin/components/FlexBox";
 import GridTypeModal from "user/pages/planRequests/GridTypeModal";
 import ErrorModal from "components/modals/ErrorModal";
+import { useGetPendingRequestByIdQuery } from "hooks/api-hook";
+import { useEffect } from "react";
 
 const planRequestSchema = yup.object().shape({
   clientName: yup.string().required("This field cannot be empty"),
@@ -50,7 +52,7 @@ const initialValues = {
   gridType: "",
 };
 
-const UpdateForm = () => {
+const UpdateForm = ({ reqId }) => {
   const navigate = useNavigate();
   const { palette } = useTheme();
   const isNonMobileScreen = useMediaQuery("(min-width:600px)");
@@ -60,11 +62,27 @@ const UpdateForm = () => {
   const [isGridModal, setIsGridModal] = useState(false);
   const userEmail = useSelector((state) => state.auth.user.email);
   const userName = useSelector((state) => state.auth.user.name);
+  const { data } = useGetPendingRequestByIdQuery(
+    { reqId },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  console.log(data);
+
+  // eslint-disable-next-line no-lone-blocks
+  if (data) {
+    initialValues.clientAddress = data.clientAddress;
+    initialValues.clientName = data.clientName;
+    initialValues.companyAddress = data.companyAddress;
+    initialValues.companyName = data.companyName;
+    initialValues.email = data.email;
+    initialValues.description = data.description;
+    initialValues.gridType = data.gridType;
+    initialValues.monthlyPowerConsumption = data.monthlyPowerConsumption;
+    initialValues.phone = data.phone;
+  }
+
   let type;
-
-  initialValues.email = userEmail;
-  initialValues.clientName = userName;
-
   const submitRequest = async (values, onSubmitProps) => {
     if (isCommercial) {
       type = "commercial";
@@ -74,11 +92,14 @@ const UpdateForm = () => {
 
     values.type = type;
     console.log(values);
-    const response = await fetch("http://localhost:5001/requests/requestPlan", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+    const response = await fetch(
+      `http://localhost:5001/requests/updateRequest/${reqId}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      }
+    );
 
     const responseData = await response.json();
 
