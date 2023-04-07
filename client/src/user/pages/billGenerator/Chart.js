@@ -10,7 +10,7 @@ const ChartBill = ({ chartData }) => {
     plugins: {
       title: {
         display: true,
-        text: "Custom Chart Subtitle",
+        text: "Daily Bill Value Increment",
       },
     },
   };
