@@ -1,4 +1,6 @@
 import RuralProject from "../models/RuralProject.js";
+import { HttpError } from "../models/HttpError.js";
+import { validationResult } from "express-validator";
 
 /* CREATE */
 export const createRuralProject = async (req, res) => {
@@ -90,3 +92,64 @@ export const getRuralProjects = async (req, res) => {
         res.status(409).json({ error: err.message });
     }
 };
+
+/* UPDATE */
+export const updateRuralProject = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(
+        new HttpError("Invalid inputs passed, please check your data", 403)
+      );
+    }
+  
+    console.log(req.body);
+  
+    let project;
+    try {
+        const {
+            projectName,
+            location,
+            projectType,
+            monthlyConsumption,
+            gridType,
+            estimInitiateDate,
+            estimEndDate,
+            estimTotalCost,
+            imagePath,
+            description,
+            currentAllocation,
+            status
+        } = req.body;
+  
+        const projectId = req.params.pid;  
+        project = await RuralProject.findById(projectId);
+    
+        project.projectName = projectName;
+        project.location = location;
+        project.projectType = projectType;
+        project.monthlyConsumption = monthlyConsumption;
+        project.gridType = gridType;
+        project.estimInitiateDate = estimInitiateDate;
+        project.estimEndDate = estimEndDate;
+        project.estimTotalCost = estimTotalCost;
+        project.imagePath = imagePath;
+        project.description = description;
+        project.currentAllocation = currentAllocation;
+        project.status = status;
+        } catch (err) {
+        const error = new HttpError("Something went wrong. Please try again.", 422);
+        return next(error);
+        }
+    
+        try {
+        await project.save();
+        } catch (err) {
+        const error = new HttpError(
+            "Something went wrong, could not update the project",
+            500
+        );
+        return next(error);
+        }
+    
+        res.status(200).json({ project });
+  };
