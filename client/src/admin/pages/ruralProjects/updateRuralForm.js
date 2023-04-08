@@ -67,7 +67,7 @@ const UpdateRuralForm = ({ projId }) => {
     { projId },
     { refetchOnMountOrArgChange: true }
   );
-
+console.log(projId);
 console.log(data);
 
 // eslint-disable-next-line no-lone-blocks
@@ -215,7 +215,7 @@ const handleFormSubmit = async (values, onSubmitProps) => {
               </TextField>
               <TextField
                 label="Estimated Initiation Date"
-                type="date"
+                //type="date"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.estimInitiateDate}
@@ -233,7 +233,7 @@ const handleFormSubmit = async (values, onSubmitProps) => {
               />
               <TextField
                 label="Estimated End Date"
-                type="date"
+                //type="date"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.estimEndDate}

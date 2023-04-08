@@ -14,16 +14,14 @@ import { useGetAdminRuralProjectsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
-import RuralProjectCards from "./ruralProjectCards";
 import FormModal from "components/modals/FormModal";
 import UpdateRuralForm from "./updateRuralForm";
 
 const AdminRuralProjects = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const isDesktop = useMediaQuery("(min-width: 1500px)");
   //update modal form
-  const [isForm, setIsForm] = useState(false);
+  const [isUpdateForm, setIsUpdateForm] = useState(false);
 
   //view modal
   const [openView, setOpenView] = React.useState(false);
@@ -109,16 +107,16 @@ const AdminRuralProjects = () => {
               variant="contained"
               color="secondary"
               size="small"
-              onClick={() => setIsForm(!isForm)}
+              onClick={() => setIsUpdateForm(!isUpdateForm)}
               sx={{
                 textTransform: "unset",
               }}
             >
               Edit
             </Button>
-            {isForm && (
-              <FormModal setOpen={setIsForm} open={isForm}>
-                <UpdateRuralForm projId={params.row} />
+            {isUpdateForm && (
+              <FormModal setOpen={setIsUpdateForm} open={isUpdateForm}>
+                <UpdateRuralForm projId={params.row._id} />
               </FormModal>
             )}
             <Button
@@ -140,14 +138,12 @@ const AdminRuralProjects = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      {isForm && (
-        <FormModal setOpen={setIsForm} open={isForm} title="Update Rural Project">
+      {isUpdateForm && (
+        <FormModal setOpen={setIsUpdateForm} open={isUpdateForm} title="Update Rural Project">
           <UpdateRuralForm />
         </FormModal>
       )}
       <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />
-
-      {isDesktop && <></>}
 
       <Box
         mt="20px"
