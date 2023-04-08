@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  Typography,
   Card,
   MenuItem,
   CardHeader,
@@ -16,26 +15,17 @@ import {
   Divider,
   Button,
 } from "@mui/material";
-import FlexBox from "admin/components/FlexBox";
-import {
-  LocalizationProvider,
-  DatePicker,
-  MobileDatePicker,
-  StaticDatePicker,
-  DesktopDatePicker,
-} from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 
-import { Formik, useFormikContext } from "formik";
+import dayjs from "dayjs";
+
+import { Formik } from "formik";
 import * as yup from "yup";
 import "react-datepicker/dist/react-datepicker.css";
 import BillTable from "./BillTable";
 import OverviewChart from "./OverviewChart";
 import { useSelector } from "react-redux";
 import { ResponsiveLine } from "@nivo/line";
+import ChartBill from "./Chart";
 
 const data = [
   {
@@ -382,8 +372,14 @@ const billGeneratorSchema = yup.object().shape({
     .string()
     .email("invalid email")
     .required("This field cannot be empty"),
-  noOfDays: yup.number().required(),
-  noOfUnits: yup.number().required(),
+  noOfDays: yup
+    .number()
+    .positive("This should be a positive number")
+    .required(),
+  noOfUnits: yup
+    .number()
+    .positive("This should be a positive number")
+    .required(),
 });
 
 const initialFormValues = {
@@ -396,21 +392,20 @@ const initialFormValues = {
 const BillGenerator = () => {
   const [isDays, setIsDays] = useState(true);
   const [isUnits, setIsUnits] = useState(true);
-  const [units, setUnits] = useState(0);
+
+  const [startDate, setStartDate] = useState(dayjs());
+  const [endDate, setEndDate] = useState(dayjs());
+  const [noDays, setNoDays] = useState(0);
 
   const [prevUnits, setPrevUnits] = useState(0);
   const [currUnits, setCurrUnits] = useState(0);
   const [noOfUnits, setNoOfUnits] = useState(0);
 
-  const [startDate, setStartDate] = useState(dayjs());
-  const [endDate, setEndDate] = useState(dayjs());
   const [billData, setBillData] = useState();
   const [isTable, setIsTable] = useState(false);
   const isNonMobileScreen = useMediaQuery("(min-width: 1000px)");
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.auth.user);
-
-  const formikRef = useRef(null);
 
   const currentReadingHandler = (event) => {
     const currValue = event.target.value;
@@ -421,21 +416,30 @@ const BillGenerator = () => {
     setPrevUnits(prevValue);
   };
 
+  useEffect(() => {
+    setNoOfUnits(currUnits - prevUnits);
+    initialFormValues.noOfUnits = noOfUnits;
+  }, [currUnits, noOfUnits, prevUnits]);
+
+  const startDateHandler = (event) => {
+    setStartDate(event.target.value);
+  };
+  const endDateHandler = (event) => {
+    setEndDate(event.target.value);
+  };
+
+  useEffect(() => {
+    const date1 = dayjs(endDate);
+    const date2 = dayjs(startDate);
+
+    setNoDays(date1.diff(date2, "day"));
+
+    initialFormValues.noOfDays = noDays;
+  }, [endDate, noDays, startDate]);
+
   if (isAuth) {
     initialFormValues.email = user.email;
   }
-  console.log(prevUnits && currUnits);
-  // const formRef = useRef(null);
-  // useEffect(() => {
-  //   console.log(formRef.current.handleChange.);
-  // }, [formRef.values]);
-
-  // useEffect(() => {
-  //   // Check if setFieldValue is available before using it
-  //   if (setFieldValue) {
-  //     setFieldValue("noOfDays", currUnits - prevUnits);
-  //   }
-  // }, [setFieldValue]);
 
   const generateBill = async (values, onSubmitProps) => {
     console.log(values);
@@ -466,13 +470,7 @@ const BillGenerator = () => {
       console.log(error);
     }
   };
-  if (prevUnits && currUnits) {
-  }
 
-  const noOfUnitsHandler = (event) => {
-    event.target.value = currUnits - prevUnits;
-  };
-  console.log(prevUnits, currUnits, currUnits - prevUnits);
   return (
     <Box>
       <Box
@@ -486,7 +484,6 @@ const BillGenerator = () => {
           onSubmit={handleFormSubmit}
           initialValues={initialFormValues}
           validationSchema={billGeneratorSchema}
-          innerRef={formikRef}
         >
           {({
             values,
@@ -587,26 +584,32 @@ const BillGenerator = () => {
                         isDays={isDays}
                         setIsDays={setIsDays}
                       />
-                      <Box mt="2rem" mb="2rem">
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DemoContainer
-                            components={["DatePicker", "DatePicker", "", ""]}
-                          >
-                            <DemoItem label="Current Reading Date">
-                              <DatePicker
-                                defaultValue={dayjs("2022-04-17")}
-                                disabled={isDays}
-                              />
-                            </DemoItem>
-                            <DemoItem label="Last Reading Date">
-                              <DatePicker
-                                defaultValue={dayjs("2022-04-17")}
-                                disabled={isDays}
-                              />
-                            </DemoItem>
-                          </DemoContainer>
-                        </LocalizationProvider>
-                      </Box>
+
+                      <TextField
+                        label="Prev Reading Date"
+                        type="date"
+                        onChange={startDateHandler}
+                        disabled={isDays}
+                        size="medium"
+                        defaultValue={dayjs(values.someDate).format(
+                          "YYYY-MM-DD"
+                        )}
+                        color="success"
+                        sx={{ width: "100%", mt: "2rem" }}
+                      />
+
+                      <TextField
+                        label="Current Reading Date"
+                        type="date"
+                        onChange={endDateHandler}
+                        disabled={isDays}
+                        size="medium"
+                        defaultValue={dayjs(values.someDate).format(
+                          "YYYY-MM-DD"
+                        )}
+                        color="success"
+                        sx={{ width: "100%", mt: "2rem" }}
+                      />
 
                       <TextField
                         label="Number of days"
@@ -617,12 +620,11 @@ const BillGenerator = () => {
                         name="noOfDays"
                         size="medium"
                         color="success"
-                        disabled={!isDays}
                         error={
                           Boolean(touched.noOfDays) && Boolean(errors.noOfDays)
                         }
                         helperText={touched.noOfDays && errors.noOfDays}
-                        sx={{ width: "100%" }}
+                        sx={{ width: "100%", mt: "2rem" }}
                       />
                     </CardContent>
                   </Card>
@@ -737,73 +739,20 @@ const BillGenerator = () => {
         <Box m="1rem">
           <Divider sx={{ backgroundColor: "black" }} />
         </Box>
-        <Box height={isTable && "75vh"}>
-          {isTable && <OverviewChart chartData={billData} />}
-          {/* <ResponsiveLine
-            data={data}
-            margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-            xScale={{ type: "point" }}
-            yScale={{
-              type: "linear",
-              min: "auto",
-              max: "auto",
-              stacked: true,
-              reverse: false,
-            }}
-            yFormat=" >-.2f"
-            axisTop={null}
-            axisRight={null}
-            axisBottom={{
-              orient: "bottom",
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              legend: "transportation",
-              legendOffset: 36,
-              legendPosition: "middle",
-            }}
-            axisLeft={{
-              orient: "left",
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              legend: "count",
-              legendOffset: -40,
-              legendPosition: "middle",
-            }}
-            pointSize={10}
-            pointColor={{ theme: "background" }}
-            pointBorderWidth={2}
-            pointBorderColor={{ from: "serieColor" }}
-            pointLabelYOffset={-12}
-            useMesh={true}
-            legends={[
-              {
-                anchor: "bottom-right",
-                direction: "column",
-                justify: false,
-                translateX: 100,
-                translateY: 0,
-                itemsSpacing: 0,
-                itemDirection: "left-to-right",
-                itemWidth: 80,
-                itemHeight: 20,
-                itemOpacity: 0.75,
-                symbolSize: 12,
-                symbolShape: "circle",
-                symbolBorderColor: "rgba(0, 0, 0, .5)",
-                effects: [
-                  {
-                    on: "hover",
-                    style: {
-                      itemBackground: "rgba(0, 0, 0, .03)",
-                      itemOpacity: 1,
-                    },
-                  },
-                ],
-              },
-            ]}
-          /> */}
+        <Box
+          height={isTable && "80vh"}
+          sx={{
+            position: "relative",
+            width: "80vw",
+            mt: "2rem",
+            mb: "2rem",
+            ml: "3rem",
+          }}
+        >
+          {isTable && <ChartBill chartData={billData} />}
+        </Box>
+        <Box mt="2rem">
+          <Divider sx={{ backgroundColor: "none", mt: "3rem" }} />
         </Box>
       </Box>
     </Box>

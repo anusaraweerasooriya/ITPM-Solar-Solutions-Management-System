@@ -16,12 +16,15 @@ import UpdateForm from "./UpdateForm";
 
 const PendingRequests = () => {
   const user = useSelector((state) => state.auth.user._id);
-  const { data } = useGetRequestByUserIdQuery({ user });
+  const { data } = useGetRequestByUserIdQuery(
+    { user },
+    { refetchOnMountOrArgChange: true }
+  );
   const isNonMobileScreen = useMediaQuery("(min-width: 900px");
   const [isForm, setIsForm] = useState(false);
 
   return (
-    <Box m="2rem" mr="4rem" ml="4rem">
+    <Box m="2rem" mr="4rem" ml="4rem"
       {isForm && (
         <FormModal setOpen={setIsForm} open={isForm} title="Update Pending Request">
           <UpdateForm />
@@ -72,6 +75,11 @@ const PendingRequests = () => {
                       >
                         Update
                       </Button>
+                      {isForm && (
+                        <FormModal setOpen={setIsForm} open={isForm}>
+                          <UpdateForm reqId={_id} />
+                        </FormModal>
+                      )}
                       <Button
                         size="large"
                         variant="contained"
