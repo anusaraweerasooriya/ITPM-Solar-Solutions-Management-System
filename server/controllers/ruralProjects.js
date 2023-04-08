@@ -152,4 +152,19 @@ export const updateRuralProject = async (req, res, next) => {
         }
     
         res.status(200).json({ project });
+};
+
+
+export const getRuralProjectById = async (req, res, next) => {
+    try {
+      const { projId } = req.query;
+      //const projId = "642c505dadf8308c4a5d0aae";
+
+      const project = await RuralProject.findById(projId);
+      res.status(200).json(project);
+    } catch (err) {
+      const error = new HttpError("Failed fetch data! Please try again", 500);
+      return next(err);
+    }
   };
+

@@ -15,11 +15,15 @@ import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
 import RuralProjectCards from "./ruralProjectCards";
+import FormModal from "components/modals/FormModal";
+import UpdateRuralForm from "./updateRuralForm";
 
 const AdminRuralProjects = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isDesktop = useMediaQuery("(min-width: 1500px)");
+  //update modal form
+  const [isForm, setIsForm] = useState(false);
 
   //view modal
   const [openView, setOpenView] = React.useState(false);
@@ -105,13 +109,18 @@ const AdminRuralProjects = () => {
               variant="contained"
               color="secondary"
               size="small"
-              onClick={onClick}
+              onClick={() => setIsForm(!isForm)}
               sx={{
                 textTransform: "unset",
               }}
             >
               Edit
             </Button>
+            {isForm && (
+              <FormModal setOpen={setIsForm} open={isForm}>
+                <UpdateRuralForm projId={params.row} />
+              </FormModal>
+            )}
             <Button
               variant="contained"
               color="error"
@@ -131,6 +140,11 @@ const AdminRuralProjects = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
+      {isForm && (
+        <FormModal setOpen={setIsForm} open={isForm} title="Update Rural Project">
+          <UpdateRuralForm />
+        </FormModal>
+      )}
       <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />
 
       {isDesktop && <></>}
