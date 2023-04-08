@@ -143,7 +143,7 @@ export const getMonthlyConsumption = async (req, res, next) => {
   ];
 
   let updatedBill;
-  if (dailyBill.length < 30) {
+  if (dailyBill) {
     console.log("length: ", dailyBill.length);
     const period = parseFloat((30.0 / dailyBill.length).toFixed(2));
     console.log("period", period);
@@ -176,7 +176,11 @@ export const getMonthlyConsumption = async (req, res, next) => {
     totalBill = totalPriceForElectricity + fixedCharge;
   }
   console.log(fixedCharge);
-  dailyBill.push({ avgUnitsPerMonth, totalBill });
+  dailyBill.push({
+    dailyUnits: avgUnitsPerMonth,
+    dailyTotal: totalBill,
+    day: "last",
+  });
 
   let data;
   try {

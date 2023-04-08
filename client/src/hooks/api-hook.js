@@ -11,6 +11,7 @@ export const customApi = createApi({
     "RuralProjects",
     "Users",
     "UserRequests",
+    "PendingRequestById",
     "AdminDonations",
     "CompletedProjects",
     "Products",
@@ -81,6 +82,14 @@ export const customApi = createApi({
       }),
       providesTags: ["UserRequests"],
     }),
+    getPendingRequestById: build.query({
+      query: ({ reqId }) => ({
+        url: "requests/getPendingRequestById",
+        method: "GET",
+        params: { reqId },
+      }),
+      providesTags: ["PendingRequestById"],
+    }),
   }),
 });
 
@@ -94,4 +103,5 @@ export const {
   useGetAdminCompletedProjectsQuery,
   useGetAdminProductsQuery,
   useGetProductsQuery,
+  useGetPendingRequestByIdQuery,
 } = customApi;
