@@ -18,12 +18,12 @@ const FormModal = (prop) => {
   return (
     <div>
       <Dialog open={prop.open} onClose={prop.setOpen}>
-        <DialogTitle>Update Pending Request</DialogTitle>
+        <DialogTitle fontWeight="bold">{prop.title}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: "0.5rem" }}>{prop.children}</Box>
         </DialogContent>
         <DialogActions>
-          <Button size="medium" variant="contained" onClick={handleClose}>
+          <Button size="medium" variant="outlined" onClick={handleClose}>
             Cancel
           </Button>
         </DialogActions>
