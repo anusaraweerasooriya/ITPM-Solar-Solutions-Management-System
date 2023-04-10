@@ -67,8 +67,7 @@ const UpdateRuralForm = ({ projId }) => {
     { projId },
     { refetchOnMountOrArgChange: true }
   );
-console.log(projId);
-console.log(data);
+  console.log(projId)
 
 // eslint-disable-next-line no-lone-blocks
 if (data) {
@@ -95,7 +94,7 @@ const handleFormSubmit = async (values, onSubmitProps) => {
   formData.append("imagePath", values.imagePath.name);
 
   const savedUserResponse = await fetch(
-    `http://localhost:5001/projects/updateRuralProject/${projId}`,
+    `http://localhost:5001/updateRuralProject/${projId}`,
     {
       method: "PATCH",
       body: formData,

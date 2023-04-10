@@ -10,7 +10,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import authRoutes from "./routes/auth.js";
-import { createRuralProject } from "./controllers/ruralProjects.js";
+import { createRuralProject, updateRuralProject } from "./controllers/ruralProjects.js";
 import ruralRoutes from "./routes/ruralProjects.js";
 import donationRoutes from "./routes/donations.js";
 import billRoutes from "./routes/bill.js";
@@ -51,6 +51,7 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILE UPLOAD ================================= */
 app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
+app.patch("/updateRuralProject/:pid", upload.single("imagePath"), updateRuralProject);
 app.post("/createProduct", upload.single("imagePath"), createProduct);
 
 /* ROUTES =====================*/

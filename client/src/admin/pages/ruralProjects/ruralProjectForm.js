@@ -61,7 +61,7 @@ const RuralProjectForm = () => {
       formData.append(value, values[value]);
     }
     formData.append("imagePath", values.imagePath.name);
-
+    console.log(formData)
     const savedUserResponse = await fetch(
       "http://localhost:5001/ruralproject",
       {
