@@ -197,6 +197,46 @@ export const getPendingRequestById = async (req, res, next) => {
     res.status(200).json(request);
   } catch (err) {
     const error = new HttpError("Failed fetch data! Please try again", 500);
-    return next(err);
+    return next(error);
   }
+};
+
+export const deletePendingRequest = async (req, res, next) => {
+  const reqId = req.params.reqId;
+
+  let request;
+  try {
+    request = await PlanRequest.findById(reqId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not delete the request",
+      500
+    );
+    return next(error);
+  }
+
+  if (!request) {
+    const error = new HttpError("We could not find a place for given id", 404);
+    return next(error);
+  }
+
+  if (request.user !== req.body.user) {
+    const error = new HttpError(
+      "You are not allowed to delete this request.",
+      401
+    );
+    return next(error);
+  }
+
+  try {
+    await PlanRequest.deleteOne({ _id: reqId });
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong. Could'nt delete the request.",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ message: "Request deleted successfully!" });
 };
