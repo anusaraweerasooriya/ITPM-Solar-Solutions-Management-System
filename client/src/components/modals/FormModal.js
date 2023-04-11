@@ -28,7 +28,8 @@ const FormModal = (prop) => {
           },
         }}
       >
-        <DialogTitle fontWeight="bold">{prop.title}</DialogTitle>
+        <DialogTitle>Update pending request</DialogTitle>
+
         <DialogContent>
           <Box sx={{ mt: "0.5rem" }}>{prop.children}</Box>
         </DialogContent>

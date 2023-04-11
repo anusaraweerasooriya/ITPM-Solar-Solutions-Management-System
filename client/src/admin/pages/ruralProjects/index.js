@@ -14,12 +14,15 @@ import { useGetAdminRuralProjectsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
-import RuralProjectCards from "./ruralProjectCards";
+import FormModal from "components/modals/FormModal";
+import UpdateRuralForm from "./updateRuralForm";
 
 const AdminRuralProjects = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const isDesktop = useMediaQuery("(min-width: 1500px)");
+  //update modal form
+  const [isUpdateForm, setIsUpdateForm] = useState(false);
+  const [ruralProjId, setRuralProjId] = useState("");
 
   //view modal
   const [openView, setOpenView] = React.useState(false);
@@ -76,7 +79,7 @@ const AdminRuralProjects = () => {
       renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
     {
-      field: "action",
+      field: "actions",
       headerName: "Actions",
       width: 250,
       sortable: false,
@@ -86,6 +89,12 @@ const AdminRuralProjects = () => {
         const onClick = (e) => {
           const currentRow = params.row;
           return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        const onClickUpdate = (e) => {
+          const currentRow = params.row;
+          setRuralProjId(currentRow._id);
+          setIsUpdateForm(!isUpdateForm);
         };
 
         return (
@@ -105,13 +114,18 @@ const AdminRuralProjects = () => {
               variant="contained"
               color="secondary"
               size="small"
-              onClick={onClick}
+              onClick={onClickUpdate}
               sx={{
                 textTransform: "unset",
               }}
             >
               Edit
             </Button>
+            {isUpdateForm && (
+              <FormModal setOpen={setIsUpdateForm} open={isUpdateForm}>
+                <UpdateRuralForm projId={ruralProjId} />
+              </FormModal>
+            )}
             <Button
               variant="contained"
               color="error"
@@ -131,9 +145,12 @@ const AdminRuralProjects = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
+      {isUpdateForm && (
+        <FormModal setOpen={setIsUpdateForm} open={isUpdateForm} title="Update Rural Project">
+          <UpdateRuralForm />
+        </FormModal>
+      )}
       <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />
-
-      {isDesktop && <></>}
 
       <Box
         mt="20px"

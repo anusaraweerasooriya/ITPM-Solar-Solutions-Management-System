@@ -1,98 +1,122 @@
+import React, { useState } from "react";
 import {
   Box,
-  useMediaQuery,
   Button,
   TextField,
+  useMediaQuery,
   Typography,
   useTheme,
+  FormControlLabel,
+  Switch,
   MenuItem,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import Dropzone from "react-dropzone";
-import FlexBox from "admin/components/FlexBox";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import FlexBox from "admin/components/FlexBox";
+import GridTypeModal from "user/pages/planRequests/GridTypeModal";
+import ErrorModal from "components/modals/ErrorModal";
+import { useEffect } from "react";
+import { useGetRuralProjectByIdQuery } from "hooks/api-hook";
+import Dropzone from "react-dropzone";
 
 const ruralProjectSchema = yup.object().shape({
-  projectName: yup.string().required("Project name cannot be empty"),
-  location: yup.string().required("Location cannot be empty"),
-  projectType: yup.string().required("Please select project type"),
-  monthlyConsumption: yup
-    .number()
-    .required("Monthly consumption amount cannot be empty"),
-  gridType: yup.string().required("Please select grid type"),
-  estimInitiateDate: yup
-    .date()
-    .required("Please select estimated initiation date"),
-  estimEndDate: yup.date().required("Please select estimated end date"),
-  estimTotalCost: yup.number().required("Estimated total cost cannot be empty"),
-  imagePath: yup.string(),
-  description: yup.string(),
-  currentAllocation: yup.number(),
-  status: yup.string(),
+    projectName: yup.string().required("Project name cannot be empty"),
+    location: yup.string().required("Location cannot be empty"),
+    projectType: yup.string().required("Please select project type"),
+    monthlyConsumption: yup
+        .number()
+        .required("Monthly consumption amount cannot be empty"),
+    gridType: yup.string().required("Please select grid type"),
+    estimInitiateDate: yup
+        .date()
+        .required("Please select estimated initiation date"),
+    estimEndDate: yup.date().required("Please select estimated end date"),
+    estimTotalCost: yup.number().required("Estimated total cost cannot be empty"),
+    imagePath: yup.string(),
+    description: yup.string(),
+    currentAllocation: yup.number(),
+    status: yup.string(),
 });
 
 const initialValuesRuralProject = {
-  projectName: "",
-  location: "",
-  projectType: "",
-  monthlyConsumption: "",
-  gridType: "",
-  estimInitiateDate: "",
-  estimEndDate: "",
-  estimTotalCost: "",
-  imagePath: "",
-  description: "",
-  currentAllocation: 0,
-  status: "Pending",
+    projectName: "",
+    location: "",
+    projectType: "",
+    monthlyConsumption: "",
+    gridType: "",
+    estimInitiateDate: "",
+    estimEndDate: "",
+    estimTotalCost: "",
+    imagePath: "",
+    description: "",
+    currentAllocation: "",
+    status: "",
 };
 
-const RuralProjectForm = () => {
-  const { palette } = useTheme();
+const UpdateRuralForm = ({ projId }) => {
   const navigate = useNavigate();
-  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
+  const isNonMobileScreen = useMediaQuery("(min-width:600px)");
   const today = new Date().toISOString().split("T")[0];
+  const { palette } = useTheme();
+  const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const { data } = useGetRuralProjectByIdQuery(
+    { projId },
+    { refetchOnMountOrArgChange: true }
+  );
+  console.log(projId)
 
-  const handleFormSubmit = async (values, onSubmitProps) => {
-    //send form info with an image
-    const formData = new FormData();
-    for (let value in values) {
-      formData.append(value, values[value]);
-    }
-    formData.append("imagePath", values.imagePath.name);
-    console.log(formData)
-    const savedUserResponse = await fetch(
-      "http://localhost:5001/ruralproject",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const savedProject = await savedUserResponse.json();
-    onSubmitProps.resetForm();
+// eslint-disable-next-line no-lone-blocks
+if (data) {
+    initialValuesRuralProject.projectName = data.projectName;
+    initialValuesRuralProject.location = data.location;
+    initialValuesRuralProject.projectType = data.projectType;
+    initialValuesRuralProject.monthlyConsumption = data.monthlyConsumption;
+    initialValuesRuralProject.gridType = data.gridType;
+    initialValuesRuralProject.estimInitiateDate = data.estimInitiateDate;
+    initialValuesRuralProject.estimEndDate = data.estimEndDate;
+    initialValuesRuralProject.estimTotalCost = data.estimTotalCost;
+    initialValuesRuralProject.imagePath = data.imagePath;
+    initialValuesRuralProject.description = data.description;
+    initialValuesRuralProject.currentAllocation = data.currentAllocation;
+    initialValuesRuralProject.status = data.status;
+}
 
-    if (savedProject) {
-      navigate("/admin/ruralProjects");
+const handleFormSubmit = async (values, onSubmitProps) => {
+  //send form info with an image
+  const formData = new FormData();
+  for (let value in values) {
+    formData.append(value, values[value]);
+  }
+  formData.append("imagePath", values.imagePath.name);
+
+  const savedUserResponse = await fetch(
+    `http://localhost:5001/updateRuralProject/${projId}`,
+    {
+      method: "PATCH",
+      body: formData,
     }
-  };
+  );
+  const savedProject = await savedUserResponse.json();
+  onSubmitProps.resetForm();
+
+  if (savedProject) {
+    navigate("/admin/ruralProjects");
+  }
+};
 
   return (
-    <Box
-      width={isNonMobileScreens ? "50%" : "93%"}
-      p="3rem"
-      m="2rem auto"
-      borderRadius="1.5rem"
-      backgroundColor="#ffffff"
-    >
+    <>
       <Typography
         fontWeight="bold"
         variant="h4"
-        sx={{ mb: "1.5rem", textAlign: "center" }}
+        sx={{ mb: "1rem", textAlign: "center" }}
       >
-        ADD RURAL PROJECT
+        UPDATE RURAL PROJECT
       </Typography>
-      <hr></hr>
 
       <Formik
         onSubmit={handleFormSubmit}
@@ -117,7 +141,7 @@ const RuralProjectForm = () => {
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
                 "& > div": {
-                  gridColumn: isNonMobileScreens ? undefined : "span 4",
+                  gridColumn: isNonMobileScreen ? undefined : "span 4",
                 },
               }}
             >
@@ -190,7 +214,7 @@ const RuralProjectForm = () => {
               </TextField>
               <TextField
                 label="Estimated Initiation Date"
-                type="date"
+                //type="date"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.estimInitiateDate}
@@ -208,7 +232,7 @@ const RuralProjectForm = () => {
               />
               <TextField
                 label="Estimated End Date"
-                type="date"
+                //type="date"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.estimEndDate}
@@ -232,6 +256,19 @@ const RuralProjectForm = () => {
                   Boolean(errors.estimTotalCost)
                 }
                 helperText={touched.estimTotalCost && errors.estimTotalCost}
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
+                label="Current Allocation"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.currentAllocation}
+                name="currentAllocation"
+                error={
+                  Boolean(touched.currentAllocation) &&
+                  Boolean(errors.currentAllocation)
+                }
+                helperText={touched.currentAllocation && errors.currentAllocation}
                 sx={{ gridColumn: "span 4" }}
               />
               <Box
@@ -279,42 +316,45 @@ const RuralProjectForm = () => {
                 helperText={touched.description && errors.description}
                 sx={{ gridColumn: "span 4" }}
               />
+              <TextField
+                label="Project Status"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.status}
+                name="status"
+                error={
+                  Boolean(touched.status) && Boolean(errors.status)
+                }
+                helperText={touched.status && errors.status}
+                sx={{ gridColumn: "span 4" }}
+              />
             </Box>
 
             {/* BUTTONs */}
-            <FlexBox gap="1rem">
+            <Box>
               <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => {
-                  resetForm();
-                }}
-                sx={{
-                  m: "2rem 0",
-                  p: "0.8rem",
-                  width: "8rem",
-                }}
-              >
-                Clear
-              </Button>
-              <Button
+                fullWidth
                 type="submit"
                 variant="contained"
                 color="success"
                 sx={{
                   m: "2rem 0",
-                  p: "0.8rem",
-                  width: "8rem",
+                  p: "1rem",
+                  borderRadius: "1.5rem",
+                  fontWeight: "bold",
+                  fontSize: "0.8rem",
+
+                  // "&:hover": { color: palette.primary.main },
                 }}
               >
-                ADD
+                Update Project
               </Button>
-            </FlexBox>
+            </Box>
           </form>
         )}
       </Formik>
-    </Box>
-  );
-};
+    </>
+  )
+}
 
-export default RuralProjectForm;
+export default UpdateRuralForm
