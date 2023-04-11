@@ -69,7 +69,7 @@ const PlanRequests = () => {
       renderCell: (params) => {
         const onClick = (e) => {
           const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
+          return alert(JSON.stringify(currentRow._id, null, 4));
         };
 
         return (
