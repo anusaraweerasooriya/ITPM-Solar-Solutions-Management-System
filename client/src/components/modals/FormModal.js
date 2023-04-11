@@ -18,7 +18,7 @@ const FormModal = (prop) => {
   return (
     <div>
       <Dialog open={prop.open} onClose={prop.setOpen}>
-        <DialogTitle>Update prnding request</DialogTitle>
+        <DialogTitle>Update pending request</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: "0.5rem" }}>{prop.children}</Box>
         </DialogContent>
