@@ -22,6 +22,7 @@ const AdminRuralProjects = () => {
   const navigate = useNavigate();
   //update modal form
   const [isUpdateForm, setIsUpdateForm] = useState(false);
+  const [ruralProjId, setRuralProjId] = useState("");
 
   //view modal
   const [openView, setOpenView] = React.useState(false);
@@ -78,7 +79,7 @@ const AdminRuralProjects = () => {
       renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
     {
-      field: "action",
+      field: "actions",
       headerName: "Actions",
       width: 250,
       sortable: false,
@@ -88,6 +89,12 @@ const AdminRuralProjects = () => {
         const onClick = (e) => {
           const currentRow = params.row;
           return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        const onClickUpdate = (e) => {
+          const currentRow = params.row;
+          setRuralProjId(currentRow._id);
+          setIsUpdateForm(!isUpdateForm);
         };
 
         return (
@@ -107,7 +114,7 @@ const AdminRuralProjects = () => {
               variant="contained"
               color="secondary"
               size="small"
-              onClick={() => setIsUpdateForm(!isUpdateForm)}
+              onClick={onClickUpdate}
               sx={{
                 textTransform: "unset",
               }}
@@ -116,7 +123,7 @@ const AdminRuralProjects = () => {
             </Button>
             {isUpdateForm && (
               <FormModal setOpen={setIsUpdateForm} open={isUpdateForm}>
-                <UpdateRuralForm projId={params.row._id} />
+                <UpdateRuralForm projId={ruralProjId} />
               </FormModal>
             )}
             <Button
