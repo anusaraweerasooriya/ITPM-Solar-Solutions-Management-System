@@ -22,6 +22,7 @@ const FormModal = (prop) => {
         onClose={prop.setOpen}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
+        overlayStyle={{ backgroundColor: "transparent" }}
         sx={{
           ".MuiDialog-root": {
             opacity: 0.1,

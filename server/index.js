@@ -10,7 +10,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import authRoutes from "./routes/auth.js";
-import { createRuralProject, updateRuralProject } from "./controllers/ruralProjects.js";
+import {
+  createRuralProject,
+  updateRuralProject,
+} from "./controllers/ruralProjects.js";
 import ruralRoutes from "./routes/ruralProjects.js";
 import donationRoutes from "./routes/donations.js";
 import billRoutes from "./routes/bill.js";
@@ -31,10 +34,11 @@ const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(cors());
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 /* FILE STORAGE =================================*/
@@ -51,7 +55,11 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILE UPLOAD ================================= */
 app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
-app.patch("/updateRuralProject/:pid", upload.single("imagePath"), updateRuralProject);
+app.patch(
+  "/updateRuralProject/:pid",
+  upload.single("imagePath"),
+  updateRuralProject
+);
 app.post("/createProduct", upload.single("imagePath"), createProduct);
 
 /* ROUTES =====================*/

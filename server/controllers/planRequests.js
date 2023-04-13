@@ -216,17 +216,23 @@ export const deletePendingRequest = async (req, res, next) => {
   }
 
   if (!request) {
-    const error = new HttpError("We could not find a place for given id", 404);
-    return next(error);
-  }
-
-  if (request.user !== req.body.user) {
     const error = new HttpError(
-      "You are not allowed to delete this request.",
-      401
+      "We could not find a request for given id",
+      404
     );
     return next(error);
   }
+
+  // const { user } = req.body;
+  // console.log(user);
+  // console.log(request.user);
+  // if (request.user !== user) {
+  //   const error = new HttpError(
+  //     "You are not allowed to delete this request.",
+  //     401
+  //   );
+  //   return next(error);
+  // }
 
   try {
     await PlanRequest.deleteOne({ _id: reqId });

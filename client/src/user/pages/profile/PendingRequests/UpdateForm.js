@@ -12,13 +12,10 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import FlexBox from "admin/components/FlexBox";
 import GridTypeModal from "user/pages/planRequests/GridTypeModal";
 import ErrorModal from "components/modals/ErrorModal";
 import { useGetPendingRequestByIdQuery } from "hooks/api-hook";
-import { useEffect } from "react";
 
 const planRequestSchema = yup.object().shape({
   clientName: yup.string().required("This field cannot be empty"),
@@ -52,22 +49,17 @@ const initialValues = {
   gridType: "",
 };
 
-const UpdateForm = ({ reqId }) => {
-  const navigate = useNavigate();
+const UpdateForm = ({ reqId, refetch, setIsForm }) => {
   const { palette } = useTheme();
   const isNonMobileScreen = useMediaQuery("(min-width:600px)");
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const [isCommercial, setIsCommercial] = useState(true);
   const [isGridModal, setIsGridModal] = useState(false);
-  const userEmail = useSelector((state) => state.auth.user.email);
-  const userName = useSelector((state) => state.auth.user.name);
   const { data } = useGetPendingRequestByIdQuery(
     { reqId },
     { refetchOnMountOrArgChange: true }
   );
-
-  console.log(data);
 
   // eslint-disable-next-line no-lone-blocks
   if (data) {
@@ -91,7 +83,6 @@ const UpdateForm = ({ reqId }) => {
     }
 
     values.type = type;
-    console.log(values);
     const response = await fetch(
       `http://localhost:5001/requests/updateRequest/${reqId}`,
       {
@@ -108,15 +99,15 @@ const UpdateForm = ({ reqId }) => {
     }
 
     if (response.ok) {
-      if (responseData.savedRequest) {
+      if (responseData) {
         onSubmitProps.resetForm();
-        navigate("/pendingRequests");
+        refetch();
+        setIsForm(false);
       }
     }
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    console.log(values);
     try {
       await submitRequest(values, onSubmitProps);
     } catch (error) {
