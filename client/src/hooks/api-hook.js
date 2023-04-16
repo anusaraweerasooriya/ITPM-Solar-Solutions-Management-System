@@ -17,6 +17,7 @@ export const customApi = createApi({
     "Products",
     "AdminProducts",
     "RuralProjectById",
+    "ProductById",
   ],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
@@ -98,6 +99,14 @@ export const customApi = createApi({
         params: { projId },
       }),
       providesTags: ["RuralProjectById"],
+    }),
+    getProductById: build.query({
+      query: ({ productId }) => ({
+        url: "products/getProductById",
+        method: "GET",
+        params: { productId },
+      }),
+      providesTags: ["ProductById"],
     }),
   }),
 });
