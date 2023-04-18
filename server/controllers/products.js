@@ -51,7 +51,7 @@ export const getAdminProducts = async (req, res) => {
             };
             return sortFormatted;
         }
-        const sortFormatted = Boolean(sort) ? generateSort() : {}
+        const sortFormatted =  Boolean(sort) ? generateSort() : {}
 
         const products = await Product.find({
             $or: [
