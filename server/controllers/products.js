@@ -87,3 +87,24 @@ export const getProducts = async (req, res) => {
         res.status(409).json({ error: err.message });
     }
 };
+
+/*UPDATES */
+export const updateProduct = async (req, res) => {
+    const errors = validationResult(res);
+    if(!errors.isEmpty()) {
+        return next(
+            new HttpError("Invaild inputs passed, please check your data", 403)
+        );
+
+      /*  console.log(req.body);
+
+        let product;
+        try {
+            const {
+                
+            }
+        }catch (err) {
+            
+        }*/
+    }
+};
