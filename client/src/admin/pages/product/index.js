@@ -1,4 +1,4 @@
-import { useMediaQuery, Box, useTheme, Button, Stack } from "@mui/material";
+import { useMediaQuery, Box, useTheme, Button, Stack, List, ListItemButton, ListItemText, Collapse } from "@mui/material";
 import Header from "admin/components/Header";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,9 @@ import { useGetAdminProductsQuery } from "hooks/api-hook";
 import { DataGrid } from "@mui/x-data-grid";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 import ProductForm from "./productFrom";
+import SolarPanelsForm from "./solarPanelsForm";
+import BatteriesForm from "./BatteriesForm";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 const AdminProducts = () => {
   const theme = useTheme();
@@ -18,6 +21,10 @@ const AdminProducts = () => {
   const [pageSize, setPageSize] = useState(20);
   const [sort, setSort] = useState({});
   const [search, setSearch] = useState("");
+  const [open, setOpen] = React.useState(true);
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   const [searchInput, setSearchInput] = useState("");
   const { data, isLoading } = useGetAdminProductsQuery(
@@ -160,14 +167,27 @@ const AdminProducts = () => {
           }}
         />
       </Box>
-      <Button
-        variant="contained"
-        color="success"
-        size="small"
-        onClick={() => navigate("/admin/addProduct")}
-      >
-        Add inverter
-      </Button>
+      <ListItemButton 
+      variant="contained"
+      color="success"
+      size="small"
+      onClick={handleClick}>
+        <ListItemText primary="Add" />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List components="div" disablePadding>
+          <ListItemButton onClick={() => navigate("/admin/addProduct")}>
+            <ListItemText primary="Add Inverter" />
+          </ListItemButton>
+          <ListItemButton onClick={() => navigate("/admin/addSolarPanels")}>
+            <ListItemText primary="Add Solar Panels" />
+          </ListItemButton>
+          <ListItemButton onClick={() => navigate("/admin/addBatteries")}>
+            <ListItemText primary="Add Batteries" />
+          </ListItemButton>
+        </List>
+      </Collapse>
     </Box>
   );
 };
