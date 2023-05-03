@@ -12,7 +12,6 @@ import Dropzone from "react-dropzone";
 import { Formik } from 'formik';
 import React from 'react'
 import * as yup from "yup";
-import { TextFields } from '@mui/icons-material';
 import FlexBox from 'admin/components/FlexBox';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 
@@ -39,11 +38,12 @@ const initialValuesProduct = {
   maxCurrent: "",
   ratedPower: "",
 };
+
 const SolarPanelsForm = () => {
   const navigate = useNavigate();
   const { palette } = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
-  const today = new Date().toISOString().split("T")[1];
+  const today = new Date().toISOString().split("T")[0];
 
   const handleFormSubmit = async (values, onSubmitProps) => {
      // send form information with an image
@@ -214,33 +214,34 @@ const SolarPanelsForm = () => {
                   }
                   helperText={touched.maxVoltage && errors.maxVoltage}
                   sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                label="Max Current"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.maxCurrent}
-                name="maxCurrent"
-                error={
-                  Boolean(touched.maxCurrent) &&
-                  Boolean(errors.maxCurrent)
-                }
-                helperText={touched.maxCurrent && errors.maxCurrent}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                label="Rated Power "
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.ratedPower}
-                name="ratedPower"
-                error={
-                  Boolean(touched.ratedPower) && Boolean(errors.ratedPower)
-                }
-                helperText={touched.ratedPower && errors.ratedPower}
-                sx={{ gridColumn: "span 4" }}
-              />
+                />
+                <TextField
+                  label="Max Current"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.maxCurrent}
+                  name="maxCurrent"
+                  error={
+                    Boolean(touched.maxCurrent) &&
+                    Boolean(errors.maxCurrent)
+                  }
+                  helperText={touched.maxCurrent && errors.maxCurrent}
+                  sx={{ gridColumn: "span 4" }}
+                />
+                <TextField
+                  label="Rated Power "
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.ratedPower}
+                  name="ratedPower"
+                  error={
+                    Boolean(touched.ratedPower) && Boolean(errors.ratedPower)
+                  }
+                  helperText={touched.ratedPower && errors.ratedPower}
+                  sx={{ gridColumn: "span 4" }}
+                />
               </Box>
+              {/* BUTTONs */}
               <FlexBox gap="1rem">
                 <Button
                   variant="outlined"

@@ -13,6 +13,8 @@ export const createProduct = async (req, res) => {
             ratedPower,
             batteryVoltage,
             MPPTVoltage,
+            maxVoltage,
+            maxCurrent,
         } = req.body;
 
 
@@ -20,6 +22,8 @@ export const createProduct = async (req, res) => {
         features.push({ratedPower});
         features.push({batteryVoltage});
         features.push({MPPTVoltage});
+        features.push({maxVoltage});
+        features.push({maxCurrent});
 
         const newProduct = new Product({
             productName, 
@@ -39,7 +43,7 @@ export const createProduct = async (req, res) => {
 };
 
 /*CREATE SOLAR PANEL */
-/*export consr createSolarPanel = async (req, res) => {
+/*export const createSolarPanel = async (req, res) => {
     try {
         const {
             productName,
@@ -53,7 +57,25 @@ export const createProduct = async (req, res) => {
             ratedPower,
         } = req.body;
 
-        let features
+        let features = [];
+        features.push({maxVoltage});
+        features.push({maxCurrent});
+        features.push({ratedPower});
+
+        const newProduct = new Product({
+            productName, 
+            price, 
+            productType, 
+            imagePath, 
+            description,
+            category, 
+            features:features
+        });
+        const savedProduct = await newProduct.save();
+        res.status(201).json(savedProduct);
+
+    }catch (err) {
+        res.status(409).json({ error: err.message });
     }
 };*/
 
