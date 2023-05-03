@@ -1,6 +1,6 @@
 import Product from "../models/Product.js";
 
-/* CREATE PRODUCT */
+/* CREATE INVERTER PRODUCT */
 export const createProduct = async (req, res) => {
     try {
         const {
@@ -37,6 +37,25 @@ export const createProduct = async (req, res) => {
         res.status(409).json({ error: err.message });
     }
 };
+
+/*CREATE SOLAR PANEL */
+/*export consr createSolarPanel = async (req, res) => {
+    try {
+        const {
+            productName,
+            price,
+            productType,
+            imagePath,
+            description,
+            category,
+            maxVoltage,
+            maxCurrent,
+            ratedPower,
+        } = req.body;
+
+        let features
+    }
+};*/
 
 /* ADMIN DISPLAY */
 export const getAdminProducts = async (req, res) => {

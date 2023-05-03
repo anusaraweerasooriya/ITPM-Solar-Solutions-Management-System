@@ -82,7 +82,7 @@ const ProductForm = () => {
         variant="h4"
         sx={{ mb: "1.5rem", textAlign: "center" }}
       >
-        ADD PRODUCTS
+        ADD INVERTER
       </Typography>
       <hr></hr>
 
