@@ -14,7 +14,12 @@ export const createProduct = async (req, res) => {
             batteryVoltage,
             MPPTVoltage,
             maxVoltage,
-            maxCurrent,
+            maxCurrent,        
+            normalVoltage, 
+            normalCapacity, 
+            energy, 
+
+
         } = req.body;
 
 
@@ -24,6 +29,9 @@ export const createProduct = async (req, res) => {
         features.push({MPPTVoltage});
         features.push({maxVoltage});
         features.push({maxCurrent});
+        features.push({normalVoltage});
+        features.push({normalCapacity});
+        features.push({energy});
 
         const newProduct = new Product({
             productName, 
