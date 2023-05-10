@@ -8,9 +8,9 @@ const UserSchema = new mongoose.Schema(
       min: 2,
       max: 100,
     },
-    products: {
-      type: Map,
-      of: Number,
+    servicePack: {
+      type: String,
+      require: true,
     },
     serviceCharge: {
       type: Number,
