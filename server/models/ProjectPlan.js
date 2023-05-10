@@ -8,21 +8,21 @@ const UserSchema = new mongoose.Schema(
       min: 2,
       max: 100,
     },
-    email: {
+    products: {
+      type: Map,
+      of: Number,
+    },
+    serviceCharge: {
+      type: Number,
+      required: true,
+    },
+    totalCost: {
+      type: Number,
+      require: true,
+    },
+    description: {
       type: String,
       require: true,
-      max: 50,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      min: 7,
-    },
-    role: {
-      type: String,
-      enum: ["customer", "admin", "superadmin"],
-      default: "customer",
     },
   },
   { timestamps: true }
