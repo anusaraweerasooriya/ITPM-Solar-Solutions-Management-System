@@ -64,7 +64,7 @@ const Sidebar = () => {
             <Cloud fontSize="small" />
           </FavoriteBorderOutlinedIcon>
           <ListItemText>
-            <Typography variant="h5">Profile Details</Typography>
+            <Typography variant="h5">Donations</Typography>
           </ListItemText>
         </MenuItem>
         <Divider />
