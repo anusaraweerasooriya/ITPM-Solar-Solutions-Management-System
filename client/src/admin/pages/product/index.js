@@ -6,9 +6,6 @@ import ProductCards from "./productCards";
 import { useGetAdminProductsQuery } from "hooks/api-hook";
 import { DataGrid } from "@mui/x-data-grid";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
-import ProductForm from "./productFrom";
-import SolarPanelsForm from "./solarPanelsForm";
-import BatteriesForm from "./BatteriesForm";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 const AdminProducts = () => {
