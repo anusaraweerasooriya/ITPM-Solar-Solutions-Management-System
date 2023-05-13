@@ -3,29 +3,22 @@ import { useNavigate } from "react-router-dom";
 import {
   Box,
   useTheme,
-  useMediaQuery,
   Button,
   Stack,
-  Modal,
-  Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useGetAdminRuralProjectsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
-
-import FormModal from "components/modals/FormModal";
+import DeleteModal from "admin/components/DeleteModal";
 
 const AdminRuralProjects = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  //update modal form
-  const [isUpdateForm, setIsUpdateForm] = useState(false);
+  const [ruralProjId, setRuralProjId] = useState("");
 
-  //view modal
-  const [openView, setOpenView] = React.useState(false);
-  const handleOpen = () => setOpenView(true);
-  const handleClose = () => setOpenView(false);
+  //delete modal
+  const [isDeleteForm, setIsDeleteForm] = useState(false);
 
   // values to be sent to backend
   const [page, setPage] = useState(0);
@@ -89,12 +82,41 @@ const AdminRuralProjects = () => {
           return alert(JSON.stringify(currentRow, null, 4));
         };
 
+        const onClickDelete = (e) => {
+          const currentRow = params.row;
+          setRuralProjId(currentRow._id);
+          setIsDeleteForm(!isDeleteForm);
+        };
+
+        const handleDelete = async () => {
+          console.log(ruralProjId)
+          const response = await fetch(
+            `http://localhost:5001/projects/deleteRuralProject/${ruralProjId}`,
+            {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+      
+          const responseData = await response.json();
+
+          if (!response.ok) {
+            throw new Error(responseData.message);
+          }
+
+          if (response.ok) {
+            if (responseData.savedRequest) {
+              navigate("/admin/ruralProjects");
+            }
+          }
+        };
+
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
               size="small"
-              onClick={handleOpen}
+              onClick={onClick}
               sx={{
                 textTransform: "unset",
                 background: "#007bff",
@@ -117,13 +139,22 @@ const AdminRuralProjects = () => {
               variant="contained"
               color="error"
               size="small"
-              onClick={onClick}
+              onClick={() => setIsDeleteForm(!isDeleteForm)}
               sx={{
                 textTransform: "unset",
               }}
             >
               Delete
             </Button>
+            {isDeleteForm && (
+              <DeleteModal 
+                setOpen={setIsDeleteForm} 
+                open={isDeleteForm} 
+                title="Delete Rural Project"
+                body="Are you sure you want to delete this rural project?"
+                handleDelete={handleDelete}>
+              </DeleteModal>
+            )}
           </Stack>
         );
       },
@@ -192,28 +223,6 @@ const AdminRuralProjects = () => {
       >
         ADD
       </Button>
-
-      <Modal open={openView} onClose={handleClose}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
     </Box>
   );
 };
