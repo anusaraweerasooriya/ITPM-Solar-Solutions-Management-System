@@ -123,4 +123,5 @@ export const {
   useGetProductsQuery,
   useGetPendingRequestByIdQuery,
   useGetRuralProjectByIdQuery,
+  useGetProductByIdQuery,
 } = customApi;

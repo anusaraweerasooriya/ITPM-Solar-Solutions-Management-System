@@ -84,7 +84,7 @@ const AdminProducts = () => {
               variant="contained"
               color="secondary"
               size="small"
-              onClick={onClick}
+              onClick={() => navigate("/admin/updateInverter")}
               sx={{
                 textTransform: "unset",
               }}
