@@ -50,14 +50,9 @@ function App() {
   );
 
   const ruralProjectRoutes = [
-    <Route
-      path="/admin/ruralProjects"
-      element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />}
-    />,
-    <Route
-      path="/admin/addRuralProject"
-      element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />}
-    />,
+    <Route path="/admin/ruralProjects" element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />} />,
+    <Route path="/admin/addRuralProject" element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />} />,
+    <Route path="/ruralProject/admin/:id" element={isAdmin ? <RuralProject /> : <Navigate to="/login" />} />
   ];
 
   const donationRoutes = [
