@@ -33,9 +33,6 @@ const Project = ({
 }) => {
 
   const navigate = useNavigate();
-  const handleDonateClick = () => {
-    navigate('/donate/submit', { state: { id: _id, name: projectName } });
-  };
 
   return (
     <Card
@@ -62,6 +59,7 @@ const Project = ({
         </CardActionArea>
         <CardActions> {/*sx={{justifyContent: "center"}}*/}
           <Button variant="outlined" size="medium"
+              onClick={() => { navigate(`/ruralProject/${_id}`); }}
               sx={{
                   textTransform:"unset",
                   fontSize: "0.7rem",
@@ -75,8 +73,8 @@ const Project = ({
               Read more
           </Button>
           <Button variant="contained" size="medium" color="error"
-              startIcon={<FavoriteIcon />} 
-              onClick={handleDonateClick}
+              startIcon={<FavoriteIcon />}
+              onClick={ () => {navigate('/donate/submit', { state: { id: _id, name: projectName } });}}
               sx={{
                   textTransform:"unset",
                   fontSize: "0.7rem",

@@ -27,7 +27,7 @@ const AdminRuralProjects = () => {
   const [search, setSearch] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useGetAdminRuralProjectsQuery(
+  const { data, isLoading, refetch } = useGetAdminRuralProjectsQuery(
     {
       page,
       pageSize,
@@ -84,31 +84,10 @@ const AdminRuralProjects = () => {
 
         const onClickDelete = (e) => {
           const currentRow = params.row;
-          setRuralProjId(currentRow._id);
+          const projId = currentRow._id;
+          setRuralProjId(projId);
           setIsDeleteForm(!isDeleteForm);
-        };
-
-        const handleDelete = async () => {
-          console.log(ruralProjId)
-          const response = await fetch(
-            `http://localhost:5001/projects/deleteRuralProject/${ruralProjId}`,
-            {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-            }
-          );
-      
-          const responseData = await response.json();
-
-          if (!response.ok) {
-            throw new Error(responseData.message);
-          }
-
-          if (response.ok) {
-            if (responseData.savedRequest) {
-              navigate("/admin/ruralProjects");
-            }
-          }
+          console.log(ruralProjId);
         };
 
         return (
@@ -139,30 +118,54 @@ const AdminRuralProjects = () => {
               variant="contained"
               color="error"
               size="small"
-              onClick={() => setIsDeleteForm(!isDeleteForm)}
+              onClick={onClickDelete}
+              //onClick={() => setIsDeleteForm(!isDeleteForm)}
               sx={{
                 textTransform: "unset",
               }}
             >
               Delete
             </Button>
-            {isDeleteForm && (
-              <DeleteModal 
-                setOpen={setIsDeleteForm} 
-                open={isDeleteForm} 
-                title="Delete Rural Project"
-                body="Are you sure you want to delete this rural project?"
-                handleDelete={handleDelete}>
-              </DeleteModal>
-            )}
           </Stack>
         );
       },
     },
   ];
 
+  const handleDelete = async () => {
+    console.log("id", ruralProjId );
+    const response = await fetch(
+      `http://localhost:5001/projects/deleteRuralProject/${ruralProjId}`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error(responseData.message);
+    }
+
+    if (response.ok) {
+      setIsDeleteForm(false);
+      refetch();
+    }
+  };
+
   return (
     <Box m="1.5rem 2.5rem">
+      {isDeleteForm && (
+        <DeleteModal 
+          setOpen={setIsDeleteForm} 
+          open={isDeleteForm} 
+          title="Delete Rural Project"
+          body="Are you sure you want to delete this rural project?"
+          handleDelete={handleDelete}>
+        </DeleteModal>
+      )}
+
       <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />
 
       <Box
