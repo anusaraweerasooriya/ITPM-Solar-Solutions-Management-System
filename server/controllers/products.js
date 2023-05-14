@@ -1,3 +1,4 @@
+import { HttpError } from "../models/HttpError.js";
 import Product from "../models/Product.js";
 
 /* CREATE INVERTER PRODUCT */
@@ -50,42 +51,6 @@ export const createProduct = async (req, res) => {
     }
 };
 
-/*CREATE SOLAR PANEL */
-/*export const createSolarPanel = async (req, res) => {
-    try {
-        const {
-            productName,
-            price,
-            productType,
-            imagePath,
-            description,
-            category,
-            maxVoltage,
-            maxCurrent,
-            ratedPower,
-        } = req.body;
-
-        let features = [];
-        features.push({maxVoltage});
-        features.push({maxCurrent});
-        features.push({ratedPower});
-
-        const newProduct = new Product({
-            productName, 
-            price, 
-            productType, 
-            imagePath, 
-            description,
-            category, 
-            features:features
-        });
-        const savedProduct = await newProduct.save();
-        res.status(201).json(savedProduct);
-
-    }catch (err) {
-        res.status(409).json({ error: err.message });
-    }
-};*/
 
 /* ADMIN DISPLAY */
 export const getAdminProducts = async (req, res) => {
@@ -138,22 +103,80 @@ export const getProducts = async (req, res) => {
 };
 
 /*UPDATES */
-export const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res, next) => {
     const errors = validationResult(res);
     if(!errors.isEmpty()) {
         return next(
             new HttpError("Invaild inputs passed, please check your data", 403)
         );
+    }
 
-      /*  console.log(req.body);
+    console.log(req.body);
+    
+    let product;
+    try {
+        const {
+            productName,
+            price,
+            productType,
+            imagePath,
+            description,
+            category,
+            ratedPower,
+            batteryVoltage,
+            MPPTVoltage,
+            maxVoltage,
+            maxCurrent,        
+            normalVoltage, 
+            normalCapacity, 
+            energy, 
+        } = req.body;
 
-        let product;
-        try {
-            const {
-                
-            }
-        }catch (err) {
-            
-        }*/
+        const productId = req.params.proid;
+        product = await Product.findById(productId);
+
+        product.productName = productName;
+        product.price = price;
+        product.productType = productType;
+        product.imagePath = imagePath;
+        product.description = description;
+        product.category = category;
+        product.ratedPower = ratedPower;
+        product.batteryVoltage = batteryVoltage;
+        product.MPPTVoltage = MPPTVoltage;
+        product.maxVoltage = maxVoltage;
+        product.maxCurrent = maxCurrent;
+        product.normalVoltage = normalVoltage;
+        product.normalCapacity = normalCapacity;
+        product.energy = energy;
+
+    } catch (err) {
+        const error = new HttpError("Something went wrong. Please try again.", 422);
+        return next(error);
+    }
+
+    try {
+        await product.save();
+    }   catch (err) {
+        const error = new HttpError(
+            "Something went wrong. Please try again.",
+            500
+        );
+        return next(error);
+    }
+    
+    res.status(200).json({ product });
+};
+
+
+export const getProductById = async (req, res, next) => {
+    try {
+        const { prodId } = req.query;
+
+        const product = await Product.findById(prodId);
+        res.status(200).json(product);
+    } catch (err) {
+        const error = new HttpError("Failed fetch data! Please try again", 500);
+        return next(err);
     }
 };
