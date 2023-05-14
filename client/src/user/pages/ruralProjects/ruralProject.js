@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material'
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetRuralProjectByIdQuery } from 'hooks/api-hook';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
+  height: 15,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
@@ -20,6 +20,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const RuralProject = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const projId = useParams().id;
   const {data} = useGetRuralProjectByIdQuery({projId});
@@ -40,29 +41,34 @@ const RuralProject = () => {
                 src={`http://localhost:5001/assets/${data.imagePath}`}
               />
 
-              <Box p="1rem" mt="2rem" width="700px" sx={{border: "0.5px solid black"}}>
+              <Box p="1rem" mt="2rem" width="700px" 
+                sx={{
+                  backgroundColor: "rgba(128, 128, 128, 0.5)",
+                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.3)",
+                }}
+              >
                 <Grid container>
-                  <Grid xs={12}>
-                    <Button variant="outlined">{data.monthlyConsumption} units monthly consumption</Button>
+                  <Grid xs={7}>
+                    <Button variant="outlined" sx={{fontWeight:"bold", color:"black", fontSize:"0.8rem"}}>{data.monthlyConsumption} units monthly consumption</Button>
                   </Grid>
-                  <Grid xs={12} mt="2rem">
-                    <Button variant="outlined">{data.gridType} system</Button>
+                  <Grid xs={5}>
+                    <Button variant="outlined" sx={{fontWeight:"bold", color:"black", fontSize:"0.8rem"}}>{data.gridType} system</Button>
                   </Grid>
 
                   {/* date titles */}
-                  <Grid xs={6} mt="2rem">
-                    From
+                  <Grid xs={7} mt="2rem">
+                    <Typography fontSize="0.8rem" fontWeight="bold">From</Typography>
                   </Grid>
-                  <Grid xs={6} mt="2rem">
-                    To
+                  <Grid xs={5} mt="2rem">
+                    <Typography fontSize="0.8rem" fontWeight="bold">To</Typography>
                   </Grid>
 
                   {/* dates */}
-                  <Grid xs={6}>
-                    <Button variant="outlined">{data.estimInitiateDate}</Button>
+                  <Grid xs={7}>
+                    <Button variant="outlined" sx={{fontWeight:"bold", color:"black", fontSize:"0.8rem"}}>{data.estimInitiateDate}</Button>
                   </Grid>
-                  <Grid xs={6}>
-                    <Button variant="outlined">{data.estimEndDate}</Button>
+                  <Grid xs={5}>
+                    <Button variant="outlined" sx={{fontWeight:"bold", color:"black", fontSize:"0.8rem"}}>{data.estimEndDate}</Button>
                   </Grid>
                 </Grid>
               </Box>
@@ -74,13 +80,7 @@ const RuralProject = () => {
               <Grid container>
 
                 {/* title text */}
-                <Grid xs={10} textAlign="center" fontWeight="bold">
-                  {data.projectName}
-                </Grid>
-                <Grid xs={10} textAlign="center">
-                  {data.location}
-                </Grid>
-                <Grid xs={2}>
+                <Grid xs={12} textAlign="right">
                   <Button
                     variant="contained"
                     size="medium"
@@ -92,54 +92,71 @@ const RuralProject = () => {
                       color: "white",
                       backgroundColor: "#106cc8",
                       borderRadius: "20px",
+                      "&:hover": {
+                        backgroundColor: "#106cc8",
+                        cursor: "default",
+                      },
                     }}
                   >
                     {data.status}
                   </Button>
                 </Grid>
+                <Grid xs={12} textAlign="center">
+                  <Typography variant="h4" fontWeight="bold"> {data.projectName} </Typography>
+                </Grid>
+                <Grid xs={12} textAlign="center" mt="0.2rem">
+                  <Typography variant="h5">{data.location}</Typography>
+                </Grid>
 
                 {/* Project Overview */}
-                <Grid xs={12} mt="2rem" fontWeight="bold">
-                  Project Overview
+                <Grid xs={12} mt="2rem">
+                  <Typography variant="h5" fontWeight="bold">Project Overview :</Typography>
                 </Grid>
                 <Grid xs={12} mt="1rem">
                   {data.description}
                 </Grid>
 
                 {/* Solution */}
-                <Grid xs={12} mt="1rem" fontWeight="bold">
-                  Solution
+                <Grid xs={12} mt="1rem">
+                <Typography variant="h5" fontWeight="bold">Solution :</Typography>
                 </Grid>
                 <Grid xs={12} mt="1rem">
-                  solution paragraph
+                  The X5 series PBOX product is the most stable product, with an all-in-two easy installation design. 
+                  Protect the park environment as a real energy efficiency product, it also looks nice. 
+                  Its well received by the park visitors.
                 </Grid>
 
                 {/* progress bar */}
-                <Grid xs={12} mt="4rem" textAlign="center">
+                <Grid xs={12} mt="3rem">
+                  <Typography variant="h5" fontWeight="bold">Fund Progress :</Typography>
+                </Grid>
+                <Grid xs={11} mt="1rem" textAlign="center">
                   <BorderLinearProgress variant="determinate" value={progress} /> 
+                </Grid>
+                <Grid xs={1} mt="1rem" textAlign="center">
                   {progress}%
                 </Grid>
 
                 {/* allocation titles */}
-                <Grid xs={4} mt="1rem" textAlign="center" fontWeight="bold">
-                  Total Estimated Cost
+                <Grid xs={4} mt="2rem" textAlign="center">
+                  <Typography variant="h5" fontWeight="bold">Total Estimated Cost</Typography>
                 </Grid>
-                <Grid xs={4} mt="1rem" textAlign="center" fontWeight="bold">
-                  Current Allocation
+                <Grid xs={4} mt="2rem" textAlign="center">
+                  <Typography variant="h5" fontWeight="bold">Current Allocation</Typography>
                 </Grid>
-                <Grid xs={4} mt="1rem" textAlign="center" fontWeight="bold">
-                  Remaining
+                <Grid xs={4} mt="2rem" textAlign="center">
+                  <Typography variant="h5" fontWeight="bold">Remaining</Typography>                  
                 </Grid>
 
                 {/* allocation amounts */}
                 <Grid xs={4} mt="1rem" textAlign="center">
-                  <Button variant="outlined">$ {data.estimTotalCost}</Button>
+                  <Button variant="outlined" sx={{fontSize:"1.5rem"}}>$ {data.estimTotalCost}</Button>
                 </Grid>
                 <Grid xs={4} mt="1rem" textAlign="center">
-                  <Button variant="outlined">$ {data.currentAllocation}</Button>
+                  <Button variant="outlined" sx={{fontSize:"1.5rem"}}>$ {data.currentAllocation}</Button>
                 </Grid>
                 <Grid xs={4} mt="1rem" textAlign="center">
-                  <Button variant="outlined">$ {data.estimTotalCost - data.currentAllocation}</Button>
+                  <Button variant="outlined" sx={{fontSize:"1.5rem"}}>$ {data.estimTotalCost - data.currentAllocation}</Button>
                 </Grid>
 
                 {/* donate button */}
@@ -153,12 +170,17 @@ const RuralProject = () => {
                       width:"150px",
                       textTransform: "unset",
                       fontSize: "0.9rem",
+                      fontWeight: "bold",
                       color: "white",
                       backgroundColor: "red",
                       borderRadius: "20px",
                       "&:hover": {
-                        //backgroundColor: theme.palette.secondary[300],
+                        backgroundColor: theme.palette.secondary.main,
+                        color: "#000000",
                         cursor: "pointer",
+                        "& svg": {
+                          color: "red",
+                        },
                       },
                     }}
                   >

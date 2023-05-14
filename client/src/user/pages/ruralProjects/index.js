@@ -9,6 +9,7 @@ import {
   Button,
   Typography,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css";
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -31,7 +32,7 @@ const Project = ({
   currentAllocation,
   status
 }) => {
-
+  const theme = useTheme();
   const navigate = useNavigate();
 
   return (
@@ -63,6 +64,7 @@ const Project = ({
               sx={{
                   textTransform:"unset",
                   fontSize: "0.7rem",
+                  fontWeight: "bold",
                   width: "8rem",
                   "&:hover": {
                       color: "#ffffff",
@@ -78,10 +80,19 @@ const Project = ({
               sx={{
                   textTransform:"unset",
                   fontSize: "0.7rem",
+                  fontWeight: "bold",
                   width: "8rem",
                   '& .MuiSvgIcon-root': {
-                    fontSize: '0.8rem'
-                  }
+                    fontSize: '1rem'
+                  },
+                  "&:hover": {
+                    backgroundColor: theme.palette.secondary.main,
+                    color: "#000000",
+                    cursor: "pointer",
+                    "& svg": {
+                      color: "red",
+                    },
+                  },
               }}
           >
               Donate
