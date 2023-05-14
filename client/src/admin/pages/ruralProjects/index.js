@@ -85,11 +85,6 @@ const AdminRuralProjects = () => {
       renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
     {
-      field: "status",
-      headerName: "Status",
-      flex: 0.5,
-    },
-    {
       field: "actions",
       headerName: "Actions",
       width: 250,
