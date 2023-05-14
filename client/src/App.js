@@ -34,6 +34,7 @@ import ProductForm from "admin/pages/product/productFrom";
 import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
 import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
+import RuralProject from "user/pages/ruralProjects/ruralProject";
 
 function App() {
   const role = useSelector((state) => state.auth.role);
@@ -155,6 +156,7 @@ function App() {
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project" element={<Project />} />
                 <Route path="/generateBill" element={<BillGenerator />} />
+                <Route path="/ruralProject/:id" element={<RuralProject />} />
               </Route>
             </Routes>
           </ThemeProvider>
