@@ -246,3 +246,26 @@ export const deletePendingRequest = async (req, res, next) => {
 
   res.status(200).json({ message: "Request deleted successfully!" });
 };
+
+export const rejectPlan = async (req, res, next) => {
+  const { reqId } = req.params;
+  const { rejectMessage } = req.body;
+
+  try {
+    const request = await PlanRequest.findById(reqId);
+    if (!request) {
+      return new HttpError("Request could'nt found", 404);
+    } else {
+      request.status = "rejected";
+      request.rejectMessage = rejectMessage;
+      await request.save();
+      res.status(200).json({ message: "Request rejected successfully" });
+    }
+  } catch (err) {
+    const error = new HttpError(
+      "Could'nt reject request. Please try again!",
+      500
+    );
+    return next(error);
+  }
+};

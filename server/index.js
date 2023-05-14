@@ -18,6 +18,7 @@ import ruralRoutes from "./routes/ruralProjects.js";
 import donationRoutes from "./routes/donations.js";
 import billRoutes from "./routes/bill.js";
 import BillMetrics from "./models/BillMetrices.js";
+import Product from "./models/Product.js";
 
 import { createProduct } from "./controllers/products.js";
 import productsRoutes from "./routes/products.js";
@@ -112,5 +113,18 @@ mongoose
     //   category4FixedCharge: 1500.0,
     //   category5FixedCharge: 2000.0,
     // });
+
+    // Product.insertMany(
+    //   {
+    //   productName:"",
+    //   price:"",
+    //   productType:"",
+    //   imagePath: "",
+    //   description:"",
+    //   category:"",
+    //   features:[],
+    //   availability:""
+    // }
+    // )
   })
   .catch((error) => console.log(`${error} did not connect`));
