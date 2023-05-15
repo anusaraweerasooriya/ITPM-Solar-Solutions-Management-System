@@ -25,7 +25,7 @@ import ProductView from "./productView";
 const AdminProducts = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [productId, setProductId] = useState("");
+  const [productsId, setProductId] = useState("");
   const isDesktop = useMediaQuery("(min-width: 1700px)");
 
   //delete modal
@@ -118,7 +118,7 @@ const AdminProducts = () => {
           const currentRow = params.row;
           setProductId(currentRow._id);
           setIsView(!isView);
-          console.log("function id", productId)
+          console.log("function id", productsId)
          // return alert(JSON.stringify(currentRow, null, 4));
         }
 
@@ -139,7 +139,7 @@ const AdminProducts = () => {
               <FormModal
                 setOpen={setIsUpdateForm}
                 open={isUpdateForm}>
-                  <UpdateProductForm prodId={productId} />
+                  <UpdateProductForm prodId={productsId} />
               </FormModal>
             )}
             <Button
@@ -168,7 +168,7 @@ const AdminProducts = () => {
               <FormModal
                 setOpen={setIsView}
                 open={isView}>
-                  <ProductView prodId={productId} />
+                  <ProductView productId={productsId} />
               </FormModal>
             )}
           </Stack>
@@ -178,9 +178,9 @@ const AdminProducts = () => {
   ];
 
   const handleDelete = async () => {
-    console.log("id", productId );
+    console.log("id", productsId );
     const response = await fetch(
-      `http://localhost:5001/products/deleteProduct/${productId}`,
+      `http://localhost:5001/products/deleteProduct/${productsId}`,
       {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },

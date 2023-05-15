@@ -129,7 +129,7 @@ export const updateProduct = async (req, res, next) => {
             energy, 
         } = req.body;
 
-        const productId = req.params.proid;
+        const productId = req.params.prid;
         product = await Product.findById(productId);
 
         product.productName = productName;
@@ -168,9 +168,9 @@ export const updateProduct = async (req, res, next) => {
 
 export const getProductById = async (req, res, next) => {
     try {
-        const { prodId } = req.query;
+        const { productId } = req.query;
 
-        const product = await Product.findById(prodId);
+        const product = await Product.findById(productId);
         res.status(200).json(product);
     } catch (err) {
         const error = new HttpError("Failed fetch data! Please try again", 500);
@@ -179,11 +179,11 @@ export const getProductById = async (req, res, next) => {
 };
 
 export const deleteProduct = async (req, res, next) => {
-   const proid = req.params.prid;
+   const productId = req.params.prid;
 
    let request;
    try {
-    request = await Product.findById(proid);
+    request = await Product.findById(productId);
    } catch (err) {
         const error = new HttpError(
             "Something went wrong, could not delete the request",
@@ -198,7 +198,7 @@ export const deleteProduct = async (req, res, next) => {
    }
 
    try {
-    await Product.deleteOne({ _id: proid });
+    await Product.deleteOne({ _id: productId });
    } catch(err) {
     const error = new HttpError(
         "Something went wrong. Could not delete the project.",

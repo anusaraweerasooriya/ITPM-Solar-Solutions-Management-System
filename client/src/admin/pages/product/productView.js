@@ -2,8 +2,8 @@ import React from 'react'
 import { useGetProductByIdQuery } from 'hooks/api-hook'
 import { Grid, Typography } from '@mui/material';
 
-const ProductView = ({prodId}) => {
-    const {data} = useGetProductByIdQuery({prodId});
+const ProductView = ({productId}) => {
+    const {data} = useGetProductByIdQuery({productId});
     console.log("data",data);
   return (
     data && (
@@ -12,7 +12,7 @@ const ProductView = ({prodId}) => {
                 <Typography fontWeight="bold" fontSize="1rem" color="primary">{data.productName}</Typography>
                 <hr></hr>
             </Grid>
-            
+
             <Grid xs={4} mt="1rem">
                 <Typography fontWeight="bold">Price : </Typography>
             </Grid>
