@@ -7,10 +7,12 @@ import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 import { DataGrid } from "@mui/x-data-grid";
 import RejectModal from "./RejectModal";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const PlanRequests = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.auth.user._id);
+  const navigate = useNavigate();
   console.log(user);
 
   //data to be sending to the backend api
@@ -19,6 +21,7 @@ const PlanRequests = () => {
   const [sort, setSort] = useState({});
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
+
   const [isRejectModal, setIsRejectModal] = useState(false);
   const [currReqId, setCurrReqId] = useState("");
 
@@ -85,13 +88,20 @@ const PlanRequests = () => {
           setIsRejectModal(!isRejectModal);
         };
 
+        const createPlanHandler = (e) => {
+          const currentRow = params.row;
+          const reqId = currentRow._id;
+          setCurrReqId(reqId);
+          navigate(`/admin/addProjectPlan/${reqId}`);
+        };
+
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
               color="secondary"
               size="small"
-              onClick={onClick}
+              onClick={createPlanHandler}
               sx={{
                 textTransform: "unset",
               }}

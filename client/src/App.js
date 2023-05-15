@@ -37,6 +37,7 @@ import UpdateProductForm from "admin/pages/product/updateInverterForm";
 import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
 import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
+import AddProjectPlan from "admin/pages/projectPlans/AddProjectPlan";
 import RuralProject from "user/pages/ruralProjects/ruralProject";
 import Donations from "user/pages/profile/Donations/Donations";
 
@@ -49,14 +50,24 @@ function App() {
   const theme = useMemo(() => createTheme(themeSettings()), []);
 
   //========================== ADMIN ROUTES =========================
-  const clientProjectRoutes = (
-    <Route path="/admin/planRequests" element={<PlanRequests />} />
-  );
+  const clientProjectRoutes = [
+    <Route path="/admin/planRequests" element={<PlanRequests />} />,
+    <Route path="/admin/addProjectPlan/:id" element={<AddProjectPlan />} />,
+  ];
 
   const ruralProjectRoutes = [
-    <Route path="/admin/ruralProjects" element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />} />,
-    <Route path="/admin/addRuralProject" element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />} />,
-    <Route path="/ruralProject/admin/:id" element={isAdmin ? <RuralProject /> : <Navigate to="/login" />} />
+    <Route
+      path="/admin/ruralProjects"
+      element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/admin/addRuralProject"
+      element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/ruralProject/admin/:id"
+      element={isAdmin ? <RuralProject /> : <Navigate to="/login" />}
+    />,
   ];
 
   const donationRoutes = [
