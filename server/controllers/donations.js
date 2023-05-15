@@ -76,3 +76,19 @@ export const getDonationById = async (req, res, next) => {
       return next(error);
     }
 };
+
+export const getDonationsByUserEmail = async (req, res, next) => {
+    try {
+      const { email } = req.query;
+  
+      const userDonations = await Donation.find({
+        email: email,
+      });
+      console.log(userDonations);
+  
+      res.status(200).json(userDonations);
+    } catch (err) {
+      const error = new HttpError("Something went wrong! Please try again.", 404);
+      return next(error);
+    }
+  };

@@ -128,7 +128,7 @@ const AdminRuralProjects = () => {
               <FormModal
                 setOpen={setIsUpdateForm} 
                 open={isUpdateForm}>
-                {/*title="Delete Rural Project"*/}
+                {/*title="Update Rural Project"*/}
                   <RuralProjectUpdate projId={ruralProjId} />
               </FormModal>
             )}
@@ -158,7 +158,7 @@ const AdminRuralProjects = () => {
               <FormModal
                 setOpen={setIsView} 
                 open={isView}>
-                {/*title="Delete Rural Project"*/}
+                {/*title=""*/}
                   <RuralProjectView projId={ruralProjId} />
               </FormModal>
             )}
