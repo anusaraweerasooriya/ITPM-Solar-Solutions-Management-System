@@ -14,6 +14,10 @@ const ProductRequestSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        relatedProduct: {
+            type: String,
+            required: true,
+        },
         date: {
             type: Date,
         },
