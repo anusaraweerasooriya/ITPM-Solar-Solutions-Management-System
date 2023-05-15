@@ -17,8 +17,9 @@ import { useGetAdminProductsQuery } from "hooks/api-hook";
 import { DataGrid } from "@mui/x-data-grid";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import UpdateProductForm from "./updateInverterForm"
+import UpdateProductForm from "./updateProductForm"
 import FormModal from "components/modals/FormModal";
+import DeleteModal from "admin/components/DeleteModal";
 
 const AdminProducts = () => {
   const theme = useTheme();
@@ -191,6 +192,34 @@ const AdminProducts = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
+      {isDeleteForm && (
+        <DeleteModal
+          setOpen={setIsDeleteForm}
+          open={isDeleteForm}
+          title="Delete product"
+          body="Are you sure you want to delete this product?"
+          handleDelete={handleDelete}
+        >
+        </DeleteModal>
+      )}
+
+      {isUpdateForm && (
+        <FormModal
+          setOpen={setIsUpdateForm}
+          open={isUpdateForm}
+        >
+          <UpdateProductForm />
+        </FormModal>
+      )}
+
+      {isView && (
+        <FormModal
+          setOpen={setIsView}
+          open={isView}
+        >
+
+        </FormModal>
+      )}
       <Header title="PRODUCTS" subtitle="Product Management" />
 
       {isDesktop && <ProductCards />}

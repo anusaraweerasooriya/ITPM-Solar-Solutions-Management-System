@@ -32,7 +32,7 @@ import AdminProducts from "admin/pages/product";
 import ProductForm from "admin/pages/product/productFrom";
 import SolarPanelsForm from "admin/pages/product/solarPanelsForm";
 import BatteriesForm from "admin/pages/product/BatteriesForm";
-import UpdateProductForm from "admin/pages/product/updateInverterForm";
+import UpdateProductForm from "admin/pages/product/updateProductForm";
 
 import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
@@ -84,7 +84,7 @@ function App() {
       element={isAdmin ? <BatteriesForm /> : <Navigate to="/login" />}
     />,
     <Route
-      path="/admin/updateInverter"
+      path="/admin/updateProduct"
       element={isAdmin ? <UpdateProductForm /> : <Navigate to="/login" />}
     />,
   ];
