@@ -8,6 +8,7 @@ import {
   getRequestsByUser,
   getPendingRequestById,
   deletePendingRequest,
+  rejectPlan,
 } from "../controllers/planRequests.js";
 
 const router = express.Router();
@@ -19,5 +20,6 @@ router.patch("/updateRequest/:rid", updatePendingRequest);
 router.delete("/deletePendingRequest/:reqId", deletePendingRequest);
 router.get("/getPendingRequestById", getPendingRequestById);
 router.get("/adminGetPlanRequests", getAdminRequestPlans);
+router.patch("/rejectPendingRequest/:reqId", rejectPlan);
 
 export default router;

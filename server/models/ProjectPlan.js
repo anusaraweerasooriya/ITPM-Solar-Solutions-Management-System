@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+const ProjectPlanSchema = new mongoose.Schema(
   {
     requestId: {
       type: String,
@@ -8,25 +8,25 @@ const UserSchema = new mongoose.Schema(
       min: 2,
       max: 100,
     },
-    email: {
+    servicePack: {
       type: String,
       require: true,
-      max: 50,
-      unique: true,
     },
-    password: {
-      type: String,
+    serviceCharge: {
+      type: Number,
       required: true,
-      min: 7,
     },
-    role: {
+    totalCost: {
+      type: Number,
+      require: true,
+    },
+    description: {
       type: String,
-      enum: ["customer", "admin", "superadmin"],
-      default: "customer",
+      require: true,
     },
   },
   { timestamps: true }
 );
 
-const User = mongoose.model("User", UserSchema);
-export default User;
+const ProjectPlan = mongoose.model("ProjectPlan", ProjectPlanSchema);
+export default ProjectPlan;

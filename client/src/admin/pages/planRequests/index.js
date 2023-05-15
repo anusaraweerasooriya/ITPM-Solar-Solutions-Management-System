@@ -5,9 +5,13 @@ import { useGetAdminPlanRequestsQuery } from "hooks/api-hook";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
 import { DataGrid } from "@mui/x-data-grid";
+import RejectModal from "./RejectModal";
+import { useSelector } from "react-redux";
 
 const PlanRequests = () => {
   const theme = useTheme();
+  const user = useSelector((state) => state.auth.user._id);
+  console.log(user);
 
   //data to be sending to the backend api
   const [page, setPage] = useState(0);
@@ -15,6 +19,8 @@ const PlanRequests = () => {
   const [sort, setSort] = useState({});
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [isRejectModal, setIsRejectModal] = useState(false);
+  const [currReqId, setCurrReqId] = useState("");
 
   const { data, isLoading } = useGetAdminPlanRequestsQuery({
     page,
@@ -72,6 +78,13 @@ const PlanRequests = () => {
           return alert(JSON.stringify(currentRow._id, null, 4));
         };
 
+        const rejectPlanHandler = (e) => {
+          const currentRow = params.row;
+          const reqId = currentRow._id;
+          setCurrReqId(reqId);
+          setIsRejectModal(!isRejectModal);
+        };
+
         return (
           <Stack direction="row" spacing={2}>
             <Button
@@ -89,7 +102,7 @@ const PlanRequests = () => {
               variant="contained"
               color="error"
               size="small"
-              onClick={onClick}
+              onClick={rejectPlanHandler}
               sx={{
                 textTransform: "unset",
               }}
@@ -104,6 +117,13 @@ const PlanRequests = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
+      {isRejectModal && (
+        <RejectModal
+          isRejectModal={isRejectModal}
+          setIsRejectModal={setIsRejectModal}
+          reqId={currReqId}
+        />
+      )}
       <Header title="REQUEST PLANS" subtitle="Request Plan Management" />
       <Box
         mt="20px"

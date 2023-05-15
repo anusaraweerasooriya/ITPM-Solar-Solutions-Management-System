@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import {
   Box,
@@ -13,15 +13,21 @@ import { useSelector } from "react-redux";
 import { useGetRequestByUserIdQuery } from "hooks/api-hook";
 import FormModal from "components/modals/FormModal";
 import UpdateForm from "./UpdateForm";
+import DeleteRequestModal from "./DeleteRequestModal";
 
 const PendingRequests = () => {
   const user = useSelector((state) => state.auth.user._id);
-  const { data } = useGetRequestByUserIdQuery(
+  const { refetch, data } = useGetRequestByUserIdQuery(
     { user },
     { refetchOnMountOrArgChange: true }
   );
   const isNonMobileScreen = useMediaQuery("(min-width: 900px");
   const [isForm, setIsForm] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+
+  // useEffect(() => {
+  //   refetch();
+  // });
 
   return (
     <Box m="2rem" mr="4rem" ml="4rem">
@@ -77,7 +83,11 @@ const PendingRequests = () => {
                       </Button>
                       {isForm && (
                         <FormModal setOpen={setIsForm} open={isForm}>
-                          <UpdateForm reqId={_id} />
+                          <UpdateForm
+                            reqId={_id}
+                            refetch={refetch}
+                            setIsForm={setIsForm}
+                          />
                         </FormModal>
                       )}
                       <Button
@@ -85,9 +95,18 @@ const PendingRequests = () => {
                         variant="contained"
                         sx={{ mt: "1.5rem", ml: "1rem" }}
                         color="error"
+                        onClick={() => setIsDelete(!isDelete)}
                       >
                         Delete
                       </Button>
+                      {isDelete && (
+                        <DeleteRequestModal
+                          reqId={_id}
+                          setOpen={setIsDelete}
+                          open={isDelete}
+                          refetch={refetch}
+                        />
+                      )}
                     </Box>
                   </Stack>
                 </Box>
