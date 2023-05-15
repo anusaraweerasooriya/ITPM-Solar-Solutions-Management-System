@@ -1,25 +1,21 @@
 import React, { useState } from "react";
+import { styled } from "@mui/material/styles";
 import {
-  InputAdornment,
-  Button,
-  IconButton,
+  Box,
+  Card,
+  CardMedia,
+  CardContent,
   CardActionArea,
-  Grid,
-  Divider,
+  CardActions,
+  Typography,
+  IconButton,
   useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { Box } from "@mui/material";
-import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
 
 import { useGetProductsQuery } from "hooks/api-hook";
@@ -38,6 +34,25 @@ const Product = ({
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  const ExpandMore = styled((props) => {
+      const { expand, ...other } = props;
+      return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+      transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+      marginLeft: "auto",
+      transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+      }),
+  }));
+
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+      setExpanded(!expanded);
+  };
+
+
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/products", { state: { id: _id } });
@@ -50,16 +65,18 @@ const Product = ({
         sx={{
           borderRadius: "0.55rem",
           width: "350px",
-          maxWidth: "100%",
+          //maxWidth: "100%",
+          height: "400px",
           backgroundColor: "#ffffff",
         }}
       >
-        <CardActionArea>
+        <CardActionArea onClick={() => navigate(`/product/${_id}`)}>
           <CardMedia
             sx={{
-              height: "350px",
-              width: "340px",
-              background: "cover",
+              //height: "350px",
+              height: "200px",
+              //width: "340px",
+              //background: "cover",
               boxShadow: "-20px -8px 10px 10px #616161"
             }}
             image={`http://localhost:5001/assets/${imagePath}`}
@@ -67,6 +84,7 @@ const Product = ({
           />
           <CardContent
             sx={{
+              height: "140px",
               backgroundColor: "#1a237e",
               boxShadow: "2px -1px 18px 2px #616161"
             }}
@@ -85,8 +103,30 @@ const Product = ({
             <Typography variant="h6" color="textSecondary" component="p" fontWeight="bold" sx={{color: "red"}}>
               {productType}
             </Typography>
+            <Typography variant="h6" color="textSecondary" component="p" fontWeight="bold" sx={{color: "red"}}>
+              {category}
+            </Typography>
           </CardContent>
         </CardActionArea>
+        <CardActions disableSpacing
+          sx={{
+            backgroundColor: "#1a237e",
+            height: "90px",
+            //boxShadow: "2px -1px 18px 2px #616161"
+          }}
+        >
+          <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+          </IconButton>
+          <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+          >
+              <ExpandMoreIcon />
+          </ExpandMore>
+        </CardActions>
       </Card>
     </>
   );
