@@ -1,8 +1,10 @@
 import React from "react";
-import { Box, Typography, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery, Divider } from "@mui/material";
 import ProductCard from "./ProductCard";
 
-const Products = () => {
+const Products = ({ servicePack }) => {
+  const products = Object.keys(servicePack.products);
+
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   return (
     <Box
@@ -21,11 +23,26 @@ const Products = () => {
       </Typography>
       <hr></hr>
 
-      <Box>
+      <Box mb="1rem">
         <Box>
-          <ProductCard />
+          {products.map((productId) => (
+            <ProductCard id={productId} qty={servicePack.products[productId]} />
+          ))}
         </Box>
       </Box>
+      <Box m="1rem">
+        <Divider sx={{ background: "black" }} />
+      </Box>
+      <Typography
+        variant="h5"
+        color="darkgreen"
+        m="2rem"
+        fontWeight="bold"
+        align="end"
+      >
+        Total Product Cost: {servicePack.totalProductCost}
+      </Typography>
+      <br />
     </Box>
   );
 };
