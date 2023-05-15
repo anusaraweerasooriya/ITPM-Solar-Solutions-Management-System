@@ -18,6 +18,7 @@ export const customApi = createApi({
     "AdminProducts",
     "RuralProjectById",
     "DonationById",
+    "UserDonations",
   ],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
@@ -108,6 +109,14 @@ export const customApi = createApi({
       }),
       providesTags: ["DonationById"],
     }),
+    getDonationsByUserEmail: build.query({
+      query: ({ user }) => ({
+        url: "donations/getDonationsByUserEmail",
+        method: "GET",
+        params: { user },
+      }),
+      providesTags: ["UserDonations"],
+    }),
   }),
 });
 
@@ -124,4 +133,5 @@ export const {
   useGetPendingRequestByIdQuery,
   useGetRuralProjectByIdQuery,
   useGetDonationByIdQuery,
+  useGetDonationsByUserEmailQuery,
 } = customApi;
