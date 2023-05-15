@@ -5,7 +5,6 @@ import Paper from "@mui/material/Paper";
 import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Typography from "@mui/material/Typography";
 import ContentCut from "@mui/icons-material/ContentCut";
 import ContentCopy from "@mui/icons-material/ContentCopy";
@@ -16,8 +15,11 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
   return (
     <Paper
       sx={{ width: 450, height: 530, maxWidth: "100%", borderRadius: "2rem" }}
@@ -59,7 +61,7 @@ const Sidebar = () => {
             <Typography variant="h5">Ongoing Projects</Typography>
           </ListItemText>
         </MenuItem>
-        <MenuItem sx={{ m: "2rem" }}>
+        <MenuItem sx={{ m: "2rem" }} onClick={() => {navigate("/profile/donations")}}>
           <FavoriteBorderOutlinedIcon fontSize="large" sx={{ mr: "1rem" }}>
             <Cloud fontSize="small" />
           </FavoriteBorderOutlinedIcon>

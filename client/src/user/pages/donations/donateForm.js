@@ -195,11 +195,11 @@ const DonateForm = () => {
               {!isOpen && (
                 <Tooltip title="You will be directed to the PayPal gateway">
                   <Button
-                    //type="submit"
+                    type="submit"
                     variant="contained"
                     color="success"
                     disabled={!captchaKey}
-                    onClick={() => setIsOpen(!isOpen)}
+                    //onClick={() => setIsOpen(!isOpen)}
                     sx={{
                       m: "2rem 0",
                       p: "0.8rem",

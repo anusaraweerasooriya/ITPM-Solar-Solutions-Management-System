@@ -110,10 +110,10 @@ export const customApi = createApi({
       providesTags: ["DonationById"],
     }),
     getDonationsByUserEmail: build.query({
-      query: ({ user }) => ({
+      query: ({ userEmail }) => ({
         url: "donations/getDonationsByUserEmail",
         method: "GET",
-        params: { user },
+        params: { userEmail },
       }),
       providesTags: ["UserDonations"],
     }),

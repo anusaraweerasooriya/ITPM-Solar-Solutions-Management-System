@@ -35,6 +35,7 @@ import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
 import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
 import RuralProject from "user/pages/ruralProjects/ruralProject";
+import Donations from "user/pages/profile/Donations/Donations";
 
 function App() {
   const role = useSelector((state) => state.auth.role);
@@ -96,6 +97,7 @@ function App() {
     <Route path="/projects" element={<Projects />} />,
     <Route path="/donate" element={<RuralProjects />} />,
     <Route path="/donate/submit" element={<DonateForm />} />,
+    <Route path="/profile/donations" element={<Donations />} />,
   ];
 
   const userProfileRoutes = "";
