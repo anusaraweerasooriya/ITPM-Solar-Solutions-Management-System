@@ -167,6 +167,28 @@ const AdminProducts = () => {
     },
   ];
 
+  const handleDelete = async () => {
+    console.log("id", productId );
+    const response = await fetch(
+      `http://localhost:5001/products/deleteProduct/${productId}`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error(responseData.message);
+    } 
+
+    if (response.ok) {
+      setIsDeleteForm(false);
+      refetch();
+    }
+  };
+
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="PRODUCTS" subtitle="Product Management" />
