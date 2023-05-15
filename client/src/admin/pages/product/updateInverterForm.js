@@ -6,9 +6,6 @@ import {
     useMediaQuery,
     Typography,
     useTheme,
-    FormControlLabel,
-    Switch,
-    MenuItem,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
@@ -76,7 +73,7 @@ const UpdateProductForm = ({ prodId }) => {
     formData.append("imagePath", values.imagePath.name);
 
     const savedUserResponse = await fetch(
-      `http://localhost:5001/updateProducts/${prodId}`,
+      `http://localhost:5001/updateProduct/${prodId}`,
       {
         method: "PATCH",
         body: formData,
@@ -92,199 +89,206 @@ const UpdateProductForm = ({ prodId }) => {
   
   return (
     <>
-      <Typography
-        fontWeight="bold"
-        variant="h4"
-        sx={{ mb: "1rem", textAlign: "center" }}
+      <Box
+        width={isNonMobileScreen ? "50%" : "93%"}
+        p="3rem"
+        m="2rem auto"
+        borderRadius="1.5rem"
+        backgroundColor="#ffffff"
       >
-        UPDATE RURAL PROJECT
-      </Typography>
+        <Typography
+          fontWeight="bold"
+          variant="h4"
+          sx={{ mb: "1rem", textAlign: "center" }}
+        >
+          UPDATE PRODUCT
+        </Typography>
+        <hr></hr>
 
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValuesProduct}
-        validationSchema={ProductSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          setFieldValue,
-          resetForm,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <Box
-              pt="20px"
-              display="grid"
-              gap="30px"
-              gridTemplateColumns="repeat(4, minimax(0, 1fr))"
-              sx={{
-                "& > div": {
-                  gridColumn: isNonMobileScreen ? undefined : "span 4",
-                },
-              }}
-            >
-              <TextField
-                label="Product Name"
-                onBlur={handleBlur}
-                onAbort={handleChange}
-                value={values.productName}
-                name="productName"
-                error={
-                  Boolean(touched.productName) && Boolean(errors.productName)
-                }
-                helperText={touched.productName && errors.productName}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                select
-                label="Price"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.price}
-                name="price"
-                error={
-                  Boolean(touched.price) && Boolean(errors.price)
-                }
-                helperText={touched.price && errors.price}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                select
-                label="Product Type"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.productType}
-                name="productType"
-                error={
-                  Boolean(touched.productType) && Boolean(errors.productType)
-                }
-                helperText={touched.productType && errors.productType}
-                sx={{ gridColumn: "span 2" }}
-              />
+        <Formik
+          onSubmit={handleFormSubmit}
+          initialValues={initialValuesProduct}
+          validationSchema={ProductSchema}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            setFieldValue,
+            resetForm,
+          }) => (
+            <form onSubmit={handleSubmit}>
               <Box
-                gridColumn="span 4"
-                border={`1px solid ${palette.neutral.medium}`}
-                borderRadius="5px"
-                p="1rem"
-              >
-                <Dropzone
-                  acceptedFiles=".jpg,.jpeg,.png"
-                  multiple={false}
-                  onDrop={(acceptedFiles) =>
-                    setFieldValue("imagePath", acceptedFiles[0])
-                  }
-                >
-                  {({ getRootProps, getInputProps }) => (
-                    <Box
-                      {...getRootProps()}
-                      border={`2px dashed ${palette.primary.main}`}
-                      p="1rem"
-                      sx={{ "&:hover": { cursor: "pointer" } }}
-                    >
-                      <input {...getInputProps()} />
-                      {!values.imagePath ? (
-                        <p>Add Picture Here</p>
-                      ) : (
-                        <FlexBox>
-                          <Typography>{values.imagePath.name}</Typography>
-                          <EditOutlinedIcon />
-                        </FlexBox>
-                      )}
-                    </Box>
-                  )}
-                </Dropzone>
-              </Box>
-              <TextField
-                label="Category"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.category}
-                name="category"
-                error={
-                  Boolean(touched.category) && Boolean(errors.category)
-                }
-                helperText={touched.category && errors.category}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                select
-                label="Description"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.description}
-                name="description"
-                error={
-                  Boolean(touched.description) && Boolean(errors.description)
-                }
-                helperText={touched.description && errors.description}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                select
-                label="Rated Power"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.ratedPower}
-                name="ratedPower"
-                error={
-                  Boolean(touched.ratedPower) && Boolean(errors.ratedPower)
-                }
-                helperText={touched.ratedPower && errors.ratedPower}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                label="Battery Voltage"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.batteryVoltage}
-                name="batteryVoltage"
-                error={
-                  Boolean(touched.batteryVoltage) && Boolean(errors.batteryVoltage)
-                }
-                helperText={touched.batteryVoltage && errors.batteryVoltage}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                label="MPPT Voltage"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.MPPTVoltage}
-                name="MPPTVoltage"
-                error={
-                  Boolean(touched.MPPTVoltage) && Boolean(errors.MPPTVoltage)
-                }
-                helperText={touched.MPPTVoltage && errors.MPPTVoltage}
-                sx={{ gridColumn: "span 4" }}
-              />
-            </Box>
-
-            {/* BUTTONs */}
-            <Box>
-              <Button
-                fullWidth
-                type="submit"
-                variant="contained"
-                color="success"
+                pt="20px"
+                display="grid"
+                gap="30px"
+                gridTemplateColumns="repeat(4, minimax(0, 1fr))"
                 sx={{
-                  m: "2rem 0",
-                  p: "1rem",
-                  borderRadius: "1.5rem",
-                  fontWeight: "bold",
-                  fontSize: "0.8rem",
-
-                  // "&:hover": { color: palette.primary.main },
+                  "& > div": {
+                    gridColumn: isNonMobileScreen ? undefined : "span 4",
+                  },
                 }}
               >
-                Update Project
-              </Button>
-            </Box>
-          </form>
-        )}
-      </Formik>
+                <TextField
+                  label="Product Name"
+                  onBlur={handleBlur}
+                  onAbort={handleChange}
+                  value={values.productName}
+                  name="productName"
+                  error={
+                    Boolean(touched.productName) && Boolean(errors.productName)
+                  }
+                  helperText={touched.productName && errors.productName}
+                  sx={{ gridColumn: "span 4" }}
+                />
+                <TextField
+                  label="Price"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.price}
+                  name="price"
+                  error={
+                    Boolean(touched.price) && Boolean(errors.price)
+                  }
+                  helperText={touched.price && errors.price}
+                  sx={{ gridColumn: "span 2" }}
+                />
+                <TextField
+                  label="Product Type"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.productType}
+                  name="productType"
+                  error={
+                    Boolean(touched.productType) && Boolean(errors.productType)
+                  }
+                  helperText={touched.productType && errors.productType}
+                  sx={{ gridColumn: "span 2" }}
+                />
+                <Box
+                  gridColumn="span 4"
+                  border={`1px solid ${palette.neutral.medium}`}
+                  borderRadius="5px"
+                  p="1rem"
+                >
+                  <Dropzone
+                    acceptedFiles=".jpg,.jpeg,.png"
+                    multiple={false}
+                    onDrop={(acceptedFiles) =>
+                      setFieldValue("imagePath", acceptedFiles[0])
+                    }
+                  >
+                    {({ getRootProps, getInputProps }) => (
+                      <Box
+                        {...getRootProps()}
+                        border={`2px dashed ${palette.primary.main}`}
+                        p="1rem"
+                        sx={{ "&:hover": { cursor: "pointer" } }}
+                      >
+                        <input {...getInputProps()} />
+                        {!values.imagePath ? (
+                          <p>Add Picture Here</p>
+                        ) : (
+                          <FlexBox>
+                            <Typography>{values.imagePath.name}</Typography>
+                            <EditOutlinedIcon />
+                          </FlexBox>
+                        )}
+                      </Box>
+                    )}
+                  </Dropzone>
+                </Box>
+                <TextField
+                  label="Category"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.category}
+                  name="category"
+                  error={
+                    Boolean(touched.category) && Boolean(errors.category)
+                  }
+                  helperText={touched.category && errors.category}
+                  sx={{ gridColumn: "span 4" }}
+                />
+                <TextField
+                  select
+                  label="Description"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.description}
+                  name="description"
+                  error={
+                    Boolean(touched.description) && Boolean(errors.description)
+                  }
+                  helperText={touched.description && errors.description}
+                  sx={{ gridColumn: "span 2" }}
+                />
+                <TextField
+                  select
+                  label="Rated Power"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.ratedPower}
+                  name="ratedPower"
+                  error={
+                    Boolean(touched.ratedPower) && Boolean(errors.ratedPower)
+                  }
+                  helperText={touched.ratedPower && errors.ratedPower}
+                  sx={{ gridColumn: "span 2" }}
+                />
+                <TextField
+                  label="Battery Voltage"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.batteryVoltage}
+                  name="batteryVoltage"
+                  error={
+                    Boolean(touched.batteryVoltage) && Boolean(errors.batteryVoltage)
+                  }
+                  helperText={touched.batteryVoltage && errors.batteryVoltage}
+                  sx={{ gridColumn: "span 4" }}
+                />
+                <TextField
+                  label="MPPT Voltage"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.MPPTVoltage}
+                  name="MPPTVoltage"
+                  error={
+                    Boolean(touched.MPPTVoltage) && Boolean(errors.MPPTVoltage)
+                  }
+                  helperText={touched.MPPTVoltage && errors.MPPTVoltage}
+                  sx={{ gridColumn: "span 4" }}
+                />
+              </Box>
+
+              {/* BUTTONs */}
+              <Box>
+                <Button
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                  color="success"
+                  sx={{
+                    m: "2rem 0",
+                    p: "1rem",
+                    borderRadius: "1.5rem",
+                    fontWeight: "bold",
+                    fontSize: "0.8rem",
+
+                    // "&:hover": { color: palette.primary.main },
+                  }}
+                >
+                  Update Project
+                </Button>
+              </Box>
+            </form>
+          )}
+        </Formik>
+      </Box>  
     </>
   );
 };
