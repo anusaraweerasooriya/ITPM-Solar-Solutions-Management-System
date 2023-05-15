@@ -28,6 +28,8 @@ import AddToRecentForm from "admin/pages/recentProjects/addToRecentForm";
 
 import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
+import ProductRequestForm from "user/pages/productRequest/productRequestForm";
+
 import AdminProducts from "admin/pages/product";
 import ProductForm from "admin/pages/product/productFrom";
 import SolarPanelsForm from "admin/pages/product/solarPanelsForm";
@@ -108,6 +110,7 @@ function App() {
   const dynamicRoutes = [
     <Route path="/products" element={<Products />} />,
     <Route path="/product" element={<Product />} />,
+    <Route path="/productRequest" element={<ProductRequestForm />} />,
     <Route path="/generateBill" element={<BillGenerator />} />,
     <Route path="/projects" element={<Projects />} />,
     <Route path="/donate" element={<RuralProjects />} />,

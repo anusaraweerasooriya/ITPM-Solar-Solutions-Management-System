@@ -64,6 +64,7 @@ const Product = () => {
                     variant="contained"
                     size="medium"
                     startIcon={<InventoryIcon />}
+                    onClick={ () => {navigate('/productRequest', { state: { id: data._id, name: data.productName } });}}
                     sx={{
                       textTransform: "unset",
                       fontWeight: "bold",
