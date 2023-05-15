@@ -59,7 +59,7 @@ const AdminProducts = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  console.log(data);
+  //console.log(data);
   const columns = [
     {
       field: "_id",
@@ -118,6 +118,7 @@ const AdminProducts = () => {
           const currentRow = params.row;
           setProductId(currentRow._id);
           setIsView(!isView);
+          console.log("function id", productId)
          // return alert(JSON.stringify(currentRow, null, 4));
         }
 

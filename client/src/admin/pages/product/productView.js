@@ -4,6 +4,7 @@ import { Grid, Typography } from '@mui/material';
 
 const ProductView = ({prodId}) => {
     const {data} = useGetProductByIdQuery({prodId});
+    console.log("data",data);
   return (
     data && (
         <Grid container>
@@ -11,8 +12,12 @@ const ProductView = ({prodId}) => {
                 <Typography fontWeight="bold" fontSize="1rem" color="primary">{data.productName}</Typography>
                 <hr></hr>
             </Grid>
-            <Grid xs={12} textAlign="center">
-                <Typography color="primary">{data.price}</Typography>
+            
+            <Grid xs={4} mt="1rem">
+                <Typography fontWeight="bold">Price : </Typography>
+            </Grid>
+            <Grid xs={8} mt="1rem">
+                <Typography>{data.price}</Typography>
             </Grid>
 
             <Grid xs={4} mt="1rem">
