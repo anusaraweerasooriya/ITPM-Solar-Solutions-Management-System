@@ -22,6 +22,7 @@ import productsRoutes from "./routes/products.js";
 import projectRoutes from "./routes/projects.js";
 import recentProjectRoutes from "./routes/recentProjects.js";
 import requestRoutes from "./routes/requests.js";
+import projectPlanRoutes from "./routes/projectPlan.js";
 
 /* MIDDLEWARE CONFIGURATION =====================*/
 const __filename = fileURLToPath(import.meta.url);
@@ -70,6 +71,7 @@ app.use("/donations", donationRoutes);
 app.use("/projects", projectRoutes);
 app.use("/recentProjects", recentProjectRoutes);
 app.use("/requests", requestRoutes);
+app.use("/plans", projectPlanRoutes);
 
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
