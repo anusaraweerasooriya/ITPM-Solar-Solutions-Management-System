@@ -22,9 +22,9 @@ const ProductSchema = yup.object().shape({
   imagePath: yup.string().required("please choose an image"),
   category: yup.string().required("Please select a product category"),
   description: yup.string(),
-  ratedPower: yup.string().required("Please fill this field"),
-  batteryVoltage: yup.string().required("Please fill this field"),
-  MPPTVoltage: yup.string().required("Please fill this field"),
+  normalVoltage: yup.string().required("Please fill this field"),
+  normalCapacity: yup.string().required("Please fill this field"),
+  energy: yup.string().required("Please fill this field"),
 });
 
 const initialValuesProduct = {
@@ -32,14 +32,14 @@ const initialValuesProduct = {
   price: "",
   productType: "",
   imagePath: "",
-  category: "Inverter",
+  category: "Battery",
   description: "",
-  ratedPower: "",
-  batteryVoltage: "",
-  MPPTVoltage: "",
+  normalVoltage: "",
+  normalCapacity: "",
+  energy: "",
 };
 
-const ProductForm = () => {
+const BatteriesForm = () => {
   const navigate = useNavigate();
   const { palette } = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
@@ -82,7 +82,7 @@ const ProductForm = () => {
         variant="h4"
         sx={{ mb: "1.5rem", textAlign: "center" }}
       >
-        ADD INVERTER
+        ADD BATTERIES
       </Typography>
       <hr></hr>
 
@@ -203,40 +203,40 @@ const ProductForm = () => {
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
-                label="Rated Power"
+                label="Normal Voltage"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.ratedPower}
-                name="ratedPower"
+                value={values.normalVoltage}
+                name="normalVoltage"
                 error={
-                  Boolean(touched.ratedPower) && Boolean(errors.ratedPower)
+                  Boolean(touched.normalVoltage) && Boolean(errors.normalVoltage)
                 }
-                helperText={touched.ratedPower && errors.ratedPower}
+                helperText={touched.normalVoltage && errors.normalVoltage}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
-                label="Battery Voltage"
+                label="Normal Capacity"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.batteryVoltage}
-                name="batteryVoltage"
+                value={values.normalCapacity}
+                name="normalCapacity"
                 error={
-                  Boolean(touched.batteryVoltage) &&
-                  Boolean(errors.batteryVoltage)
+                  Boolean(touched.normalCapacity) &&
+                  Boolean(errors.normalCapacity)
                 }
-                helperText={touched.batteryVoltage && errors.batteryVoltage}
+                helperText={touched.normalCapacity && errors.normalCapacity}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
-                label="MPPT Voltage"
+                label="Energy"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.MPPTVoltage}
-                name="MPPTVoltage"
+                value={values.energy}
+                name="energy"
                 error={
-                  Boolean(touched.MPPTVoltage) && Boolean(errors.MPPTVoltage)
+                  Boolean(touched.energy) && Boolean(errors.energy)
                 }
-                helperText={touched.MPPTVoltage && errors.MPPTVoltage}
+                helperText={touched.energy && errors.energy}
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
@@ -276,4 +276,4 @@ const ProductForm = () => {
   );
 };
 
-export default ProductForm;
+export default BatteriesForm;
