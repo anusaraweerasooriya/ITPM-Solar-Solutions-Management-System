@@ -178,3 +178,35 @@ export const getProductById = async (req, res, next) => {
         return next(err);
     }
 };
+
+export const deleteProduct = async (req, res, next) => {
+   const proid = req.params.prid;
+
+   let request;
+   try {
+    request = await Product.findById(proid);
+   } catch (err) {
+        const error = new HttpError(
+            "Something went wrong, could not delete the request",
+            500
+        );
+        return next(error);
+   }
+
+   if (!request) {
+    const error = new HttpError("We could not find a project for given id", 404);
+    return next(error);
+   }
+
+   try {
+    await Product.deleteOne({ _id: proid });
+   } catch(err) {
+    const error = new HttpError(
+        "Something went wrong. Could not delete the project.",
+        500
+    );
+    return next(error);
+   }
+   
+   res.status(200).json({ message: "product deleted successfully!" });
+};
