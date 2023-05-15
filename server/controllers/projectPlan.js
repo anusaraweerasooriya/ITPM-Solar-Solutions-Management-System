@@ -101,3 +101,42 @@ export const getServicePackById = async (req, res, next) => {
 
   res.status(200).json({ pack });
 };
+
+export const getServicePackByRequest = async (req, res, next) => {
+  const { reqID } = req.params;
+  let packs;
+  let request;
+  let pack;
+
+  try {
+    request = await PlanRequest.findById(reqID);
+    console.log(request);
+  } catch (err) {
+    const error = HttpError("Could'nt find the request", 500);
+    return next(error);
+  }
+
+  try {
+    packs = await ServicePack.find();
+  } catch (err) {
+    const error = new HttpError("Couldn't find the service pack", 500);
+    return next(error);
+  }
+  if (request.monthlyPowerConsumption === "0-60") {
+    pack = packs.find((pack) => pack.name === "OffGridPackOne");
+  }
+  if (request.monthlyPowerConsumption === "61-120") {
+    pack = packs.find((pack) => pack.name === "OffGridPackTwo");
+  }
+  if (request.monthlyPowerConsumption === "121-180") {
+    pack = packs.find((pack) => pack.name === "OffGridPackTwo");
+  }
+  if (request.monthlyPowerConsumption === "180-240") {
+    pack = packs.find((pack) => pack.name === "OffGridPackTwo");
+  }
+  if (request.monthlyPowerConsumption === "240>") {
+    pack = packs.find((pack) => pack.name === "OffGridPackThree");
+  }
+
+  res.status(200).json({ pack });
+};

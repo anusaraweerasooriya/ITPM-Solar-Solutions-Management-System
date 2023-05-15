@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useGetServicePackByIdQuery } from "hooks/api-hook";
 
 const projectPlanSchema = yup.object().shape({
   serviceCharge: yup.number().required("Service charge cannot be empty"),
@@ -70,6 +71,7 @@ const AddPlanForm = () => {
             >
               <TextField
                 label="Service Charge"
+                type="number"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.serviceCharge}
@@ -84,6 +86,7 @@ const AddPlanForm = () => {
               />
               <TextField
                 label="Total Cost"
+                type="number"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.totalCost}
