@@ -92,7 +92,7 @@ const AdminProducts = () => {
     {
       field: "action",
       headerName: "Actions",
-      width: 180,
+      width: 250,
       sortable: false,
       disableClickEventBubbling: true,
 
