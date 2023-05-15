@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Box, useTheme, useMediaQuery, Button, Stack, Modal, Typography  } from "@mui/material";
+import { Box, useTheme, useMediaQuery, Button, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useGetAdminDonationsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
+import FormModal from "components/modals/FormModal";
+import DonationView from "./donationView";
 
 const AdminDonations = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
-  const isDesktop = useMediaQuery("(min-width: 1500px)");
-  
+  const [donationId, setDonationId] = useState("");
+
   //view modal
-  const [openView, setOpenView] = React.useState(false);
-  const handleOpen = () => setOpenView(true);
-  const handleClose = () => setOpenView(false);
+  const [isDonationView, setIsDonationView] = useState(false);
   
   // values to be sent to backend
   const [page, setPage] = useState(0);
@@ -70,12 +68,20 @@ const AdminDonations = () => {
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
+
+        const onClickView = (e) => {
+          const currentRow = params.row;
+          setDonationId(currentRow._id);
+          setIsDonationView(!isDonationView);
+          console.log("function id", donationId)
+        }
+
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
               size="small"
-              onClick={handleOpen}
+              onClick={onClickView}
               sx={{
                 textTransform:"unset",
                 background:"#007bff"
@@ -83,6 +89,14 @@ const AdminDonations = () => {
             >
               View
             </Button>
+            {isDonationView && (
+              <FormModal
+                setOpen={setIsDonationView} 
+                open={isDonationView}>
+                {/*title=""*/}
+                  <DonationView donateId={donationId} />
+              </FormModal>
+            )}
           </Stack>
         );
       },
@@ -91,12 +105,13 @@ const AdminDonations = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="DONATIONS" subtitle="Donations Management" />    
-      
-      {isDesktop && (
-        <></>
+      {isDonationView && (
+        <FormModal setOpen={setIsDonationView} open={isDonationView}>
+          <DonationView />
+        </FormModal>
       )}
-      
+
+      <Header title="DONATIONS" subtitle="Donations Management" />      
 
       <Box mt="20px" height="70vh" mb="10px"
         sx={{
@@ -146,27 +161,6 @@ const AdminDonations = () => {
           }}
         />
       </Box>
-
-      <Modal open={openView} onClose={handleClose}>
-        <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          p: 4,
-        }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
-
     </Box>
   );
 };

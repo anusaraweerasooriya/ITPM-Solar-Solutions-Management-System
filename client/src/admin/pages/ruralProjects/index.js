@@ -3,31 +3,31 @@ import { useNavigate } from "react-router-dom";
 import {
   Box,
   useTheme,
-  useMediaQuery,
   Button,
   Stack,
-  Modal,
-  Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useGetAdminRuralProjectsQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
-
+import DeleteModal from "admin/components/DeleteModal";
 import FormModal from "components/modals/FormModal";
-import UpdateRuralForm from "./updateRuralForm";
+import RuralProjectUpdate from "./ruralProjectUpdate";
+import RuralProjectView from "./ruralProjectView";
 
 const AdminRuralProjects = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  //update modal form
-  const [isUpdateForm, setIsUpdateForm] = useState(false);
   const [ruralProjId, setRuralProjId] = useState("");
 
+  //delete modal
+  const [isDeleteForm, setIsDeleteForm] = useState(false);
+
+  //delete modal
+  const [isUpdateForm, setIsUpdateForm] = useState(false);
+
   //view modal
-  const [openView, setOpenView] = React.useState(false);
-  const handleOpen = () => setOpenView(true);
-  const handleClose = () => setOpenView(false);
+  const [isView, setIsView] = useState(false);
 
   // values to be sent to backend
   const [page, setPage] = useState(0);
@@ -36,7 +36,7 @@ const AdminRuralProjects = () => {
   const [search, setSearch] = useState("");
 
   const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useGetAdminRuralProjectsQuery(
+  const { data, isLoading, refetch } = useGetAdminRuralProjectsQuery(
     {
       page,
       pageSize,
@@ -65,16 +65,22 @@ const AdminRuralProjects = () => {
     {
       field: "projectType",
       headerName: "Type",
-      flex: 0.8,
+      flex: 0.7,
     },
     {
       field: "gridType",
       headerName: "Grid Type",
-      flex: 0.5,
+      flex: 0.6,
     },
     {
       field: "estimTotalCost",
       headerName: "Total Cost",
+      flex: 0.8,
+      renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
+    },
+    {
+      field: "currentAllocation",
+      headerName: "Current Allocation",
       flex: 0.8,
       renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
@@ -86,9 +92,11 @@ const AdminRuralProjects = () => {
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-        const onClick = (e) => {
+
+        const onClickDelete = (e) => {
           const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
+          setRuralProjId(currentRow._id);
+          setIsDeleteForm(!isDeleteForm);
         };
 
         const onClickUpdate = (e) => {
@@ -97,19 +105,14 @@ const AdminRuralProjects = () => {
           setIsUpdateForm(!isUpdateForm);
         };
 
+        const onClickView = (e) => {
+          const currentRow = params.row;
+          setRuralProjId(currentRow._id);
+          setIsView(!isView);
+        }
+
         return (
           <Stack direction="row" spacing={2}>
-            <Button
-              variant="contained"
-              size="small"
-              onClick={handleOpen}
-              sx={{
-                textTransform: "unset",
-                background: "#007bff",
-              }}
-            >
-              View
-            </Button>
             <Button
               variant="contained"
               color="secondary"
@@ -122,34 +125,95 @@ const AdminRuralProjects = () => {
               Edit
             </Button>
             {isUpdateForm && (
-              <FormModal setOpen={setIsUpdateForm} open={isUpdateForm}>
-                <UpdateRuralForm projId={ruralProjId} />
+              <FormModal
+                setOpen={setIsUpdateForm} 
+                open={isUpdateForm}>
+                {/*title="Update Rural Project"*/}
+                  <RuralProjectUpdate projId={ruralProjId} />
               </FormModal>
             )}
             <Button
               variant="contained"
               color="error"
               size="small"
-              onClick={onClick}
+              onClick={onClickDelete}
               sx={{
                 textTransform: "unset",
               }}
             >
               Delete
             </Button>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={onClickView}
+              sx={{
+                textTransform: "unset",
+                background: "#007bff",
+              }}
+            >
+              View
+            </Button>
+            {isView && (
+              <FormModal
+                setOpen={setIsView} 
+                open={isView}>
+                {/*title=""*/}
+                  <RuralProjectView projId={ruralProjId} />
+              </FormModal>
+            )}
           </Stack>
         );
       },
     },
   ];
 
+  const handleDelete = async () => {
+    console.log("id", ruralProjId );
+    const response = await fetch(
+      `http://localhost:5001/projects/deleteRuralProject/${ruralProjId}`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error(responseData.message);
+    }
+
+    if (response.ok) {
+      setIsDeleteForm(false);
+      refetch();
+    }
+  };
+
   return (
     <Box m="1.5rem 2.5rem">
+      {isDeleteForm && (
+        <DeleteModal 
+          setOpen={setIsDeleteForm} 
+          open={isDeleteForm} 
+          title="Delete Rural Project"
+          body="Are you sure you want to delete this rural project?"
+          handleDelete={handleDelete}>
+        </DeleteModal>
+      )}
+
       {isUpdateForm && (
-        <FormModal setOpen={setIsUpdateForm} open={isUpdateForm} title="Update Rural Project">
-          <UpdateRuralForm />
+        <FormModal setOpen={setIsUpdateForm} open={isUpdateForm}>
+          <RuralProjectUpdate />
         </FormModal>
       )}
+
+      {isView && (
+        <FormModal setOpen={setIsView} open={isView}>
+          <RuralProjectView />
+        </FormModal>
+      )}
+
       <Header title="RURAL PROJECTS" subtitle="Rural Project Management" />
 
       <Box
@@ -210,28 +274,6 @@ const AdminRuralProjects = () => {
       >
         ADD
       </Button>
-
-      <Modal open={openView} onClose={handleClose}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
     </Box>
   );
 };

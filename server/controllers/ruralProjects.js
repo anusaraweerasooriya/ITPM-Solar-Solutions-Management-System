@@ -158,13 +158,44 @@ export const updateRuralProject = async (req, res, next) => {
 export const getRuralProjectById = async (req, res, next) => {
     try {
       const { projId } = req.query;
-      //const projId = "642c505dadf8308c4a5d0aae";
 
       const project = await RuralProject.findById(projId);
       res.status(200).json(project);
     } catch (err) {
       const error = new HttpError("Failed fetch data! Please try again", 500);
-      return next(err);
+      return next(error);
     }
+};
+
+  export const deleteRuralProject = async (req, res, next) => {
+    const projId = req.params.pid;
+  
+    let request;
+    try {
+      request = await RuralProject.findById(projId);
+    } catch (err) {
+      const error = new HttpError(
+        "Something went wrong, could not delete the request",
+        500
+      );
+      return next(error);
+    }
+  
+    if (!request) {
+      const error = new HttpError("We could not find a project for given id", 404);
+      return next(error);
+    }
+  
+    try {
+      await RuralProject.deleteOne({ _id: projId });
+    } catch (err) {
+      const error = new HttpError(
+        "Something went wrong. Could not delete the project.",
+        500
+      );
+      return next(error);
+    }
+  
+    res.status(200).json({ message: "Rural project deleted successfully!" });
   };
 

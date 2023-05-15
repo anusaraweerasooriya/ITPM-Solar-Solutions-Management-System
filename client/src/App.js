@@ -37,6 +37,8 @@ import UpdateProductForm from "admin/pages/product/updateInverterForm";
 import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
 import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
+import RuralProject from "user/pages/ruralProjects/ruralProject";
+import Donations from "user/pages/profile/Donations/Donations";
 
 function App() {
   const role = useSelector((state) => state.auth.role);
@@ -52,14 +54,9 @@ function App() {
   );
 
   const ruralProjectRoutes = [
-    <Route
-      path="/admin/ruralProjects"
-      element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />}
-    />,
-    <Route
-      path="/admin/addRuralProject"
-      element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />}
-    />,
+    <Route path="/admin/ruralProjects" element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />} />,
+    <Route path="/admin/addRuralProject" element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />} />,
+    <Route path="/ruralProject/admin/:id" element={isAdmin ? <RuralProject /> : <Navigate to="/login" />} />
   ];
 
   const donationRoutes = [
@@ -115,6 +112,7 @@ function App() {
     <Route path="/projects" element={<Projects />} />,
     <Route path="/donate" element={<RuralProjects />} />,
     <Route path="/donate/submit" element={<DonateForm />} />,
+    <Route path="/profile/donations" element={<Donations />} />,
   ];
 
   const userProfileRoutes = "";
@@ -170,6 +168,7 @@ function App() {
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project" element={<Project />} />
                 <Route path="/generateBill" element={<BillGenerator />} />
+                <Route path="/ruralProject/:id" element={<RuralProject />} />
               </Route>
             </Routes>
           </ThemeProvider>

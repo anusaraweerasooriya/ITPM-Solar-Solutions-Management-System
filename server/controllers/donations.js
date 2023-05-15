@@ -64,3 +64,31 @@ export const getAdminDonations = async (req, res) => {
         res.status(409).json({ error: err.message });
     }
 };
+
+export const getDonationById = async (req, res, next) => {
+    try {
+      const { donateId } = req.query;
+
+      const donation = await Donation.findById(donateId);
+      res.status(200).json(donation);
+    } catch (err) {
+      const error = new HttpError("Failed fetch data! Please try again", 500);
+      return next(error);
+    }
+};
+
+export const getDonationsByUserEmail = async (req, res, next) => {
+    try {
+      const { email } = req.query;
+  
+      const userDonations = await Donation.find({
+        email: email,
+      });
+      console.log(userDonations);
+  
+      res.status(200).json(userDonations);
+    } catch (err) {
+      const error = new HttpError("Something went wrong! Please try again.", 404);
+      return next(error);
+    }
+  };
