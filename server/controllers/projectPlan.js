@@ -87,3 +87,17 @@ export const createProjectPlanForRequest = async (req, res, next) => {
 
   res.status(200).json({ savedPlan });
 };
+
+export const getServicePackById = async (req, res, next) => {
+  const { servicePack } = req.params;
+  let pack;
+
+  try {
+    pack = await ServicePack.findById(servicePack);
+  } catch (err) {
+    const error = new HttpError("Couldn't find the service pack", 500);
+    return next(error);
+  }
+
+  res.status(200).json({ pack });
+};
