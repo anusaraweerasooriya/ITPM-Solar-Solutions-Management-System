@@ -94,6 +94,13 @@ export const customApi = createApi({
       }),
       providesTags: ["PendingRequestById"],
     }),
+    getServicePackById: build.query({
+      query: ({ servicePack }) => ({
+        url: `plans/getServicePackById/${servicePack}`,
+        method: "GET",
+      }),
+      providesTags: ["PendingRequestById"],
+    }),
     getRuralProjectById: build.query({
       query: ({ projId }) => ({
         url: "projects/getRuralProjectById",
