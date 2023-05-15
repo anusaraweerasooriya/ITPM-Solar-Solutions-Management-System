@@ -1,30 +1,53 @@
-import { useMediaQuery, Box, useTheme, Button, Stack, List, ListItemButton, ListItemText, Collapse } from "@mui/material";
-import Header from "admin/components/Header";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { 
+  useMediaQuery, 
+  Box, 
+  useTheme, 
+  Button, 
+  Stack, 
+  List, 
+  ListItemButton, 
+  ListItemText, 
+  Collapse 
+} from "@mui/material";
+import Header from "admin/components/Header";
 import ProductCards from "./productCards";
 import { useGetAdminProductsQuery } from "hooks/api-hook";
 import { DataGrid } from "@mui/x-data-grid";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import UpdateProductForm from "./updateInverterForm"
+import FormModal from "components/modals/FormModal";
 
 const AdminProducts = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [productId, setProductId] = useState("");
   const isDesktop = useMediaQuery("(min-width: 1700px)");
+
+  //delete modal
+  const [isDeleteForm, setIsDeleteForm] = useState(false);
+
+  //update modal
+  const [isUpdateForm, setIsUpdateForm] = useState(false);
+
+  //view modal
+  const [isView, setIsView] = useState(false);
 
   // values to be sent to backend
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
   const [sort, setSort] = useState({});
   const [search, setSearch] = useState("");
+
   const [open, setOpen] = React.useState(true);
   const handleClick = () => {
     setOpen(!open);
   };
 
   const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useGetAdminProductsQuery(
+  const { data, isLoading, refetch } = useGetAdminProductsQuery(
     {
       page,
       pageSize,
@@ -33,6 +56,7 @@ const AdminProducts = () => {
     },
     { refetchOnMountOrArgChange: true }
   );
+
   console.log(data);
   const columns = [
     {
@@ -73,9 +97,26 @@ const AdminProducts = () => {
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-        const onClick = (e) => {
+
+        const onClickDelete = (e) => {
           const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
+          setProductId(currentRow._id);
+          setIsDeleteForm(!isDeleteForm);
+         // return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        const onClickUpdate = (e) => {
+          const currentRow = params.row;
+          setProductId(currentRow._id);
+          setIsUpdateForm(!isUpdateForm);
+         // return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        const onClickView = (e) => {
+          const currentRow = params.row;
+          setProductId(currentRow._id);
+          setIsView(!isView);
+         // return alert(JSON.stringify(currentRow, null, 4));
         };
 
         return (
@@ -84,23 +125,41 @@ const AdminProducts = () => {
               variant="contained"
               color="secondary"
               size="small"
-              onClick={() => navigate("/admin/updateInverter")}
+              onClick={onClickUpdate}
               sx={{
                 textTransform: "unset",
               }}
             >
               Edit
             </Button>
+            {isUpdateForm && (
+              <FormModal
+                setOpen={setIsUpdateForm}
+                open={isUpdateForm}>
+                  <UpdateProductForm prodId={productId} />
+              </FormModal>
+            )}
             <Button
               variant="contained"
               color="error"
               size="small"
-              onClick={onClick}
+              onClick={onClickDelete}
               sx={{
                 textTransform: "unset",
               }}
             >
               Delete
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={onClickView}
+              sx={{
+                textTransform: "unset",
+                background: "#007bff",
+              }}
+            >
+              View
             </Button>
           </Stack>
         );
