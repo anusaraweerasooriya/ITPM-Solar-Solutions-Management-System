@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+const ProjectPlanSchema = new mongoose.Schema(
   {
     requestId: {
       type: String,
@@ -28,5 +28,5 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("User", UserSchema);
-export default User;
+const ProjectPlan = mongoose.model("ProjectPlan", ProjectPlanSchema);
+export default ProjectPlan;
