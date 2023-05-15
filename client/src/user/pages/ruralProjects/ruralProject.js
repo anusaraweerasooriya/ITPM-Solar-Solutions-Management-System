@@ -25,8 +25,8 @@ const RuralProject = () => {
   const projId = useParams().id;
   const {data} = useGetRuralProjectByIdQuery({projId});
   const progress = data && ((data.currentAllocation / data.estimTotalCost) * 100);
-  console.log(data)
-  console.log("progress", progress)
+  console.log("id",projId)
+  console.log("data",data)
 
   return (
     data && (
