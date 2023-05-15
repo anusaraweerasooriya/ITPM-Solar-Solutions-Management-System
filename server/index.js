@@ -17,8 +17,7 @@ import {
 import ruralRoutes from "./routes/ruralProjects.js";
 import donationRoutes from "./routes/donations.js";
 import billRoutes from "./routes/bill.js";
-import BillMetrics from "./models/BillMetrices.js";
-import Product from "./models/Product.js";
+import ServicePack from "./models/ServicePack.js";
 
 import { createProduct } from "./controllers/products.js";
 import productsRoutes from "./routes/products.js";
@@ -36,6 +35,8 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cors());
+
+app.options("*", cors());
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -97,34 +98,5 @@ mongoose
   })
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-
-    // BillMetrics.insertMany({
-    //   version: "Version1",
-    //   version1Category1Price: 30.0,
-    //   version1Category2Price: 37.0,
-    //   version2Category1Price: 42.0,
-    //   version2Category2Price: 42.0,
-    //   version2Category3Price: 50.0,
-    //   version2Category4Price: 50.0,
-    //   version2Category5Price: 75.0,
-    //   category1FixedCharge: 400.0,
-    //   category2FixedCharge: 550.0,
-    //   category3FixedCharge: 650.0,
-    //   category4FixedCharge: 1500.0,
-    //   category5FixedCharge: 2000.0,
-    // });
-
-    // Product.insertMany(
-    //   {
-    //   productName:"",
-    //   price:"",
-    //   productType:"",
-    //   imagePath: "",
-    //   description:"",
-    //   category:"",
-    //   features:[],
-    //   availability:""
-    // }
-    // )
   })
   .catch((error) => console.log(`${error} did not connect`));

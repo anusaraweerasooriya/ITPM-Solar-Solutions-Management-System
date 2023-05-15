@@ -25,9 +25,9 @@ const PendingRequests = () => {
   const [isForm, setIsForm] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
 
-  useEffect(() => {
-    refetch();
-  });
+  // useEffect(() => {
+  //   refetch();
+  // });
 
   return (
     <Box m="2rem" mr="4rem" ml="4rem">

@@ -14,6 +14,13 @@ const ServicePackSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    availability: {
+      type: Boolean,
+      default: true,
+    },
+    totalProductCost: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
