@@ -19,8 +19,6 @@ export const createProduct = async (req, res) => {
             normalVoltage, 
             normalCapacity, 
             energy, 
-
-
         } = req.body;
 
 
@@ -102,7 +100,7 @@ export const getProducts = async (req, res) => {
     }
 };
 
-/*UPDATES */
+/*UPDATE */
 export const updateProduct = async (req, res, next) => {
     const errors = validationResult(res);
     if(!errors.isEmpty()) {
