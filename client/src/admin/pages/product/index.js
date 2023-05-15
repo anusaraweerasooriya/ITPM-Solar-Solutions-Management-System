@@ -20,6 +20,7 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import UpdateProductForm from "./updateProductForm"
 import FormModal from "components/modals/FormModal";
 import DeleteModal from "admin/components/DeleteModal";
+import ProductView from "./productView";
 
 const AdminProducts = () => {
   const theme = useTheme();
@@ -118,7 +119,7 @@ const AdminProducts = () => {
           setProductId(currentRow._id);
           setIsView(!isView);
          // return alert(JSON.stringify(currentRow, null, 4));
-        };
+        }
 
         return (
           <Stack direction="row" spacing={2}>
@@ -162,6 +163,13 @@ const AdminProducts = () => {
             >
               View
             </Button>
+            {isView && (
+              <FormModal
+                setOpen={setIsView}
+                open={isView}>
+                  <ProductView prodId={productId} />
+              </FormModal>
+            )}
           </Stack>
         );
       },
@@ -217,9 +225,10 @@ const AdminProducts = () => {
           setOpen={setIsView}
           open={isView}
         >
-
+          <ProductView />
         </FormModal>
       )}
+      
       <Header title="PRODUCTS" subtitle="Product Management" />
 
       {isDesktop && <ProductCards />}

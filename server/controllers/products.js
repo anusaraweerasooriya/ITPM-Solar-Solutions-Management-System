@@ -68,7 +68,6 @@ export const getAdminProducts = async (req, res) => {
         const products = await Product.find({
             $or: [
                 { productName: { $regex: new RegExp(search, "i") } },
-                //{ price: { $regex: new RegExp(search, "i") } },
                 { productType: { $regex: new RegExp(search, "i") } },
                 { category: { $regex: new RegExp(search, "i") } },  
             ]

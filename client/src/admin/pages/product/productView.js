@@ -1,6 +1,6 @@
 import React from 'react'
-import { useGetProductByIdQuery } from 'hooks/api-hook';
-import { Grid } from '@mui/material';
+import { useGetProductByIdQuery } from 'hooks/api-hook'
+import { Grid, Typography } from '@mui/material';
 
 const ProductView = ({prodId}) => {
     const {data} = useGetProductByIdQuery({prodId});
@@ -9,10 +9,10 @@ const ProductView = ({prodId}) => {
         <Grid container>
             <Grid xs={12} textAlign="center">
                 <Typography fontWeight="bold" fontSize="1rem" color="primary">{data.productName}</Typography>
+                <hr></hr>
             </Grid>
             <Grid xs={12} textAlign="center">
                 <Typography color="primary">{data.price}</Typography>
-                <hr></hr>
             </Grid>
 
             <Grid xs={4} mt="1rem">
@@ -37,7 +37,7 @@ const ProductView = ({prodId}) => {
             </Grid>
         </Grid>
     )
-  )
-}
+  );
+};
 
 export default ProductView;
