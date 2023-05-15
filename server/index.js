@@ -17,11 +17,8 @@ import {
 import ruralRoutes from "./routes/ruralProjects.js";
 import donationRoutes from "./routes/donations.js";
 import billRoutes from "./routes/bill.js";
-import ServicePack from "./models/ServicePack.js";
-
 import { createProduct } from "./controllers/products.js";
 import productsRoutes from "./routes/products.js";
-
 import projectRoutes from "./routes/projects.js";
 import recentProjectRoutes from "./routes/recentProjects.js";
 import requestRoutes from "./routes/requests.js";

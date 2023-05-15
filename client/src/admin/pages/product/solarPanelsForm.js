@@ -22,9 +22,9 @@ const ProductSchema = yup.object().shape({
   imagePath: yup.string().required("please choose an image"),
   category: yup.string().required("Please select a product category"),
   description: yup.string(),
+  maxVoltage: yup.string().required("Please fill this field"),
+  maxCurrent: yup.string().required("Please fill this field"),
   ratedPower: yup.string().required("Please fill this field"),
-  batteryVoltage: yup.string().required("Please fill this field"),
-  MPPTVoltage: yup.string().required("Please fill this field"),
 });
 
 const initialValuesProduct = {
@@ -32,14 +32,14 @@ const initialValuesProduct = {
   price: "",
   productType: "",
   imagePath: "",
-  category: "Inverter",
+  category: "Battery",
   description: "",
+  maxVoltage: "",
+  maxCurrent: "",
   ratedPower: "",
-  batteryVoltage: "",
-  MPPTVoltage: "",
 };
 
-const ProductForm = () => {
+const BatteriesForm = () => {
   const navigate = useNavigate();
   const { palette } = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
@@ -82,7 +82,7 @@ const ProductForm = () => {
         variant="h4"
         sx={{ mb: "1.5rem", textAlign: "center" }}
       >
-        ADD INVERTER
+        ADD BATTERIES
       </Typography>
       <hr></hr>
 
@@ -203,6 +203,31 @@ const ProductForm = () => {
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
+                label="Max Voltage"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.maxVoltage}
+                name="maxVoltage"
+                error={
+                  Boolean(touched.maxVoltage) && Boolean(errors.maxVoltage)
+                }
+                helperText={touched.maxVoltage && errors.maxVoltage}
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
+                label="Max Current"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.maxCurrent}
+                name="maxCurrent"
+                error={
+                  Boolean(touched.maxCurrent) &&
+                  Boolean(errors.maxCurrent)
+                }
+                helperText={touched.maxCurrent && errors.maxCurrent}
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
                 label="Rated Power"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -212,31 +237,6 @@ const ProductForm = () => {
                   Boolean(touched.ratedPower) && Boolean(errors.ratedPower)
                 }
                 helperText={touched.ratedPower && errors.ratedPower}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                label="Battery Voltage"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.batteryVoltage}
-                name="batteryVoltage"
-                error={
-                  Boolean(touched.batteryVoltage) &&
-                  Boolean(errors.batteryVoltage)
-                }
-                helperText={touched.batteryVoltage && errors.batteryVoltage}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                label="MPPT Voltage"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.MPPTVoltage}
-                name="MPPTVoltage"
-                error={
-                  Boolean(touched.MPPTVoltage) && Boolean(errors.MPPTVoltage)
-                }
-                helperText={touched.MPPTVoltage && errors.MPPTVoltage}
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
@@ -276,4 +276,4 @@ const ProductForm = () => {
   );
 };
 
-export default ProductForm;
+export default BatteriesForm;
