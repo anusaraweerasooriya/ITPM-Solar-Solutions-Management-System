@@ -139,7 +139,7 @@ const AdminProducts = () => {
               <FormModal
                 setOpen={setIsUpdateForm}
                 open={isUpdateForm}>
-                  <UpdateProductForm prodId={productsId} />
+                  <UpdateProductForm productId={productsId} />
               </FormModal>
             )}
             <Button

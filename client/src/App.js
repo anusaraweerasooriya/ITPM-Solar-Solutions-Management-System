@@ -163,7 +163,7 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/products" element={<Products />} />,
-                <Route path="/product" element={<Product />} />,
+                <Route path="/product/:id" element={<Product />} />,
                 <Route path="/generateBill" element={<BillGenerator />} />,
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project" element={<Project />} />
