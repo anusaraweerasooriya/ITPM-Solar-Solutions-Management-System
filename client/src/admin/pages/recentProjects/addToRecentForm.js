@@ -60,7 +60,7 @@ const AddToRecentForm = () => {
       onSubmitProps.resetForm();
 
       if (savedProject) {
-          navigate("/admin/ruralProjects")
+          navigate("/admin/recentProjects")
       }
   };
 
@@ -73,7 +73,7 @@ const AddToRecentForm = () => {
           backgroundColor="#ffffff"
       >
           <Typography fontWeight="bold" variant="h4" sx={{ mb: "1.5rem", textAlign:"center" }}>
-          ADD RURAL PROJECT
+          ADD RECENT PROJECT
           </Typography>
           <hr></hr>
           
