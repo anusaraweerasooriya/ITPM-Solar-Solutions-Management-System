@@ -23,7 +23,7 @@ const AdminRuralProjects = () => {
   //delete modal
   const [isDeleteForm, setIsDeleteForm] = useState(false);
 
-  //delete modal
+  //update modal
   const [isUpdateForm, setIsUpdateForm] = useState(false);
 
   //view modal
@@ -129,7 +129,7 @@ const AdminRuralProjects = () => {
                 setOpen={setIsUpdateForm} 
                 open={isUpdateForm}>
                 {/*title="Update Rural Project"*/}
-                  <RuralProjectUpdate projId={ruralProjId} />
+                  <RuralProjectUpdate projId={ruralProjId} setIsUpdateForm={setIsUpdateForm} refetch={refetch} />
               </FormModal>
             )}
             <Button
