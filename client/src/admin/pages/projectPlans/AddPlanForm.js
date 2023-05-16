@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
   useMediaQuery,
   TextField,
   Button,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
+import { AddCircleOutlineOutlined } from "@mui/icons-material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useGetServicePackByIdQuery } from "hooks/api-hook";
+import { useNavigate } from "react-router-dom";
 
 const projectPlanSchema = yup.object().shape({
   serviceCharge: yup.number().required("Service charge cannot be empty"),
@@ -22,10 +25,55 @@ const initialValues = {
   description: "",
 };
 
-const AddPlanForm = () => {
+const AddPlanForm = ({ productCost, reqId }) => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const navigate = useNavigate();
+  const [charge, setCharge] = useState(0);
 
-  const handleFormSubmit = async () => {};
+  initialValues.totalCost = productCost;
+
+  // useEffect(() => {
+  //   const calculatedTotalCost = productCost * (charge / 100) + productCost;
+  //   console.log(calculatedTotalCost);
+  //   initialValues.totalCost = calculatedTotalCost.toString();
+  // }, [charge, productCost]);
+
+  const handleServiceCharge = () => {
+    const calculatedTotalCost = productCost * (charge / 100) + productCost;
+    console.log(calculatedTotalCost);
+    initialValues.totalCost = calculatedTotalCost.toString();
+  };
+
+  const createPlan = async (values, onSubmitProps) => {
+    const response = await fetch(
+      `http://localhost:5001/plans/createProjectPlan/${reqId}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      }
+    );
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error(responseData.message);
+    }
+
+    if (response.ok) {
+      if (responseData.savedPlan) {
+        onSubmitProps.resetForm();
+        navigate("/admin/planRequests");
+      }
+    }
+  };
+
+  const handleFormSubmit = async (values, onSubmitProps) => {
+    try {
+      await createPlan(values, onSubmitProps);
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <Box
@@ -74,6 +122,7 @@ const AddPlanForm = () => {
                 type="number"
                 onBlur={handleBlur}
                 onChange={handleChange}
+                onChangeCapture={(e) => setCharge(e.target.value)}
                 value={values.serviceCharge}
                 name="serviceCharge"
                 color="success"
@@ -82,6 +131,16 @@ const AddPlanForm = () => {
                   Boolean(errors.serviceCharge)
                 }
                 helperText={touched.serviceCharge && errors.serviceCharge}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleServiceCharge}>
+                        {" "}
+                        <AddCircleOutlineOutlined />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField

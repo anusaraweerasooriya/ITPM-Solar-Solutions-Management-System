@@ -24,10 +24,13 @@ const AddProjectPlan = () => {
           justifyContent="space-between"
         >
           <Box flexBasis={isNonMobileScreens ? "55%" : undefined}>
-            <AddPlanForm />
+            <AddPlanForm
+              productCost={data && data.pack.totalProductCost}
+              reqId={id}
+            />
           </Box>
           <Box flexBasis={isNonMobileScreens ? "45%" : undefined}>
-            {data && <Products servicePack={data.pack} />}
+            {data && <Products servicePack={data && data.pack} />}
           </Box>
         </Box>
       </Box>
