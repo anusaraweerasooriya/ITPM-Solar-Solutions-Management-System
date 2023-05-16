@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, useTheme, Stack, Button, Chip } from "@mui/material";
+
 import { Done } from "@mui/icons-material";
 import Header from "admin/components/Header";
-import { useGetAdminPlanRequestsQuery } from "hooks/api-hook";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
 import { DataGrid } from "@mui/x-data-grid";
-import RejectModal from "./RejectModal";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useGetAdminProjectPlansQuery } from "hooks/api-hook";
 
-const PlanRequests = () => {
+const ProjectPlans = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.auth.user._id);
   const navigate = useNavigate();
@@ -26,11 +26,14 @@ const PlanRequests = () => {
   const [isRejectModal, setIsRejectModal] = useState(false);
   const [currReqId, setCurrReqId] = useState("");
 
-  const { data, isLoading, refetch } = useGetAdminPlanRequestsQuery({
+  const { data, isLoading, refetch } = useGetAdminProjectPlansQuery({
     page,
     pageSize,
     sort: JSON.stringify(sort),
     search,
+  });
+  useEffect(() => {
+    refetch();
   });
 
   const columns = [
@@ -40,35 +43,31 @@ const PlanRequests = () => {
       flex: 1,
     },
     {
-      field: "user",
-      headerName: "User",
+      field: "requestId",
+      headerName: "Request",
       flex: 1,
     },
     {
-      field: "clientName",
-      headerName: "Client Name",
+      field: "servicePack",
+      headerName: "Service Pack",
       flex: 1,
     },
     {
-      field: "type",
-      headerName: "Project Type",
+      field: "serviceCharge",
+      headerName: "Service Charge",
       flex: 0.8,
     },
     {
-      field: "gridType",
-      headerName: "Grid Type",
+      field: "totalCost",
+      headerName: "Total Cost",
       flex: 1,
     },
     {
-      field: "monthlyPowerConsumption",
-      headerName: "Power Consumption/month",
+      field: "description",
+      headerName: "Description",
       flex: 1,
     },
-    {
-      field: "status",
-      headerName: "Request Status",
-      flex: 0.9,
-    },
+
     {
       field: "action",
       headerName: "Actions",
@@ -146,18 +145,9 @@ const PlanRequests = () => {
       },
     },
   ];
-
   return (
     <Box m="1.5rem 2.5rem">
-      {isRejectModal && (
-        <RejectModal
-          isRejectModal={isRejectModal}
-          setIsRejectModal={setIsRejectModal}
-          reqId={currReqId}
-          refetch={refetch}
-        />
-      )}
-      <Header title="REQUEST PLANS" subtitle="Request Plan Management" />
+      <Header title="PROJECT PLANS" subtitle="Project Plan Management" />
       <Box
         mt="20px"
         height="70vh"
@@ -190,7 +180,7 @@ const PlanRequests = () => {
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={(data && data.requests) || []}
+          rows={(data && data.plans) || []}
           columns={columns}
           rowCount={(data && data.total) || 0}
           rowsPerPageOptions={[20, 50, 100]}
@@ -212,4 +202,4 @@ const PlanRequests = () => {
   );
 };
 
-export default PlanRequests;
+export default ProjectPlans;

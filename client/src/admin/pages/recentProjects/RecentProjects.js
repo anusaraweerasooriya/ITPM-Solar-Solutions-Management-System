@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { Box, useTheme, Stack, Button, Chip } from "@mui/material";
 import { Done } from "@mui/icons-material";
 import Header from "admin/components/Header";
-import { useGetAdminPlanRequestsQuery } from "hooks/api-hook";
+import { useGetAdminRecentProjectsQuery } from "hooks/api-hook";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 
 import { DataGrid } from "@mui/x-data-grid";
-import RejectModal from "./RejectModal";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const PlanRequests = () => {
+import DeleteRecentProjectModal from "./DeleteRecentProjectModal";
+import UpdateForm from "./UpdateForm";
+import FormModal from "components/modals/FormModal";
+
+const RecentProjects = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.auth.user._id);
   const navigate = useNavigate();
@@ -23,10 +26,11 @@ const PlanRequests = () => {
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
-  const [isRejectModal, setIsRejectModal] = useState(false);
-  const [currReqId, setCurrReqId] = useState("");
+  const [prodId, setProdId] = useState("");
+  const [open, setOpen] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
 
-  const { data, isLoading, refetch } = useGetAdminPlanRequestsQuery({
+  const { data, isLoading, refetch } = useGetAdminRecentProjectsQuery({
     page,
     pageSize,
     sort: JSON.stringify(sort),
@@ -40,33 +44,33 @@ const PlanRequests = () => {
       flex: 1,
     },
     {
-      field: "user",
-      headerName: "User",
+      field: "projectId",
+      headerName: "Project ",
       flex: 1,
     },
     {
-      field: "clientName",
-      headerName: "Client Name",
+      field: "projectName",
+      headerName: "Project Name",
       flex: 1,
     },
     {
-      field: "type",
-      headerName: "Project Type",
+      field: "location",
+      headerName: "Location",
       flex: 0.8,
     },
     {
-      field: "gridType",
-      headerName: "Grid Type",
+      field: "projectType",
+      headerName: "Project Type",
       flex: 1,
     },
     {
-      field: "monthlyPowerConsumption",
-      headerName: "Power Consumption/month",
+      field: "description",
+      headerName: "Description",
       flex: 1,
     },
     {
-      field: "status",
-      headerName: "Request Status",
+      field: "endDate",
+      headerName: "End Date",
       flex: 0.9,
     },
     {
@@ -82,65 +86,46 @@ const PlanRequests = () => {
           return alert(JSON.stringify(currentRow._id, null, 4));
         };
 
-        const rejectPlanHandler = (e) => {
+        const deleteHandler = (e) => {
           const currentRow = params.row;
-          const reqId = currentRow._id;
-          setCurrReqId(reqId);
-          setIsRejectModal(!isRejectModal);
+          const id = currentRow._id;
+          setProdId(id);
+          setOpen(!open);
         };
 
-        const createPlanHandler = (e) => {
+        const updateHandler = (e) => {
           const currentRow = params.row;
-          const reqId = currentRow._id;
-          setCurrReqId(reqId);
-          navigate(`/admin/addProjectPlan/${reqId}`);
+          const id = currentRow._id;
+          setProdId(id);
+          setOpenForm(!openForm);
         };
-
-        const currentRow = params.row;
-        const isPending = currentRow.status === "pending";
-        const isRejected = currentRow.status === "rejected";
 
         return (
           <div>
-            {isPending ? (
-              <Stack direction="row" spacing={2}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  onClick={createPlanHandler}
-                  sx={{
-                    textTransform: "unset",
-                  }}
-                >
-                  Create
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  size="small"
-                  onClick={rejectPlanHandler}
-                  sx={{
-                    textTransform: "unset",
-                  }}
-                >
-                  Reject
-                </Button>
-              </Stack>
-            ) : isRejected ? (
-              <Box>
-                <Chip label="Rejected" color="default" />
-              </Box>
-            ) : (
-              <Box>
-                <Chip
-                  label="Plan Created"
-                  color="success"
-                  variant="outlined"
-                  icon={<Done />}
-                />
-              </Box>
-            )}
+            <Stack direction="row" spacing={2}>
+              <Button
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={updateHandler}
+                sx={{
+                  textTransform: "unset",
+                }}
+              >
+                Update
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                size="small"
+                onClick={deleteHandler}
+                sx={{
+                  textTransform: "unset",
+                }}
+              >
+                Delete
+              </Button>
+            </Stack>
           </div>
         );
       },
@@ -149,15 +134,28 @@ const PlanRequests = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      {isRejectModal && (
-        <RejectModal
-          isRejectModal={isRejectModal}
-          setIsRejectModal={setIsRejectModal}
-          reqId={currReqId}
+      <Header title="REQUEST PLANS" subtitle="Request Plan Management" />
+      {open && (
+        <DeleteRecentProjectModal
+          open={open}
+          setOpen={setOpen}
+          prodId={prodId}
           refetch={refetch}
         />
       )}
-      <Header title="REQUEST PLANS" subtitle="Request Plan Management" />
+      {openForm && (
+        <FormModal
+          setOpen={setOpenForm}
+          open={openForm}
+          title="Update Recent Project"
+        >
+          <UpdateForm
+            prodId={prodId}
+            refetch={refetch}
+            setIsForm={setOpenForm}
+          />
+        </FormModal>
+      )}
       <Box
         mt="20px"
         height="70vh"
@@ -190,7 +188,7 @@ const PlanRequests = () => {
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={(data && data.requests) || []}
+          rows={(data && data.projects) || []}
           columns={columns}
           rowCount={(data && data.total) || 0}
           rowsPerPageOptions={[20, 50, 100]}
@@ -212,4 +210,4 @@ const PlanRequests = () => {
   );
 };
 
-export default PlanRequests;
+export default RecentProjects;

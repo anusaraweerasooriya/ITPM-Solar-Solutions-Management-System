@@ -20,6 +20,12 @@ export const customApi = createApi({
     "DonationById",
     "UserDonations",
     "ProductById",
+    "ServicePackById",
+    "ServicePackByRequest",
+    "AdminProjectPlans",
+    "ProjectPlanByUser",
+    "AdminRecentProjects",
+    "AdminRecentProjectById",
     "ProjectById",
     "ProductRequestById",
     "AdminProductRequest"
@@ -46,6 +52,14 @@ export const customApi = createApi({
       }),
       providesTags: ["AdminPlanRequests"],
     }),
+    getAdminProjectPlans: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "plans/getAdminProjectPlans",
+        method: "GET",
+        params: { page, pageSize, sort, search },
+      }),
+      providesTags: ["AdminProjectPlans"],
+    }),
     getRuralProjects: build.query({
       query: () => "projects/ruralProjects",
       providesTags: ["RuralProjects"],
@@ -65,6 +79,21 @@ export const customApi = createApi({
         params: { page, pageSize, sort, search },
       }),
       providesTags: ["CompletedProjects"],
+    }),
+    getAdminRecentProjects: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "recentProjects/getAdminRecentProjects",
+        method: "GET",
+        params: { page, pageSize, sort, search },
+      }),
+      providesTags: ["AdminRecentProjects"],
+    }),
+    getRecentProjectById: build.query({
+      query: ({ prodId }) => ({
+        url: `recentProjects/getRecentProjectById/${prodId}`,
+        method: "GET",
+      }),
+      providesTags: ["AdminRecentProjectById"],
     }),
     getUsers: build.query({
       query: () => "auth/users",
@@ -97,6 +126,27 @@ export const customApi = createApi({
       }),
       providesTags: ["PendingRequestById"],
     }),
+    getServicePackById: build.query({
+      query: ({ servicePack }) => ({
+        url: `plans/getServicePackById/${servicePack}`,
+        method: "GET",
+      }),
+      providesTags: ["ServicePackById"],
+    }),
+    getServicePackByRequest: build.query({
+      query: ({ reqId }) => ({
+        url: `plans/getServicePackByRequest/${reqId}`,
+        method: "GET",
+      }),
+      providesTags: ["ServicePackByRequest"],
+    }),
+    getProjectPlansByUser: build.query({
+      query: ({ user }) => ({
+        url: `plans/getProjectPlansByUser/${user}`,
+        method: "GET",
+      }),
+      providesTags: ["ProjectPlanByUser"],
+    }),
     getRuralProjectById: build.query({
       query: ({ projId }) => ({
         url: "projects/getRuralProjectById",
@@ -122,10 +172,10 @@ export const customApi = createApi({
       providesTags: ["UserDonations"],
     }),
     getProductById: build.query({
-      query: ({ productId }) => ({
+      query: ({ prodId }) => ({
         url: "products/getProductById",
         method: "GET",
-        params: { productId },
+        params: { prodId },
       }),
       providesTags: ["ProductById"],
     }),
@@ -167,10 +217,16 @@ export const {
   useGetAdminProductsQuery,
   useGetProductsQuery,
   useGetPendingRequestByIdQuery,
+  useGetServicePackByIdQuery,
+  useGetServicePackByRequestQuery,
+  useGetAdminProjectPlansQuery,
+  useGetProjectPlansByUserQuery,
   useGetRuralProjectByIdQuery,
   useGetDonationByIdQuery,
   useGetDonationsByUserEmailQuery,
   useGetProductByIdQuery,
+  useGetAdminRecentProjectsQuery,
+  useGetRecentProjectByIdQuery,
   useGetProjectByIdQuery,
   useGetProductRequestByIdQuery,
   useGetAdminProductRequestQuery,

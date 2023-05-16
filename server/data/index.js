@@ -14,7 +14,7 @@ BillMetrics.insertMany({
   category5FixedCharge: 2000.0,
 });
 
-Product.insertMany(
+Product.insertMany([
   {
     productName: "Low Frequency Off Grid Solar Inverter",
     price: 234402,
@@ -60,10 +60,10 @@ Product.insertMany(
     category: "Inverter",
     features: ["feature 1", "feature2", "feature3"],
     availability: true,
-  }
-);
+  },
+]);
 
-ServicePack.insertMany(
+ServicePack.insertMany([
   {
     name: "OffGridPackOne",
     products: {
@@ -93,5 +93,35 @@ ServicePack.insertMany(
     },
     monthlyPowerConsumption: "121-180",
     totalProductCost: 3909726,
-  }
-);
+  },
+]);
+
+RecentProject.insertMany([
+  {
+    projectId: "64181e67f5c7dc2fd59623ab",
+    projectName: "Recent Project 1",
+    location: "Colombo",
+    endDate: new Date("2023-06-28"),
+    projectType: "Commercial",
+    description: "Description 1",
+    picturePath: "picture is",
+  },
+  {
+    projectId: "64181e67f545dc2fd59623ab",
+    projectName: "Recent Project 2",
+    location: "Colombo",
+    endDate: new Date("2023-06-28"),
+    projectType: "Commercial",
+    description: "Description 2",
+    picturePath: "picture is",
+  },
+  {
+    projectId: "64181e67f5c7dc256d59623ab",
+    projectName: "Recent Project 2",
+    location: "Colombo",
+    endDate: new Date("2023-06-28"),
+    projectType: "Commercial",
+    description: "Description 2",
+    picturePath: "picture is",
+  },
+]);

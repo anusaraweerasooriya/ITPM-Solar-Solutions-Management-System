@@ -40,8 +40,12 @@ import AdminProductRequest from "admin/pages/productRequest";
 import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
 import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
+import AddProjectPlan from "admin/pages/projectPlans/AddProjectPlan";
+import ProjectPlans from "admin/pages/projectPlans";
+import UserProjectPlans from "user/pages/profile/ProjectPlans";
 import RuralProject from "user/pages/ruralProjects/ruralProject";
 import Donations from "user/pages/profile/Donations/Donations";
+import RecentProjects from "admin/pages/recentProjects/RecentProjects";
 
 function App() {
   const role = useSelector((state) => state.auth.role);
@@ -52,14 +56,25 @@ function App() {
   const theme = useMemo(() => createTheme(themeSettings()), []);
 
   //========================== ADMIN ROUTES =========================
-  const clientProjectRoutes = (
-    <Route path="/admin/planRequests" element={<PlanRequests />} />
-  );
+  const clientProjectRoutes = [
+    <Route path="/admin/planRequests" element={<PlanRequests />} />,
+    <Route path="/admin/addProjectPlan/:id" element={<AddProjectPlan />} />,
+    <Route path="/admin/projectPlans" element={<ProjectPlans />} />,
+  ];
 
   const ruralProjectRoutes = [
-    <Route path="/admin/ruralProjects" element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />} />,
-    <Route path="/admin/addRuralProject" element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />} />,
-    <Route path="/ruralProject/admin/:id" element={isAdmin ? <RuralProject /> : <Navigate to="/login" />} />
+    <Route
+      path="/admin/ruralProjects"
+      element={isAdmin ? <AdminRuralProjects /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/admin/addRuralProject"
+      element={isAdmin ? <RuralProjectForm /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/ruralProject/admin/:id"
+      element={isAdmin ? <RuralProject /> : <Navigate to="/login" />}
+    />,
   ];
 
   const donationRoutes = [
@@ -105,6 +120,10 @@ function App() {
       path="/admin/addToRecent/:id"
       element={isAdmin ? <AddToRecentForm /> : <Navigate to="/login" />}
     />,
+    <Route
+      path="/admin/recentProjects"
+      element={isAdmin ? <RecentProjects /> : <Navigate to="/login" />}
+    />,
   ];
 
   //============================ CLIENT ROUTES =========================
@@ -123,7 +142,20 @@ function App() {
     <Route path="/profile/donations" element={<Donations />} />,
   ];
 
-  const userProfileRoutes = "";
+  const userProfileRoutes = [
+    <Route
+      path="/profile/submitRequest"
+      element={isCustomer ? <PlanRequest /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/profile/pendingRequests"
+      element={isCustomer ? <PendingRequests /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/profile/projectPlans"
+      element={isCustomer ? <UserProjectPlans /> : <Navigate to="/login" />}
+    />,
+  ];
 
   return (
     <PayPalScriptProvider
@@ -151,18 +183,6 @@ function App() {
                 {staticRoutes}
                 {dynamicRoutes}
                 {userProfileRoutes}
-                <Route
-                  path="/submitRequest"
-                  element={
-                    isCustomer ? <PlanRequest /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/pendingRequests"
-                  element={
-                    isCustomer ? <PendingRequests /> : <Navigate to="/login" />
-                  }
-                />
               </Route>
               ):())
               <Route element={<ClientLayout />}>

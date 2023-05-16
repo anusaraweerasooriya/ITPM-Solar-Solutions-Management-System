@@ -22,7 +22,7 @@ const Sidebar = () => {
 
   return (
     <Paper
-      sx={{ width: 450, height: 530, maxWidth: "100%", borderRadius: "2rem" }}
+      sx={{ width: 450, height: 600, maxWidth: "100%", borderRadius: "2rem" }}
     >
       <Divider />
       <Box m="2rem">
@@ -45,6 +45,19 @@ const Sidebar = () => {
           </PendingActionsIcon>
           <ListItemText>
             <Typography variant="h5">Pending Requests</Typography>
+          </ListItemText>
+        </MenuItem>
+        <MenuItem
+          sx={{ m: "2rem" }}
+          onClick={() => {
+            navigate("/profile/projectPlans");
+          }}
+        >
+          <PendingActionsIcon fontSize="large" sx={{ mr: "1rem" }}>
+            <ContentCut fontSize="small" />
+          </PendingActionsIcon>
+          <ListItemText>
+            <Typography variant="h5">Project Plans</Typography>
           </ListItemText>
         </MenuItem>
         <MenuItem sx={{ m: "2rem" }}>

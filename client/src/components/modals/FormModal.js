@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import {
   Button,
-  TextField,
   Box,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from "@mui/material";
 
@@ -29,7 +27,7 @@ const FormModal = (prop) => {
           },
         }}
       >
-        <DialogTitle>Update pending request</DialogTitle>
+        <DialogTitle>{prop.title}</DialogTitle>
 
         <DialogContent>
           <Box sx={{ mt: "0.5rem" }}>{prop.children}</Box>

@@ -49,7 +49,6 @@ export const createProduct = async (req, res) => {
     }
 };
 
-
 /* ADMIN DISPLAY */
 export const getAdminProducts = async (req, res) => {
     try {
@@ -91,12 +90,12 @@ export const getAdminProducts = async (req, res) => {
 
 /* CLIENT DISPLAY */
 export const getProducts = async (req, res) => {
-    try {
-        const products = await Product.find();
-        res.status(200).json(products);
-    }catch (err) {
-        res.status(409).json({ error: err.message });
-    }
+  try {
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(409).json({ error: err.message });
+  }
 };
 
 
@@ -240,18 +239,19 @@ export const updateProduct = async (req, res, next) => {
       }
     };
 
-
 export const getProductById = async (req, res, next) => {
-    try {
-        const { productId } = req.query;
+  try {
+    const { prodId } = req.query;
 
-        const product = await Product.findById(productId);
-        res.status(200).json(product);
-    } catch (err) {
-        const error = new HttpError("Failed fetch data! Please try again", 500);
-        return next(err);
-    }
+    const product = await Product.findById(prodId);
+    res.status(200).json(product);
+  } catch (err) {
+    const error = new HttpError("Failed fetch data! Please try again", 500);
+    console.log(err);
+    return next(err);
+  }
 };
+
 
 export const deleteProduct = async (req, res, next) => {
    const productId = req.params.prid;

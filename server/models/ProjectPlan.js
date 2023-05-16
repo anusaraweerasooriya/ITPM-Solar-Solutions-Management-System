@@ -8,6 +8,10 @@ const ProjectPlanSchema = new mongoose.Schema(
       min: 2,
       max: 100,
     },
+    user: {
+      type: String,
+      require: true,
+    },
     servicePack: {
       type: String,
       require: true,
@@ -23,6 +27,11 @@ const ProjectPlanSchema = new mongoose.Schema(
     description: {
       type: String,
       require: true,
+    },
+    status: {
+      type: String,
+      enum: ["paymentPending", "paymentCompleted", "rejected"],
+      default: "paymentPending",
     },
   },
   { timestamps: true }
