@@ -232,7 +232,7 @@ const UpdateProductForm = ({ productId }) => {
                     // "&:hover": { color: palette.primary.main },
                   }}
                 >
-                  Update Project
+                  Update Product
                 </Button>
               </Box>
             </form>

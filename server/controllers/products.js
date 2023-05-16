@@ -99,8 +99,9 @@ export const getProducts = async (req, res) => {
     }
 };
 
+
 /*UPDATE */
-export const updateProduct = async (req, res, next) => {
+/*export const updateProduct = async (req, res, next) => {
     const errors = validationResult(res);
     if(!errors.isEmpty()) {
         return next(
@@ -163,7 +164,81 @@ export const updateProduct = async (req, res, next) => {
     }
     
     res.status(200).json({ product });
-};
+};*/
+
+export const updateProduct = async (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(
+          new HttpError("Invalid inputs passed, please check your data", 403)
+        );
+      }
+    
+     
+    
+      console.log(req.body);
+    
+     
+    
+      const {
+        productName,
+        price,
+        productType,
+        imagePath,
+        description,
+        category,
+        ratedPower,
+        batteryVoltage,
+        MPPTVoltage,
+        maxVoltage,
+        maxCurrent,
+        normalVoltage,
+        normalCapacity,
+        energy,
+      } = req.body;
+    
+     
+    
+      const productId = req.params.prid;
+    
+     
+    
+      try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+          productId,
+          {
+            productName,
+            price,
+            productType,
+            imagePath,
+            description,
+            category,
+            ratedPower,
+            batteryVoltage,
+            MPPTVoltage,
+            maxVoltage,
+            maxCurrent,
+            normalVoltage,
+            normalCapacity,
+            energy,
+          },
+          { new: true }
+        );
+    
+     
+    
+        if (!updatedProduct) {
+          throw new Error(`Product with ID ${productId} not found`);
+        }
+    
+     
+    
+        res.status(200).json({ product: updatedProduct });
+      } catch (err) {
+        const error = new HttpError(err.message || "Something went wrong. Please try again.", 422);
+        return next(error);
+      }
+    };
 
 
 export const getProductById = async (req, res, next) => {
