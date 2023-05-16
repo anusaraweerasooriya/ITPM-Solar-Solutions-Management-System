@@ -39,6 +39,7 @@ import PlanRequest from "user/pages/planRequests";
 import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
 import AddProjectPlan from "admin/pages/projectPlans/AddProjectPlan";
 import ProjectPlans from "admin/pages/projectPlans";
+import UserProjectPlans from "user/pages/profile/ProjectPlans";
 import RuralProject from "user/pages/ruralProjects/ruralProject";
 import Donations from "user/pages/profile/Donations/Donations";
 
@@ -128,7 +129,20 @@ function App() {
     <Route path="/profile/donations" element={<Donations />} />,
   ];
 
-  const userProfileRoutes = "";
+  const userProfileRoutes = [
+    <Route
+      path="/profile/submitRequest"
+      element={isCustomer ? <PlanRequest /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/profile/pendingRequests"
+      element={isCustomer ? <PendingRequests /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/profile/projectPlans"
+      element={isCustomer ? <UserProjectPlans /> : <Navigate to="/login" />}
+    />,
+  ];
 
   return (
     <PayPalScriptProvider
@@ -156,18 +170,6 @@ function App() {
                 {staticRoutes}
                 {dynamicRoutes}
                 {userProfileRoutes}
-                <Route
-                  path="/submitRequest"
-                  element={
-                    isCustomer ? <PlanRequest /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/pendingRequests"
-                  element={
-                    isCustomer ? <PendingRequests /> : <Navigate to="/login" />
-                  }
-                />
               </Route>
               ):())
               <Route element={<ClientLayout />}>

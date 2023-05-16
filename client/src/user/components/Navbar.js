@@ -212,7 +212,9 @@ const Navbar = () => {
                 onClose={handleClose}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
               >
-                <MenuItem onClick={() => navigate("/pendingRequests")}>Profile</MenuItem>
+                <MenuItem onClick={() => navigate("/profile/pendingRequests")}>
+                  Profile
+                </MenuItem>
                 <MenuItem onClick={handleLogout}>Log Out</MenuItem>
               </MenuComponent>
             </FlexBox>
