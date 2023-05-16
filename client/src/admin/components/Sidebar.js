@@ -31,6 +31,7 @@ import {
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import profileImage from "admin/assets/profile.jpeg";
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import FlexBox from "./FlexBox";
 
 const navItems = [
@@ -65,34 +66,28 @@ const navItems = [
   },
   {
     id: 6,
-    url: "",
-    text: "Geography",
-    icon: <PublicOutlined />,
-  },
-  {
-    id: 7,
     text: "Donations",
     icon: null,
   },
   {
-    id: 8,
+    id: 7,
     url: "donations",
     text: "Donations",
     icon: <VolunteerActivismOutlined />,
   },
   {
-    id: 9,
+    id: 8,
     url: "ruralProjects",
     text: "Rural Projects",
     icon: <FoundationOutlined />,
   },
   {
-    id: 10,
+    id: 9,
     text: "Products",
     icon: null,
   },
   {
-    id: 11,
+    id: 10,
     url: "products",
     text: "Products",
     icon: <ShoppingCartOutlined />,
@@ -104,18 +99,25 @@ const navItems = [
     icon: <RequestPageOutlined />,
   },
   {
-    id: 13,
+    id: 12,
     text: "Recent",
     icon: null,
   },
   {
-    id: 14,
+    id: 13,
+    url: "completedProjects",
+    text: "Completed Projects",
+    icon: <EventAvailableIcon />,
+  },
+  
+  {
+    id: 13,
     url: "recentProjects",
     text: "Recent Projects",
     icon: <AccessTimeOutlined />,
   },
   {
-    id: 15,
+    id: 14,
     url: "",
     text: "Performance",
     icon: <TrendingUpOutlined />,

@@ -31,3 +31,15 @@ export const createProject = async (req, res) => {
         res.status(409).json({ error: err.message });
     }
 };
+
+export const getProjectById = async (req, res, next) => {
+    try {
+      const { projId } = req.query;
+
+      const project = await Project.findById(projId);
+      res.status(200).json(project);
+    } catch (err) {
+      const error = new HttpError("Failed fetch data! Please try again", 500);
+      return next(error);
+    }
+};

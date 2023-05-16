@@ -3,9 +3,14 @@ import {
     Box,
     useTheme
 } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+    const navigate = useNavigate();
     const theme = useTheme();
+    const isAuth = useSelector((state) => state.auth.isAuth);
+
     return (
         <Box mt="40px" p="30px 0" backgroundColor={theme.palette.primary[500]} color="#ffffff">
             <Box
@@ -18,7 +23,14 @@ const Footer = () => {
                 columnGap="clamp(20px, 30px, 40px)"            
             >
                 <Box width="clamp(20%, 30%, 40%)">
-                    <Typography fontSize="1.5rem" fontWeight="bold" mb="20px" color={theme.palette.secondary.main}>
+                    <Typography fontSize="1.5rem" fontWeight="bold" mb="20px" color={theme.palette.secondary.main} 
+                        onClick={() => navigate("/home")}
+                        sx={{
+                            "&:hover": {
+                                cursor: "pointer",
+                            },
+                        }}
+                    >
                         SOLAR4MATION
                     </Typography>
                     <Typography fontSize="0.9rem" mb="20px">+94 112 123 123</Typography>
@@ -39,23 +51,77 @@ const Footer = () => {
                     <Typography fontSize="1.1rem" fontWeight="bold" mb="20px">
                         Our Projects
                     </Typography>
-                    <Typography fontSize="0.9rem" mb="20px">Domestic Projects</Typography>
-                    <Typography fontSize="0.9rem" mb="20px">Commercial Projects</Typography>
-                    <Typography fontSize="0.9rem" mb="20px">Rural Projects</Typography>
+                    <Typography fontSize="0.9rem" mb="20px" 
+                        onClick={() => navigate("/projects")} 
+                        sx={{
+                            "&:hover": {
+                                cursor: "pointer",
+                            },
+                        }}
+                    >
+                        Domestic Projects
+                    </Typography>
+                    <Typography fontSize="0.9rem" mb="20px" 
+                        onClick={() => navigate("/projects")} 
+                        sx={{
+                            "&:hover": {
+                                cursor: "pointer",
+                            },
+                        }}
+                    >
+                        Commercial Projects
+                    </Typography>
+                    <Typography fontSize="0.9rem" mb="20px" 
+                        onClick={() => navigate("/projects")} 
+                        sx={{
+                            "&:hover": {
+                                cursor: "pointer",
+                            },
+                        }}
+                    >
+                        Rural Projects
+                    </Typography>
                 </Box>
 
                 <Box width="clamp(20%, 25%, 30%)">
                     <Typography fontSize="1.1rem" fontWeight="bold" mb="20px">
                         Our Services
                     </Typography>
-                    <Typography fontSize="0.9rem" mb="20px">Get a Quote</Typography>
-                    <Typography fontSize="0.9rem" mb="20px">Calculate bill</Typography>
-                    <Typography fontSize="0.9rem" mb="20px">View Products</Typography>
+                    <Typography fontSize="0.9rem" mb="20px" 
+                        onClick={() => { isAuth ? navigate("/submitRequest") : navigate("/login"); }} 
+                        sx={{
+                            "&:hover": {
+                                cursor: "pointer",
+                            },
+                        }}
+                    >
+                        Get a Quote
+                    </Typography>
+                    <Typography fontSize="0.9rem" mb="20px" 
+                        onClick={() => navigate("/generateBill")} 
+                        sx={{
+                            "&:hover": {
+                                cursor: "pointer",
+                            },
+                        }}
+                    >
+                        Calculate bill
+                    </Typography>
+                    <Typography fontSize="0.9rem" mb="20px" 
+                        onClick={() => navigate("/products")} 
+                        sx={{
+                            "&:hover": {
+                                cursor: "pointer",
+                            },
+                        }}
+                    >
+                        View Products
+                    </Typography>
                 </Box>
             </Box>
             <hr></hr>
             <Typography fontSize="0.8rem"  align="center">
-                Copyright © 2023 - Solar4Mation, Inc. - All Rights Reserved.
+                Copyright © 2023 - Solar4Mation - All Rights Reserved.
             </Typography>
         </Box>
     );

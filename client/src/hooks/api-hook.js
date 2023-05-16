@@ -20,6 +20,7 @@ export const customApi = createApi({
     "DonationById",
     "UserDonations",
     "ProductById",
+    "ProjectById",
     "ProductRequestById",
     "AdminProductRequest"
   ],
@@ -128,12 +129,20 @@ export const customApi = createApi({
       }),
       providesTags: ["ProductById"],
     }),
+    getProjectById: build.query({
+      query: ({ projId }) => ({
+        url: "projects/getProjectById",
+        method: "GET",
+        params: { projId },
+      }),
+      providesTags: ["ProjectById"],
+    }),
     getProductRequestById: build.query({
       query: ({ productReqId }) => ({
         url: "productRequest/getProductRequestById",
         method: "GET",
         params: { productReqId },
-    }),
+      }),
       providesTags: ["ProductRequestById"],
     }),
     getAdminProductRequest: build.query({
@@ -162,6 +171,7 @@ export const {
   useGetDonationByIdQuery,
   useGetDonationsByUserEmailQuery,
   useGetProductByIdQuery,
+  useGetProjectByIdQuery,
   useGetProductRequestByIdQuery,
   useGetAdminProductRequestQuery,
 } = customApi;

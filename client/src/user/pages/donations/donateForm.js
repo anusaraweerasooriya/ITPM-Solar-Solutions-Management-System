@@ -30,7 +30,7 @@ const DonateForm = () => {
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
   const user = useSelector((state) => state.auth.user);
   const location = useLocation();
-  const id = location.state.id;
+  const projectId = location.state.id;
   const projectName = location.state.name;
   const today = new Date().toISOString().split("T")[0];
   const [captchaKey, setCaptchaKey] = useState("");
@@ -195,11 +195,11 @@ const DonateForm = () => {
               {!isOpen && (
                 <Tooltip title="You will be directed to the PayPal gateway">
                   <Button
-                    type="submit"
+                    //type="submit"
                     variant="contained"
                     color="success"
                     disabled={!captchaKey}
-                    //onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => setIsOpen(!isOpen)}
                     sx={{
                       m: "2rem 0",
                       p: "0.8rem",
@@ -212,7 +212,7 @@ const DonateForm = () => {
               )}
               {isOpen && 
                 <FormModal setOpen={setIsOpen} open={isOpen}>
-                  <PaymentOptions />
+                  <PaymentOptions amount={values.amount} userId={user._id} />
                 </FormModal>
               }
             </FlexBox>
