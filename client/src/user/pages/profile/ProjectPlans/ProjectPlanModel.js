@@ -5,19 +5,27 @@ import {
   DialogTitle,
   DialogContentText,
   Box,
+  Typography,
+  Divider,
 } from "@mui/material";
 
-const ProjectPlanModel = ({ open, setOpen }) => {
+import Products from "./Products";
+import {
+  useGetServicePackByRequestQuery,
+  useGetPendingRequestByIdQuery,
+  useGetProjectPlanByIdQuery,
+} from "hooks/api-hook";
+
+const ProjectPlanModel = ({ open, setOpen, reqId, planId }) => {
+  const { data: servicePack } = useGetServicePackByRequestQuery({ reqId });
+  const { data: request } = useGetPendingRequestByIdQuery({ reqId });
+  const { data: plan } = useGetProjectPlanByIdQuery({ planId });
+
   const handleClose = () => {
     setOpen(false);
   };
   return (
-    <Dialog
-      fullWidth="{fullWidth}"
-      maxWidth="{maxWidth}"
-      open={open}
-      onClose={handleClose}
-    >
+    <Dialog fullWidth={false} maxWidth="md" open={open} onClose={handleClose}>
       <DialogTitle>Optional sizes</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -32,7 +40,22 @@ const ProjectPlanModel = ({ open, setOpen }) => {
             m: "auto",
             width: "fit-content",
           }}
-        ></Box>
+        >
+          <Box>
+            <Box
+              sx={{ background: "#e9ecf7", borderRadius: "1rem", m: "0.4rem" }}
+            >
+              <Typography variant="h4" color="black" fontWeight="bold">
+                Plan description and the procedure
+              </Typography>
+              <Divider />
+              <Typography variant="h5" color="black" fontWeight="bold">
+                {plan && plan.description}
+              </Typography>
+            </Box>
+            <Products servicePack={servicePack && servicePack.pack} />
+          </Box>
+        </Box>
       </DialogContent>
     </Dialog>
   );

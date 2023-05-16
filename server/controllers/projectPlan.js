@@ -196,3 +196,15 @@ export const getProjectPlansByUser = async (req, res, next) => {
 
   res.status(200).json(plans);
 };
+
+export const getProjectPlanById = async (req, res, next) => {
+  const { planId } = req.params;
+
+  try {
+    const plan = await ProjectPlan.findById(planId);
+    res.status(200).json(plan);
+  } catch (err) {
+    const error = new HttpError("Something wen wrong", 500);
+    return next(error);
+  }
+};
