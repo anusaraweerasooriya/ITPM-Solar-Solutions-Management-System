@@ -53,7 +53,7 @@ const navItems = [
   },
   {
     id: 4,
-    url: "",
+    url: "projectPlans",
     text: "Project Plans",
     icon: <MapOutlined />,
   },

@@ -38,6 +38,7 @@ import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
 import PendingRequests from "user/pages/profile/PendingRequests/PendingRequests";
 import AddProjectPlan from "admin/pages/projectPlans/AddProjectPlan";
+import ProjectPlans from "admin/pages/projectPlans";
 import RuralProject from "user/pages/ruralProjects/ruralProject";
 import Donations from "user/pages/profile/Donations/Donations";
 
@@ -53,6 +54,7 @@ function App() {
   const clientProjectRoutes = [
     <Route path="/admin/planRequests" element={<PlanRequests />} />,
     <Route path="/admin/addProjectPlan/:id" element={<AddProjectPlan />} />,
+    <Route path="/admin/projectPlans" element={<ProjectPlans />} />,
   ];
 
   const ruralProjectRoutes = [

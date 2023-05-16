@@ -140,3 +140,43 @@ export const getServicePackByRequest = async (req, res, next) => {
 
   res.status(200).json({ pack });
 };
+
+export const getAdminProjectPlans = async (req, res, next) => {
+  try {
+    const { page = 1, pageSize = 20, sort = null, search = "" } = req.query;
+
+    //format sort
+    const generateSort = () => {
+      const sortParsed = JSON.parse(sort);
+      const sortFormatted = {
+        [sortParsed.field]: (sortParsed.sort = "asc" ? 1 : -1),
+      };
+      return sortFormatted;
+    };
+    const sortFormatted = Boolean(sort) ? generateSort() : {};
+
+    const plans = await ProjectPlan.find({
+      $or: [
+        { requestId: { $regex: new RegExp(search, "i") } },
+        { servicePack: { $regex: new RegExp(search, "i") } },
+        { description: { $regex: new RegExp(search, "i") } },
+      ],
+    })
+      .sort(sortFormatted)
+      .skip(page * pageSize)
+      .limit(pageSize);
+
+    const total = await PlanRequest.countDocuments({
+      clientName: { $regex: search, $options: "i" },
+    });
+
+    res.status(200).json({
+      plans,
+      total,
+    });
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError("Something went wrong! Please try again.", 404);
+    return next(error);
+  }
+};

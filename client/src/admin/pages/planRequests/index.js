@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Box, useTheme, Stack, Button } from "@mui/material";
+import { Box, useTheme, Stack, Button, Chip } from "@mui/material";
+import { Done } from "@mui/icons-material";
 import Header from "admin/components/Header";
 import { useGetAdminPlanRequestsQuery } from "hooks/api-hook";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
@@ -95,31 +96,52 @@ const PlanRequests = () => {
           navigate(`/admin/addProjectPlan/${reqId}`);
         };
 
+        const currentRow = params.row;
+        const isPending = currentRow.status === "pending";
+        const isRejected = currentRow.status === "rejected";
+
         return (
-          <Stack direction="row" spacing={2}>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              onClick={createPlanHandler}
-              sx={{
-                textTransform: "unset",
-              }}
-            >
-              Create
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={rejectPlanHandler}
-              sx={{
-                textTransform: "unset",
-              }}
-            >
-              Reject
-            </Button>
-          </Stack>
+          <div>
+            {isPending ? (
+              <Stack direction="row" spacing={2}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  onClick={createPlanHandler}
+                  sx={{
+                    textTransform: "unset",
+                  }}
+                >
+                  Create
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  size="small"
+                  onClick={rejectPlanHandler}
+                  sx={{
+                    textTransform: "unset",
+                  }}
+                >
+                  Reject
+                </Button>
+              </Stack>
+            ) : isRejected ? (
+              <Box>
+                <Chip label="Rejected" color="default" />
+              </Box>
+            ) : (
+              <Box>
+                <Chip
+                  label="Plan Created"
+                  color="success"
+                  variant="outlined"
+                  icon={<Done />}
+                />
+              </Box>
+            )}
+          </div>
         );
       },
     },
