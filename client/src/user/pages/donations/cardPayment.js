@@ -4,10 +4,13 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
+import FormModal from 'components/modals/FormModal';
+import SuccessModal from './SuccessModal';
 
 const CardPayment = ({amount, userId}) => {
   const navigate = useNavigate();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
+  const [isOpen, setIsOpen] = useState(false);
 
   const validationSchema = yup.object().shape({
     cardNumber: yup.string().required("Card number can not be empty"),
@@ -17,7 +20,6 @@ const CardPayment = ({amount, userId}) => {
   });
 
   const initialValues = {
-    user: "",
     cardNumber: "",
     cardName: "",
     amount: amount,
@@ -25,10 +27,9 @@ const CardPayment = ({amount, userId}) => {
     cvv: "",
   };
 
-  const [isSuccessMsg, setIsSuccessMsg] = useState(false);
-
   const handleSubmit = async (values, onSubmitProps) => {
     values.user = userId;
+    values.type = "Donation";
     const response = await fetch(
       "http://localhost:5001/payments/createPayment",
       {
@@ -47,7 +48,7 @@ const CardPayment = ({amount, userId}) => {
     if (response.ok) {
       if (savedResponse) {
         onSubmitProps.resetForm();
-        setIsSuccessMsg(true);
+        setIsOpen(!isOpen)
       }
     }
   }
@@ -162,11 +163,19 @@ const CardPayment = ({amount, userId}) => {
           >
             Submit
           </Button>
-          {isSuccessMsg && 
-            <Box p="1rem" mt="2rem" backgroundColor="#0080ff" color="white">
-              <Typography>Payment is submitted successfully!</Typography>
-            </Box>
+
+          {/* Success message */}
+          {isOpen &&
+            <SuccessModal 
+              setOpen={setIsOpen}
+              open={isOpen}
+              title={<Typography fontWeight="bold">Donation payment is submitted successfully</Typography>}
+            >
+              <Typography>We appreciate your helping hand</Typography>
+            </SuccessModal>
           }
+
+
         </form>
       )}
     </Formik>
