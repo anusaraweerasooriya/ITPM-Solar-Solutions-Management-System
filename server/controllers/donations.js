@@ -1,4 +1,6 @@
 import Donation from "../models/Donation.js";
+import Payment from "../models/CardPayment.js";
+import RuralProject from "../models/RuralProject.js";
 
 /* CREATE */
 export const createDonation = async (req, res) => {
@@ -8,7 +10,13 @@ export const createDonation = async (req, res) => {
             email,
             amount,
             contributingProject,
-            date
+            date,
+            user,
+            cardNumber,
+            cardName,
+            expDate,
+            type,
+            project,
         } = req.body;
 
         const newDonation = new Donation({
@@ -18,7 +26,24 @@ export const createDonation = async (req, res) => {
             contributingProject,
             date
         });
+        const newPayment = new Payment({
+            user,
+            cardNumber,
+            cardName,
+            amount,
+            expDate,
+            type
+        });
+        const savedPayment = await newPayment.save();
         const savedDonation = await newDonation.save();
+
+        const ruralProject = await RuralProject.findById(project);
+        if (ruralProject) {
+            ruralProject.currentAllocation = ruralProject.currentAllocation + parseInt(amount);
+            await ruralProject.save();
+        }
+
+
         res.status(201).json(savedDonation);
 
     }catch (err) {
