@@ -1,30 +1,55 @@
-import { useMediaQuery, Box, useTheme, Button, Stack, List, ListItemButton, ListItemText, Collapse } from "@mui/material";
-import Header from "admin/components/Header";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { 
+  useMediaQuery, 
+  Box, 
+  useTheme, 
+  Button, 
+  Stack, 
+  List, 
+  ListItemButton, 
+  ListItemText, 
+  Collapse 
+} from "@mui/material";
+import Header from "admin/components/Header";
 import ProductCards from "./productCards";
 import { useGetAdminProductsQuery } from "hooks/api-hook";
 import { DataGrid } from "@mui/x-data-grid";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import UpdateProductForm from "./updateProductForm"
+import FormModal from "components/modals/FormModal";
+import DeleteModal from "admin/components/DeleteModal";
+import ProductView from "./productView";
 
 const AdminProducts = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [productsId, setProductId] = useState("");
   const isDesktop = useMediaQuery("(min-width: 1700px)");
+
+  //delete modal
+  const [isDeleteForm, setIsDeleteForm] = useState(false);
+
+  //update modal
+  const [isUpdateForm, setIsUpdateForm] = useState(false);
+
+  //view modal
+  const [isView, setIsView] = useState(false);
 
   // values to be sent to backend
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
   const [sort, setSort] = useState({});
   const [search, setSearch] = useState("");
+
   const [open, setOpen] = React.useState(true);
   const handleClick = () => {
     setOpen(!open);
   };
 
   const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useGetAdminProductsQuery(
+  const { data, isLoading, refetch } = useGetAdminProductsQuery(
     {
       page,
       pageSize,
@@ -33,7 +58,8 @@ const AdminProducts = () => {
     },
     { refetchOnMountOrArgChange: true }
   );
-  console.log(data);
+
+  //console.log(data);
   const columns = [
     {
       field: "_id",
@@ -68,15 +94,33 @@ const AdminProducts = () => {
     {
       field: "action",
       headerName: "Actions",
-      width: 180,
+      width: 250,
       sortable: false,
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-        const onClick = (e) => {
+
+        const onClickDelete = (e) => {
           const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
+          setProductId(currentRow._id);
+          setIsDeleteForm(!isDeleteForm);
+         // return alert(JSON.stringify(currentRow, null, 4));
         };
+
+        const onClickUpdate = (e) => {
+          const currentRow = params.row;
+          setProductId(currentRow._id);
+          setIsUpdateForm(!isUpdateForm);
+         // return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        const onClickView = (e) => {
+          const currentRow = params.row;
+          setProductId(currentRow._id);
+          setIsView(!isView);
+          console.log("function id", productsId)
+         // return alert(JSON.stringify(currentRow, null, 4));
+        }
 
         return (
           <Stack direction="row" spacing={2}>
@@ -84,32 +128,108 @@ const AdminProducts = () => {
               variant="contained"
               color="secondary"
               size="small"
-              onClick={() => navigate("/admin/updateInverter")}
+              onClick={onClickUpdate}
               sx={{
                 textTransform: "unset",
               }}
             >
               Edit
             </Button>
+            {isUpdateForm && (
+              <FormModal
+                setOpen={setIsUpdateForm}
+                open={isUpdateForm}>
+                  <UpdateProductForm productId={productsId} />
+              </FormModal>
+            )}
             <Button
               variant="contained"
               color="error"
               size="small"
-              onClick={onClick}
+              onClick={onClickDelete}
               sx={{
                 textTransform: "unset",
               }}
             >
               Delete
             </Button>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={onClickView}
+              sx={{
+                textTransform: "unset",
+                background: "#007bff",
+              }}
+            >
+              View
+            </Button>
+            {isView && (
+              <FormModal
+                setOpen={setIsView}
+                open={isView}>
+                  <ProductView productId={productsId} />
+              </FormModal>
+            )}
           </Stack>
         );
       },
     },
   ];
 
+  const handleDelete = async () => {
+    console.log("id", productsId );
+    const response = await fetch(
+      `http://localhost:5001/products/deleteProduct/${productsId}`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error(responseData.message);
+    } 
+
+    if (response.ok) {
+      setIsDeleteForm(false);
+      refetch();
+    }
+  };
+
   return (
     <Box m="1.5rem 2.5rem">
+      {isDeleteForm && (
+        <DeleteModal
+          setOpen={setIsDeleteForm}
+          open={isDeleteForm}
+          title="Delete product"
+          body="Are you sure you want to delete this product?"
+          handleDelete={handleDelete}
+        >
+        </DeleteModal>
+      )}
+
+      {isUpdateForm && (
+        <FormModal
+          setOpen={setIsUpdateForm}
+          open={isUpdateForm}
+        >
+          <UpdateProductForm />
+        </FormModal>
+      )}
+
+      {isView && (
+        <FormModal
+          setOpen={setIsView}
+          open={isView}
+        >
+          <ProductView />
+        </FormModal>
+      )}
+      
       <Header title="PRODUCTS" subtitle="Product Management" />
 
       {isDesktop && <ProductCards />}

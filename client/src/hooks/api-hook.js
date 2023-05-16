@@ -20,6 +20,8 @@ export const customApi = createApi({
     "DonationById",
     "UserDonations",
     "ProductById",
+    "ProductRequestById",
+    "AdminProductRequest"
   ],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
@@ -126,6 +128,22 @@ export const customApi = createApi({
       }),
       providesTags: ["ProductById"],
     }),
+    getProductRequestById: build.query({
+      query: ({ productReqId }) => ({
+        url: "productRequest/getProductRequestById",
+        method: "GET",
+        params: { productReqId },
+    }),
+      providesTags: ["ProductRequestById"],
+    }),
+    getAdminProductRequest: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "productRequest/adminProductRequest",
+        method: "GET",
+        params: { page, pageSize, sort, search },
+      }),
+      providesTags: ["AdminProductRequest"],
+    }),
   }),
 });
 
@@ -144,4 +162,6 @@ export const {
   useGetDonationByIdQuery,
   useGetDonationsByUserEmailQuery,
   useGetProductByIdQuery,
+  useGetProductRequestByIdQuery,
+  useGetAdminProductRequestQuery,
 } = customApi;

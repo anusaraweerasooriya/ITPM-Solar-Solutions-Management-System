@@ -19,8 +19,6 @@ export const createProduct = async (req, res) => {
             normalVoltage, 
             normalCapacity, 
             energy, 
-
-
         } = req.body;
 
 
@@ -70,7 +68,6 @@ export const getAdminProducts = async (req, res) => {
         const products = await Product.find({
             $or: [
                 { productName: { $regex: new RegExp(search, "i") } },
-                { price: { $regex: new RegExp(search, "i") } },
                 { productType: { $regex: new RegExp(search, "i") } },
                 { category: { $regex: new RegExp(search, "i") } },  
             ]
@@ -102,8 +99,9 @@ export const getProducts = async (req, res) => {
     }
 };
 
-/*UPDATES */
-export const updateProduct = async (req, res, next) => {
+
+/*UPDATE */
+/*export const updateProduct = async (req, res, next) => {
     const errors = validationResult(res);
     if(!errors.isEmpty()) {
         return next(
@@ -132,7 +130,7 @@ export const updateProduct = async (req, res, next) => {
             energy, 
         } = req.body;
 
-        const productId = req.params.proid;
+        const productId = req.params.prid;
         product = await Product.findById(productId);
 
         product.productName = productName;
@@ -166,17 +164,123 @@ export const updateProduct = async (req, res, next) => {
     }
     
     res.status(200).json({ product });
-};
+};*/
+
+export const updateProduct = async (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(
+          new HttpError("Invalid inputs passed, please check your data", 403)
+        );
+      }
+    
+     
+    
+      console.log(req.body);
+    
+     
+    
+      const {
+        productName,
+        price,
+        productType,
+        imagePath,
+        description,
+        category,
+        ratedPower,
+        batteryVoltage,
+        MPPTVoltage,
+        maxVoltage,
+        maxCurrent,
+        normalVoltage,
+        normalCapacity,
+        energy,
+      } = req.body;
+    
+     
+    
+      const productId = req.params.prid;
+    
+     
+    
+      try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+          productId,
+          {
+            productName,
+            price,
+            productType,
+            imagePath,
+            description,
+            category,
+            ratedPower,
+            batteryVoltage,
+            MPPTVoltage,
+            maxVoltage,
+            maxCurrent,
+            normalVoltage,
+            normalCapacity,
+            energy,
+          },
+          { new: true }
+        );
+    
+     
+    
+        if (!updatedProduct) {
+          throw new Error(`Product with ID ${productId} not found`);
+        }
+    
+     
+    
+        res.status(200).json({ product: updatedProduct });
+      } catch (err) {
+        const error = new HttpError(err.message || "Something went wrong. Please try again.", 422);
+        return next(error);
+      }
+    };
 
 
 export const getProductById = async (req, res, next) => {
     try {
-        const { prodId } = req.query;
+        const { productId } = req.query;
 
-        const product = await Product.findById(prodId);
+        const product = await Product.findById(productId);
         res.status(200).json(product);
     } catch (err) {
         const error = new HttpError("Failed fetch data! Please try again", 500);
         return next(err);
     }
+};
+
+export const deleteProduct = async (req, res, next) => {
+   const productId = req.params.prid;
+
+   let request;
+   try {
+    request = await Product.findById(productId);
+   } catch (err) {
+        const error = new HttpError(
+            "Something went wrong, could not delete the request",
+            500
+        );
+        return next(error);
+   }
+
+   if (!request) {
+    const error = new HttpError("We could not find a project for given id", 404);
+    return next(error);
+   }
+
+   try {
+    await Product.deleteOne({ _id: productId });
+   } catch(err) {
+    const error = new HttpError(
+        "Something went wrong. Could not delete the project.",
+        500
+    );
+    return next(error);
+   }
+   
+   res.status(200).json({ message: "product deleted successfully!" });
 };
