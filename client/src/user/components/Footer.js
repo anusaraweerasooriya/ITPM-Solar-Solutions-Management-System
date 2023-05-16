@@ -24,7 +24,7 @@ const Footer = () => {
             >
                 <Box width="clamp(20%, 30%, 40%)">
                     <Typography fontSize="1.5rem" fontWeight="bold" mb="20px" color={theme.palette.secondary.main} 
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate("/home")}
                         sx={{
                             "&:hover": {
                                 cursor: "pointer",

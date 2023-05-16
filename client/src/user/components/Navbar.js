@@ -45,7 +45,7 @@ const Navbar = () => {
           fontWeight="bold"
           fontSize="1.5rem"
           color={theme.palette.secondary.main}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
           sx={{
             "&:hover": {
               cursor: "pointer",
@@ -62,7 +62,7 @@ const Navbar = () => {
           <Typography
             fontSize="1rem"
             color="#ffffff"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/home")}
             sx={{
               "&:hover": {
                 color: theme.palette.secondary.main,
@@ -249,7 +249,7 @@ const Navbar = () => {
             <Typography
               fontSize="1rem"
               color="#ffffff"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/home")}
               sx={{
                 "&:hover": {
                   color: theme.palette.secondary[200],
@@ -258,20 +258,6 @@ const Navbar = () => {
               }}
             >
               Home
-            </Typography>
-
-            <Typography
-              fontSize="1rem"
-              color="#ffffff"
-              onClick={() => navigate("/about")}
-              sx={{
-                "&:hover": {
-                  color: "#ffd166",
-                  cursor: "pointer",
-                },
-              }}
-            >
-              About Us
             </Typography>
 
             <Typography
