@@ -2,9 +2,8 @@ import React from 'react'
 import { Box, useMediaQuery, TextField, Button } from '@mui/material'
 import { Formik } from "formik";
 import * as yup from "yup";
-import FlexBox from 'admin/components/FlexBox';
 
-const CardPayment = ({amount}) => {
+const CardPayment = ({amount, userId}) => {
   console.log(amount)
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
 

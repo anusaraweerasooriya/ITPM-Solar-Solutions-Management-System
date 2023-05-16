@@ -30,7 +30,7 @@ const DonateForm = () => {
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
   const user = useSelector((state) => state.auth.user);
   const location = useLocation();
-  const id = location.state.id;
+  const projectId = location.state.id;
   const projectName = location.state.name;
   const today = new Date().toISOString().split("T")[0];
   const [captchaKey, setCaptchaKey] = useState("");
@@ -212,7 +212,7 @@ const DonateForm = () => {
               )}
               {isOpen && 
                 <FormModal setOpen={setIsOpen} open={isOpen}>
-                  <PaymentOptions amount={values.amount} />
+                  <PaymentOptions amount={values.amount} userId={user._id} />
                 </FormModal>
               }
             </FlexBox>

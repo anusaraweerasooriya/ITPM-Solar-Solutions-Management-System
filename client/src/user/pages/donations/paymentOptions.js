@@ -4,8 +4,9 @@ import { Box, Button, Typography } from '@mui/material';
 import FlexBox from 'admin/components/FlexBox';
 import CardPayment from './cardPayment';
 
-const PaymentOptions = ({amount}) => {
+const PaymentOptions = ({amount, userId}) => {
    const [isCardPayment, setCardPayment] = useState(false);
+   console.log("user", userId)
 
     const donation = {
         description: "description",
@@ -37,7 +38,7 @@ const PaymentOptions = ({amount}) => {
             </FlexBox>
 
             {isCardPayment && (
-                <CardPayment amount={donation.price} />
+                <CardPayment amount={donation.price} userId={userId} />
             )}
         </Box>
     )
