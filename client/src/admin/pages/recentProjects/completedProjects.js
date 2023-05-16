@@ -8,6 +8,7 @@ import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 const CompletedProjects = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [projId, setProjId] = useState("");
 
   // values to be sent to backend
   const [page, setPage] = useState(0);
@@ -22,7 +23,6 @@ const CompletedProjects = () => {
     sort: JSON.stringify(sort),
     search,
   });
-  console.log(data);
 
   const columns = [
     {
@@ -64,12 +64,20 @@ const CompletedProjects = () => {
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
+
+        const onClickAddToRecent = (e) => {
+          const currentRow = params.row;
+          const id = currentRow._id;
+          setProjId(id);
+          navigate(`/admin/addToRecent/${id}`);
+        };
+
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
               size="small"
-              onClick={() => navigate(`/admin/addToRecent/${data._id}`)}
+              onClick={onClickAddToRecent}
               sx={{
                 textTransform:"unset",
                 background:"#007bff"

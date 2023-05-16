@@ -125,6 +125,7 @@ export const deleteRecentProject = async (req, res, next) => {
   res.status(200).json({ message: "Project deleted successfully!" });
 };
 
+
 export const updateRecentProject = async (req, res, next) => {
   let project;
   try {
@@ -165,4 +166,34 @@ export const getRecentProjectById = async (req, res, next) => {
     const error = new HttpError("Failed fetch data! Please try again", 500);
     return next(error);
   }
+};
+
+/* ADD TO RECENT */
+export const addRecentProject = async(req,res) => {
+    try {
+        const {
+            projectId,
+            projectName,
+            location,
+            endDate,
+            projectType,
+            description,
+            picturePath
+        } = req.body;
+
+        const newRecentProject = new RecentProject({
+            projectId,
+            projectName,
+            location,
+            endDate,
+            projectType,
+            description,
+            picturePath
+        });
+        const savedRecentProject = await newRecentProject.save();
+        res.status(201).json(savedRecentProject);
+
+    } catch (err) {
+        res.status(409).json({ error: err.message });
+    }
 };

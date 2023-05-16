@@ -28,11 +28,14 @@ import AddToRecentForm from "admin/pages/recentProjects/addToRecentForm";
 
 import Products from "user/pages/product/products";
 import Product from "user/pages/product/product";
+import ProductRequestForm from "user/pages/productRequest/productRequestForm";
+
 import AdminProducts from "admin/pages/product";
 import ProductForm from "admin/pages/product/productFrom";
 import SolarPanelsForm from "admin/pages/product/solarPanelsForm";
 import BatteriesForm from "admin/pages/product/BatteriesForm";
-import UpdateProductForm from "admin/pages/product/updateInverterForm";
+import UpdateProductForm from "admin/pages/product/updateProductForm";
+import AdminProductRequest from "admin/pages/productRequest";
 
 import BillGenerator from "user/pages/billGenerator";
 import PlanRequest from "user/pages/planRequests";
@@ -99,8 +102,12 @@ function App() {
       element={isAdmin ? <BatteriesForm /> : <Navigate to="/login" />}
     />,
     <Route
-      path="/admin/updateInverter"
+      path="/admin/updateProduct"
       element={isAdmin ? <UpdateProductForm /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/admin/productRequests"
+      element={isAdmin ? <AdminProductRequest /> : <Navigate to="/login" />}
     />,
   ];
 
@@ -127,6 +134,7 @@ function App() {
   const dynamicRoutes = [
     <Route path="/products" element={<Products />} />,
     <Route path="/product" element={<Product />} />,
+    <Route path="/productRequest" element={<ProductRequestForm />} />,
     <Route path="/generateBill" element={<BillGenerator />} />,
     <Route path="/projects" element={<Projects />} />,
     <Route path="/donate" element={<RuralProjects />} />,
@@ -183,7 +191,7 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/products" element={<Products />} />,
-                <Route path="/product" element={<Product />} />,
+                <Route path="/product/:id" element={<Product />} />,
                 <Route path="/generateBill" element={<BillGenerator />} />,
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project" element={<Project />} />

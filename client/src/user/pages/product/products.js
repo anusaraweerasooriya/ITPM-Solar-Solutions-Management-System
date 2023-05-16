@@ -10,14 +10,11 @@ import {
   Typography,
   IconButton,
   useMediaQuery,
+  useTheme,
+  Button,
+  Divider,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import CardHeader from "@mui/material/CardHeader";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useNavigate } from "react-router-dom";
-
 import { useGetProductsQuery } from "hooks/api-hook";
 
 const Product = ({
@@ -30,38 +27,18 @@ const Product = ({
   description,
   features,
 }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const ExpandMore = styled((props) => {
-      const { expand, ...other } = props;
-      return <IconButton {...other} />;
-  })(({ theme, expand }) => ({
-      transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-      marginLeft: "auto",
-      transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-      }),
-  }));
+  const theme = useTheme();
 
   const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-      setExpanded(!expanded);
-  };
-
-
   const navigate = useNavigate();
-  const handleClick = () => {
+
+  /*const handleClick = () => {
     navigate("/products", { state: { id: _id } });
-  };
+  };*/
 
   return (
     <>
       <Card
-        onClick={handleClick}
         sx={{
           borderRadius: "0.55rem",
           width: "350px",
@@ -70,28 +47,30 @@ const Product = ({
           backgroundColor: "#ffffff",
         }}
       >
-        <CardActionArea onClick={() => navigate(`/product/${_id}`)}>
+        <CardActionArea>
           <CardMedia
             sx={{
               //height: "350px",
-              height: "200px",
+              height: "270px",
               //width: "340px",
               //background: "cover",
               boxShadow: "-20px -8px 10px 10px #616161"
             }}
             image={`http://localhost:5001/assets/${imagePath}`}
-            title={productName}
+            //title={productName}
           />
-          <CardContent
+          <Divider
             sx={{
-              height: "140px",
-              backgroundColor: "#1a237e",
-              boxShadow: "2px -1px 18px 2px #616161"
-            }}
+                height: "250px",
+                backgroundColor: "#1a237e",
+                
+              }}
           >
+          <CardContent>
             <Typography
               gutterBottom
               variant="h5"
+              fontSize="0.8rem"
               component="div"
               fontWeight="bold"
               sx={{
@@ -100,33 +79,31 @@ const Product = ({
             >
               {productName}
             </Typography>
-            <Typography variant="h6" color="textSecondary" component="p" fontWeight="bold" sx={{color: "red"}}>
+            <Typography variant="h6" fontSize="0.8rem" color="textSecondary" component="p" fontWeight="bold" sx={{color: "red"}}>
               {productType}
             </Typography>
             <Typography variant="h6" color="textSecondary" component="p" fontWeight="bold" sx={{color: "red"}}>
               {category}
             </Typography>
+            <Button variant="outlined" size="medium" 
+            onClick={() => { navigate(`/product/${_id}`); }}
+            sx={{
+                  textTransform:"unset",
+                  fontSize: "0.7rem",
+                  fontWeight: "bold",
+                  width: "8rem",
+                  "&:hover": {
+                      color: "#ffffff",
+                      background: "#4d547d",
+                      backgroundColor: "#d50000"
+                  },
+              }}
+            >
+              Read more   
+          </Button>
           </CardContent>
+          </Divider>
         </CardActionArea>
-        <CardActions disableSpacing
-          sx={{
-            backgroundColor: "#1a237e",
-            height: "90px",
-            //boxShadow: "2px -1px 18px 2px #616161"
-          }}
-        >
-          <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-          </IconButton>
-          <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-          >
-              <ExpandMoreIcon />
-          </ExpandMore>
-        </CardActions>
       </Card>
     </>
   );

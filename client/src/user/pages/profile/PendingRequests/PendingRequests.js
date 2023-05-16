@@ -37,17 +37,19 @@ const PendingRequests = () => {
         </FormModal>
       )}
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           {isNonMobileScreen && <Sidebar />}
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={7}>
           <Box>
             {data &&
               data.map(({ _id, clientName, type, gridType }) => (
                 <Box
                   key={_id}
                   m="0.3rem"
-                  mt="1rem"
+                  mb="1rem"
+                  p="2rem"
+                  pt="0"
                   sx={{
                     height: 100,
                     width: 700,
@@ -56,7 +58,7 @@ const PendingRequests = () => {
                     borderRadius: "2rem",
                   }}
                 >
-                  <Stack direction="row" spacing={2}>
+                  <Stack direction="row" justifyContent="space-between">
                     <Box m="1rem">
                       <Typography fontWeight="bold" variant="h5">
                         {gridType} Project for {type} purposes.

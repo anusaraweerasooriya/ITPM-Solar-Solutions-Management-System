@@ -23,6 +23,8 @@ import projectRoutes from "./routes/projects.js";
 import recentProjectRoutes from "./routes/recentProjects.js";
 import requestRoutes from "./routes/requests.js";
 import projectPlanRoutes from "./routes/projectPlan.js";
+import paymentRoutes from "./routes/cardPayments.js";
+import { addRecentProject } from "./controllers/recentProjects.js";
 
 /* MIDDLEWARE CONFIGURATION =====================*/
 const __filename = fileURLToPath(import.meta.url);
@@ -61,6 +63,7 @@ app.patch(
   updateRuralProject
 );
 app.post("/createProduct", upload.single("imagePath"), createProduct);
+app.post("/addRecentProject", upload.single("picturePath"),addRecentProject);
 
 /* ROUTES =====================*/
 app.use("/auth", authRoutes);
@@ -72,6 +75,7 @@ app.use("/projects", projectRoutes);
 app.use("/recentProjects", recentProjectRoutes);
 app.use("/requests", requestRoutes);
 app.use("/plans", projectPlanRoutes);
+app.use("/payments", paymentRoutes);
 
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {

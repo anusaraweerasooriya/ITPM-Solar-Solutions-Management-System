@@ -7,10 +7,7 @@ const AdminRecentProjects = () => {
     <Box m="1.5rem 2.5rem">
         <Header title="RECENT PROJECTS" subtitle="Recent Project Management" />    
       
-        <Typography variant="h4" mt="0.5rem" pl="35rem" justifyContent="center"
-            sx={{
-            }}
-        >
+        <Typography variant="h4" mt="0.5rem" pl="35rem" justifyContent="center">
             Completed Projects
         </Typography>
         <CompletedProjects />

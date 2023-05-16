@@ -14,7 +14,7 @@ import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import VolunteerActivismOutlined from "@mui/icons-material/VolunteerActivismOutlined";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -37,7 +37,9 @@ const Sidebar = () => {
         }}
       />
       <MenuList>
-        <MenuItem sx={{ m: "2rem" }}>
+        <MenuItem sx={{ m: "2rem" }} 
+          onClick={() => navigate("/pendingRequests")}
+        >
           <PendingActionsIcon fontSize="large" sx={{ mr: "1rem" }}>
             <ContentCut fontSize="small" />
           </PendingActionsIcon>
@@ -74,15 +76,12 @@ const Sidebar = () => {
             <Typography variant="h5">Ongoing Projects</Typography>
           </ListItemText>
         </MenuItem>
-        <MenuItem
-          sx={{ m: "2rem" }}
-          onClick={() => {
-            navigate("/profile/donations");
-          }}
+        <MenuItem sx={{ m: "2rem" }} 
+          onClick={() => {navigate("/profile/donations")}}
         >
-          <FavoriteBorderOutlinedIcon fontSize="large" sx={{ mr: "1rem" }}>
+          <VolunteerActivismOutlined fontSize="large" sx={{ mr: "1rem" }}>
             <Cloud fontSize="small" />
-          </FavoriteBorderOutlinedIcon>
+          </VolunteerActivismOutlined>
           <ListItemText>
             <Typography variant="h5">Donations</Typography>
           </ListItemText>

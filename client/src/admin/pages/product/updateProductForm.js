@@ -39,7 +39,7 @@ const initialValuesProduct = {
     MPPTVoltage: "",
 };
 
-const UpdateProductForm = ({ prodId }) => {
+const UpdateProductForm = ({ productId }) => {
     const navigate = useNavigate();
     const { palette } = useTheme();
     const isNonMobileScreen = useMediaQuery("(min-width: 600px)");
@@ -47,10 +47,10 @@ const UpdateProductForm = ({ prodId }) => {
     const [error, setError] = useState("");
     const [open, setOpen] = useState(false);
     const { data } = useGetProductByIdQuery(
-      { prodId },
+      { productId },
       { refetchOnMountOrArgChange: true }
     );
-    console.log(prodId)
+    console.log(productId)
 
     if (data) {
       initialValuesProduct.productName = data.productName;
@@ -73,7 +73,7 @@ const UpdateProductForm = ({ prodId }) => {
     formData.append("imagePath", values.imagePath.name);
 
     const savedUserResponse = await fetch(
-      `http://localhost:5001/updateProduct/${prodId}`,
+      `http://localhost:5001/updateProduct/${productId}`,
       {
         method: "PATCH",
         body: formData,
@@ -213,56 +213,6 @@ const UpdateProductForm = ({ prodId }) => {
                   helperText={touched.category && errors.category}
                   sx={{ gridColumn: "span 4" }}
                 />
-                <TextField
-                  select
-                  label="Description"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.description}
-                  name="description"
-                  error={
-                    Boolean(touched.description) && Boolean(errors.description)
-                  }
-                  helperText={touched.description && errors.description}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                <TextField
-                  select
-                  label="Rated Power"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.ratedPower}
-                  name="ratedPower"
-                  error={
-                    Boolean(touched.ratedPower) && Boolean(errors.ratedPower)
-                  }
-                  helperText={touched.ratedPower && errors.ratedPower}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                <TextField
-                  label="Battery Voltage"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.batteryVoltage}
-                  name="batteryVoltage"
-                  error={
-                    Boolean(touched.batteryVoltage) && Boolean(errors.batteryVoltage)
-                  }
-                  helperText={touched.batteryVoltage && errors.batteryVoltage}
-                  sx={{ gridColumn: "span 4" }}
-                />
-                <TextField
-                  label="MPPT Voltage"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.MPPTVoltage}
-                  name="MPPTVoltage"
-                  error={
-                    Boolean(touched.MPPTVoltage) && Boolean(errors.MPPTVoltage)
-                  }
-                  helperText={touched.MPPTVoltage && errors.MPPTVoltage}
-                  sx={{ gridColumn: "span 4" }}
-                />
               </Box>
 
               {/* BUTTONs */}
@@ -282,7 +232,7 @@ const UpdateProductForm = ({ prodId }) => {
                     // "&:hover": { color: palette.primary.main },
                   }}
                 >
-                  Update Project
+                  Update Product
                 </Button>
               </Box>
             </form>
