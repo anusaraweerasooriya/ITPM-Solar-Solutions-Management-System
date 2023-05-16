@@ -1,6 +1,4 @@
 import CardPayment from "../models/CardPayment.js";
-import { HttpError } from "../models/HttpError.js";
-import { validationResult } from "express-validator";
 
 /* CREATE PAYMENT */
 export const createPayment = async (req, res) => {
