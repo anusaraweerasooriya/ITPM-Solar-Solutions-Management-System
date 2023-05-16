@@ -188,10 +188,10 @@ export const getProjectPlansByUser = async (req, res, next) => {
   let plans;
 
   try {
-    plans = ProjectPlan.find({ user });
+    plans = await ProjectPlan.find({ user });
   } catch (err) {
     const error = new HttpError("Comething went wrong please try again", 500);
-    return next(error);
+    return next(err);
   }
 
   res.status(200).json(plans);
