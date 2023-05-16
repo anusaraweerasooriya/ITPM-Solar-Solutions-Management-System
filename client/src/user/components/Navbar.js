@@ -76,20 +76,6 @@ const Navbar = () => {
           <Typography
             fontSize="1rem"
             color="#ffffff"
-            onClick={() => navigate("/about")}
-            sx={{
-              "&:hover": {
-                color: theme.palette.secondary.main,
-                cursor: "pointer",
-              },
-            }}
-          >
-            About Us
-          </Typography>
-
-          <Typography
-            fontSize="1rem"
-            color="#ffffff"
             onClick={() => navigate("/generateBill")}
             sx={{
               "&:hover": {
