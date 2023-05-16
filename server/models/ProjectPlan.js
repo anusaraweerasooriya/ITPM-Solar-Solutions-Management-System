@@ -24,6 +24,11 @@ const ProjectPlanSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    status: {
+      type: String,
+      enum: ["paymentPending", "paymentCompleted", "rejected"],
+      default: "paymentPending",
+    },
   },
   { timestamps: true }
 );
