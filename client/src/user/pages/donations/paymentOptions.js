@@ -37,7 +37,7 @@ const PaymentOptions = ({amount}) => {
             </FlexBox>
 
             {isCardPayment && (
-                <CardPayment />
+                <CardPayment amount={donation.price} />
             )}
         </Box>
     )
