@@ -13,7 +13,6 @@ import FlexBox from "admin/components/FlexBox";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { Power } from "@mui/icons-material";
 
 const ProductSchema = yup.object().shape({
   productName: yup.string().required("Product name cannot be empty"),
@@ -32,7 +31,7 @@ const initialValuesProduct = {
   price: "",
   productType: "",
   imagePath: "",
-  category: "Battery",
+  category: "SolarPanel",
   description: "",
   maxVoltage: "",
   maxCurrent: "",
@@ -82,7 +81,7 @@ const BatteriesForm = () => {
         variant="h4"
         sx={{ mb: "1.5rem", textAlign: "center" }}
       >
-        ADD BATTERIES
+        ADD SOLAR PANELS
       </Typography>
       <hr></hr>
 

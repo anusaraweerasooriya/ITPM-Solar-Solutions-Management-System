@@ -93,8 +93,8 @@ const navItems = [
     icon: <ShoppingCartOutlined />,
   },
   {
-    id: 11,
-    url: "",
+    id: 12,
+    url: "productRequests",
     text: "Product Requests",
     icon: <RequestPageOutlined />,
   },
