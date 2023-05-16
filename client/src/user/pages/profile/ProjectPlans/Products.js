@@ -27,7 +27,7 @@ const Products = ({ servicePack }) => {
       <Typography
         variant="h5"
         color="darkgreen"
-        m="2rem"
+        m="0.7rem"
         fontWeight="bold"
         align="end"
       >
