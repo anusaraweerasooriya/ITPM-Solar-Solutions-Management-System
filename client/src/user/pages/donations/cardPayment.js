@@ -1,10 +1,12 @@
 import React from 'react'
-import { Box, useMediaQuery, TextField, Button } from '@mui/material'
+import { Box, useMediaQuery, TextField, Button, Typography } from '@mui/material'
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
 
 const CardPayment = ({amount, userId}) => {
-  console.log(amount)
+  const navigate = useNavigate();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
 
   const validationSchema = yup.object().shape({
@@ -15,6 +17,7 @@ const CardPayment = ({amount, userId}) => {
   });
 
   const initialValues = {
+    user: "",
     cardNumber: "",
     cardName: "",
     amount: amount,
@@ -22,8 +25,31 @@ const CardPayment = ({amount, userId}) => {
     cvv: "",
   };
 
-  const handleSubmit = async (values, onSubmitProps) => {
+  const [isSuccessMsg, setIsSuccessMsg] = useState(false);
 
+  const handleSubmit = async (values, onSubmitProps) => {
+    values.user = userId;
+    const response = await fetch(
+      "http://localhost:5001/payments/createPayment",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      }
+    );
+    const savedResponse = await response.json();
+    console.log(savedResponse)
+
+    if (!response.ok) {
+      throw new Error(savedResponse.message);
+    }
+
+    if (response.ok) {
+      if (savedResponse) {
+        onSubmitProps.resetForm();
+        setIsSuccessMsg(true);
+      }
+    }
   }
 
   return (
@@ -101,7 +127,6 @@ const CardPayment = ({amount, userId}) => {
               label="CVV"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={values.cvv}
               name="cvv"
               error={Boolean(touched.cvv) && Boolean(errors.cvv)}
               helperText={touched.cvv && errors.cvv}
@@ -137,6 +162,11 @@ const CardPayment = ({amount, userId}) => {
           >
             Submit
           </Button>
+          {isSuccessMsg && 
+            <Box p="1rem" mt="2rem" backgroundColor="#0080ff" color="white">
+              <Typography>Payment is submitted successfully!</Typography>
+            </Box>
+          }
         </form>
       )}
     </Formik>

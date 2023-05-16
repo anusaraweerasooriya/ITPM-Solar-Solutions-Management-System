@@ -9,7 +9,6 @@ export const createPayment = async (req, res) => {
             cardName,
             amount,
             expDate,
-            cvv,
             type,
         } = req.body;
 
@@ -19,7 +18,6 @@ export const createPayment = async (req, res) => {
             cardName,
             amount,
             expDate,
-            cvv,
             type,
         });
         const savedPayment = await newCardPayment.save();

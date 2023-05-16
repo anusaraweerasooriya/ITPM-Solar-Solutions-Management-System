@@ -7,7 +7,7 @@ const CardPaymentSchema = new mongoose.Schema(
             required: true,
         },
         cardNumber: {
-            type: Number,
+            type: String,
             required: true,
         },
         cardName: {
@@ -19,10 +19,6 @@ const CardPaymentSchema = new mongoose.Schema(
             required: true,
         },
         expDate: {
-            type: String,
-            required: true,
-        },
-        cvv: {
             type: String,
             required: true,
         },

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PayPalButton from './paypalButton'
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import FlexBox from 'admin/components/FlexBox';
 import CardPayment from './cardPayment';
 
@@ -38,7 +38,7 @@ const PaymentOptions = ({amount, userId}) => {
             </FlexBox>
 
             {isCardPayment && (
-                <CardPayment amount={donation.price} userId={userId} />
+                <CardPayment amount={amount } userId={userId} />
             )}
         </Box>
     )
