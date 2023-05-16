@@ -48,14 +48,10 @@ const initialValuesRuralProject = {
   status: "",
 };
 
-const RuralProjectUpdate = ({projId}) => {  
-  const navigate = useNavigate();
+const RuralProjectUpdate = ({projId, setIsUpdateForm, refetch}) => {  
   const isNonMobileScreen = useMediaQuery("(min-width:600px)");
   const today = new Date().toISOString().split("T")[0];
-  const { palette } = useTheme();
-  const [error, setError] = useState("");
-  const [open, setOpen] = useState(false);
-  const { data, refetch } = useGetRuralProjectByIdQuery(
+  const { data } = useGetRuralProjectByIdQuery(
     { projId },
     { refetchOnMountOrArgChange: true }
   );
@@ -93,7 +89,7 @@ const RuralProjectUpdate = ({projId}) => {
 
   if (response.ok) {
     if (responseData) {
-      navigate("/admin/ruralProjects");
+      setIsUpdateForm(false);
       refetch();
     }
   }
