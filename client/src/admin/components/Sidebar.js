@@ -99,7 +99,7 @@ const navItems = [
   },
   {
     id: 12,
-    url: "",
+    url: "productRequests",
     text: "Product Requests",
     icon: <RequestPageOutlined />,
   },
