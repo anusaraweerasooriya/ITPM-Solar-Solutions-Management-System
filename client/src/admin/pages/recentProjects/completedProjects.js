@@ -62,27 +62,29 @@ const CompletedProjects = () => {
       width: 150,
       sortable: false,
       disableClickEventBubbling: true,
+//====buttons
+
 
       renderCell: (params) => {
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
+              color="secondary"
               size="small"
-              onClick={() => navigate(`/admin/addToRecent/${data._id}`)}
+              //onClick={onClickUpdate}
               sx={{
-                textTransform:"unset",
-                background:"#007bff"
+                textTransform: "unset",
               }}
             >
-              Add to recent
+              Edit
             </Button>
           </Stack>
         );
       },
     },
   ];
-
+//========
   return (
       <Box mt="20px" height="35vh" mb="10px"
         sx={{
@@ -131,6 +133,15 @@ const CompletedProjects = () => {
             toolbar: { searchInput, setSearchInput, setSearch },
           }}
         />
+        <Button
+              variant="contained"
+              color="success"
+              size="small"
+              onClick={() => navigate(`/admin/addToRecent/${data._id}`)}
+            >
+              Add
+            </Button>
+      
       </Box>
   );
 };
