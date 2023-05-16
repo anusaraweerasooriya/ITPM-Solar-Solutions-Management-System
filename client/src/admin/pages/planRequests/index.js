@@ -26,7 +26,7 @@ const PlanRequests = () => {
   const [isRejectModal, setIsRejectModal] = useState(false);
   const [currReqId, setCurrReqId] = useState("");
 
-  const { data, isLoading } = useGetAdminPlanRequestsQuery({
+  const { data, isLoading, refetch } = useGetAdminPlanRequestsQuery({
     page,
     pageSize,
     sort: JSON.stringify(sort),
@@ -154,6 +154,7 @@ const PlanRequests = () => {
           isRejectModal={isRejectModal}
           setIsRejectModal={setIsRejectModal}
           reqId={currReqId}
+          refetch={refetch}
         />
       )}
       <Header title="REQUEST PLANS" subtitle="Request Plan Management" />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, useTheme, Stack, Button, Chip } from "@mui/material";
 
 import { Done } from "@mui/icons-material";
@@ -26,11 +26,14 @@ const ProjectPlans = () => {
   const [isRejectModal, setIsRejectModal] = useState(false);
   const [currReqId, setCurrReqId] = useState("");
 
-  const { data, isLoading } = useGetAdminProjectPlansQuery({
+  const { data, isLoading, refetch } = useGetAdminProjectPlansQuery({
     page,
     pageSize,
     sort: JSON.stringify(sort),
     search,
+  });
+  useEffect(() => {
+    refetch();
   });
 
   const columns = [

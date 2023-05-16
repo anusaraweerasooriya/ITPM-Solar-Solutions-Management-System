@@ -181,3 +181,18 @@ export const getAdminProjectPlans = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const getProjectPlansByUser = async (req, res, next) => {
+  const { user } = req.params;
+
+  let plans;
+
+  try {
+    plans = ProjectPlan.find({ user });
+  } catch (err) {
+    const error = new HttpError("Comething went wrong please try again", 500);
+    return next(error);
+  }
+
+  res.status(200).json(plans);
+};
