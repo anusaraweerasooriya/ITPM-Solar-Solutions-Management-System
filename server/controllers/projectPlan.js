@@ -61,6 +61,7 @@ export const createProjectPlanForRequest = async (req, res, next) => {
   try {
     createdPlan = new ProjectPlan({
       requestId: reqId,
+      user: request.user,
       servicePack: servicePack._id,
       serviceCharge,
       totalCost,
@@ -77,8 +78,8 @@ export const createProjectPlanForRequest = async (req, res, next) => {
 
   if (savedPlan) {
     try {
-      savedPlan.status = "plan-created";
-      await savedPlan.save();
+      request.status = "plan-created";
+      await request.save();
     } catch (err) {
       const error = new HttpError("Couldn't update the request", 500);
       return next(error);

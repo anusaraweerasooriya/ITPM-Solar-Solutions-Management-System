@@ -8,6 +8,10 @@ const ProjectPlanSchema = new mongoose.Schema(
       min: 2,
       max: 100,
     },
+    user: {
+      type: String,
+      require: true,
+    },
     servicePack: {
       type: String,
       require: true,
