@@ -1,4 +1,5 @@
 import Project from "../models/Project.js";
+import RecentProject from "../models/RecentProject.js";
 
 /* GET COMPLETED PROJECTS - ADMIN */
 export const getAdminCompletedProjects = async (req, res) => {
@@ -46,13 +47,32 @@ export const getAdminCompletedProjects = async (req, res) => {
     }
 };
 
-
+/* ADD TO RECENT */
 export const addRecentProject = async(req,res) => {
     try {
+        const {
+            projectId,
+            projectName,
+            location,
+            endDate,
+            projectType,
+            description,
+            picturePath
+        } = req.body;
 
-        const {id} = req.param;
-        
+        const newRecentProject = new RecentProject({
+            projectId,
+            projectName,
+            location,
+            endDate,
+            projectType,
+            description,
+            picturePath
+        });
+        const savedRecentProject = await newRecentProject.save();
+        res.status(201).json(savedRecentProject);
+
     } catch (err) {
-        res.status(404).jason({error:"Something went wrong please try agin!"})
+        res.status(409).json({ error: err.message });
     }
 };
