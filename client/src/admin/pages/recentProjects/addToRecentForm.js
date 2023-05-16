@@ -1,4 +1,3 @@
-
 import { 
   Box, 
   useMediaQuery,
@@ -6,7 +5,6 @@ import {
   TextField,
   Typography,
   useTheme,
-  MenuItem,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import Dropzone from "react-dropzone";
@@ -14,32 +12,43 @@ import FlexBox from "admin/components/FlexBox";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useGetProjectByIdQuery } from "hooks/api-hook";
 
 const recentProjectSchema = yup.object().shape({
-  projectName: yup.string().required("Project name cannot be empty"),
-  location: yup.string().required("Location cannot be empty"),
-  projectType: yup.string().required("Please select project type"),
-  projectEndDate: yup.date().required("Please select estimated end date"),
-  imagePath: yup.string(),
-  description: yup.string(),
-
+    projectName: yup.string(),
+    location: yup.string(),
+    description: yup.string(),
+    projectType: yup.string(),
+    endDate: yup.date().required("Please select project end date"),
+    picturePath  : yup.string(),
 })
 
 const initialValuesForRecentProject = {
-  projectName:  "",
-  location:  "",
-  projectType:  "",
-  projectEndDate:  "",
-  imagePath: "",
-  description: "",
+    projectId: "",
+    projectName:  "",
+    location:  "",
+    description:  "",
+    projectType:  "",
+    endDate: "",
+    picturePath: "",
 }
 
 const AddToRecentForm = () => {
   const { palette } = useTheme();
   const navigate = useNavigate();
-  const {} = useParams();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
+  const projId = useParams().id;
+  const { data } = useGetProjectByIdQuery({projId});
+
+  // eslint-disable-next-line no-lone-blocks
+  if (data) {
+    initialValuesForRecentProject.projectId = projId;
+    initialValuesForRecentProject.projectName = data.projectName;
+    initialValuesForRecentProject.location = data.location;
+    initialValuesForRecentProject.description = data.location;
+    initialValuesForRecentProject.projectType = data.projectType;
+  }
   
   const handleFormSubmit = async(values, onSubmitProps) => {
       //send form info with an image
@@ -47,20 +56,27 @@ const AddToRecentForm = () => {
       for (let value in values) {
           formData.append(value, values[value]);
       }
-      formData.append("imagePath", values.imagePath.name);
+      formData.append("picturePath", values.picturePath.name);
       
       const savedUserResponse = await fetch(
-          "http://localhost:5001/ruralproject",
+          "http://localhost:5001/addRecentProject",
           {
               method: "POST",
               body: formData,
           }
       );
       const savedProject = await savedUserResponse.json();
-      onSubmitProps.resetForm();
+      console.log(savedProject)
+      
+      if (!savedUserResponse.ok) {
+        throw new Error(savedProject.message);
+      }
 
-      if (savedProject) {
-          navigate("/admin/ruralProjects")
+      if (savedUserResponse.ok) {
+        if (savedProject) {
+            onSubmitProps.resetForm();
+            navigate("/admin/recentProjects")
+        }
       }
   };
 
@@ -72,9 +88,14 @@ const AddToRecentForm = () => {
           borderRadius="1.5rem"
           backgroundColor="#ffffff"
       >
-          <Typography fontWeight="bold" variant="h4" sx={{ mb: "1.5rem", textAlign:"center" }}>
-          ADD RURAL PROJECT
+          <Typography
+            fontWeight="bold"
+            variant="h4"
+            sx={{ mb: "1.5rem", textAlign: "center" }}
+          >
+            ADD TO RECENT
           </Typography>
+          <Typography>Please enter necessary details of the completed project</Typography>
           <hr></hr>
           
           <Formik
@@ -123,66 +144,6 @@ const AddToRecentForm = () => {
                               sx={{ gridColumn: "span 4" }}
                           />
                           <TextField 
-                              select
-                              label="Project Type"
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              value={values.projectType}
-                              name="projectType"
-                              error={Boolean(touched.projectType) && Boolean(errors.projectType)}
-                              helperText={(touched.projectType) && (errors.projectType)}
-                              sx={{ gridColumn: "span 2" }}
-                          >
-                              <MenuItem value="Domestic">Domestic</MenuItem>
-                              <MenuItem value="Commercial">Commercial</MenuItem>
-                          </TextField>
-                          <TextField
-                              label="End Date"
-                              type="date"
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              value={values.projectEndDate}
-                              name="projectEndDate"
-                              error={Boolean(touched.projectEndDate) && Boolean(errors.projectEndDate)}
-                              helperText={(touched.projectEndDate) && (errors.projectEndDate)}
-                              sx={{ gridColumn: "span 2" }}
-                              InputLabelProps={{ shrink: true }}
-                              inputProps={{ min: today }}
-                          />
-                          <Box
-                              gridColumn="span 4"
-                              border={`1px solid ${palette.neutral.medium}`}
-                              borderRadius="5px"
-                              p="1rem"
-                          >
-                              <Dropzone
-                                  acceptedFiles=".jpg,.jpeg,.png"
-                                  multiple={false}
-                                  onDrop={(acceptedFiles) =>
-                                      setFieldValue("imagePath", acceptedFiles[0])
-                                  }
-                                  >
-                                  {({ getRootProps, getInputProps }) => (
-                                      <Box
-                                      {...getRootProps()}
-                                      border={`2px dashed ${palette.primary.main}`}
-                                      p="1rem"
-                                      sx={{ "&:hover": { cursor: "pointer" } }}
-                                      >
-                                      <input {...getInputProps()} />
-                                      {!values.imagePath ? (
-                                          <p>Add Picture Here</p>
-                                      ) : (
-                                          <FlexBox>
-                                          <Typography>{values.imagePath.name}</Typography>
-                                          <EditOutlinedIcon />
-                                          </FlexBox>
-                                      )}
-                                      </Box>
-                                  )}
-                              </Dropzone>
-                          </Box>
-                          <TextField 
                               label="Description"
                               onBlur={handleBlur}
                               multiline
@@ -194,6 +155,62 @@ const AddToRecentForm = () => {
                               helperText={(touched.description) && (errors.description)}
                               sx={{ gridColumn: "span 4" }}
                           />
+                          <TextField 
+                              label="Project Type"
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              value={values.projectType}
+                              name="projectType"
+                              error={Boolean(touched.projectType) && Boolean(errors.projectType)}
+                              helperText={(touched.projectType) && (errors.projectType)}
+                              sx={{ gridColumn: "span 2" }}
+                          />
+                          <TextField
+                              label="Project End-date"
+                              type="date"
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              value={values.endDate}
+                              name="endDate"
+                              error={Boolean(touched.endDate) && Boolean(errors.endDate)}
+                              helperText={(touched.endDate) && (errors.endDate)}
+                              sx={{ gridColumn: "span 2" }}
+                              InputLabelProps={{ shrink: true }}
+                              inputProps={{ max: today }}
+                          />
+                          <Box
+                              gridColumn="span 4"
+                              border={`1px solid ${palette.neutral.medium}`}
+                              borderRadius="5px"
+                              p="1rem"
+                          >
+                              <Dropzone
+                                  acceptedFiles=".jpg,.jpeg,.png"
+                                  multiple={false}
+                                  onDrop={(acceptedFiles) =>
+                                      setFieldValue("picturePath", acceptedFiles[0])
+                                  }
+                                  >
+                                  {({ getRootProps, getInputProps }) => (
+                                      <Box
+                                      {...getRootProps()}
+                                      border={`2px dashed ${palette.primary.main}`}
+                                      p="1rem"
+                                      sx={{ "&:hover": { cursor: "pointer" } }}
+                                      >
+                                      <input {...getInputProps()} />
+                                      {!values.picturePath ? (
+                                          <p>Add Picture Here</p>
+                                      ) : (
+                                          <FlexBox>
+                                          <Typography>{values.picturePath.name}</Typography>
+                                          <EditOutlinedIcon />
+                                          </FlexBox>
+                                      )}
+                                      </Box>
+                                  )}
+                              </Dropzone>
+                          </Box>
                       </Box>
 
                       {/* BUTTONs */}

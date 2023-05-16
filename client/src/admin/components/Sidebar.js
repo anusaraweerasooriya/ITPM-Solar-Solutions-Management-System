@@ -31,6 +31,7 @@ import {
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import profileImage from "admin/assets/profile.jpeg";
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import FlexBox from "./FlexBox";
 
 const navItems = [
@@ -102,6 +103,13 @@ const navItems = [
     text: "Recent",
     icon: null,
   },
+  {
+    id: 13,
+    url: "completedProjects",
+    text: "Completed Projects",
+    icon: <EventAvailableIcon />,
+  },
+  
   {
     id: 13,
     url: "recentProjects",

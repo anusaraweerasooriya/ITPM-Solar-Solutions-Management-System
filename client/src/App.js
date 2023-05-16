@@ -91,7 +91,7 @@ function App() {
 
   const recentProjectRoutes = [
     <Route
-      path="/admin/recentProjects"
+      path="/admin/completedProjects"
       element={isAdmin ? <AdminRecentProjects /> : <Navigate to="/login" />}
     />,
     <Route
