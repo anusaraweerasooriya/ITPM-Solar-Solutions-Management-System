@@ -24,6 +24,8 @@ export const customApi = createApi({
     "ServicePackByRequest",
     "AdminProjectPlans",
     "ProjectPlanByUser",
+    "AdminRecentProjects",
+    "AdminRecentProjectById",
   ],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
@@ -74,6 +76,21 @@ export const customApi = createApi({
         params: { page, pageSize, sort, search },
       }),
       providesTags: ["CompletedProjects"],
+    }),
+    getAdminRecentProjects: build.query({
+      query: ({ page, pageSize, sort, search }) => ({
+        url: "recentProjects/getAdminRecentProjects",
+        method: "GET",
+        params: { page, pageSize, sort, search },
+      }),
+      providesTags: ["AdminRecentProjects"],
+    }),
+    getRecentProjectById: build.query({
+      query: ({ prodId }) => ({
+        url: `recentProjects/getRecentProjectById/${prodId}`,
+        method: "GET",
+      }),
+      providesTags: ["AdminRecentProjectById"],
     }),
     getUsers: build.query({
       query: () => "auth/users",
@@ -181,4 +198,6 @@ export const {
   useGetDonationByIdQuery,
   useGetDonationsByUserEmailQuery,
   useGetProductByIdQuery,
+  useGetAdminRecentProjectsQuery,
+  useGetRecentProjectByIdQuery,
 } = customApi;

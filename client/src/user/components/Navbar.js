@@ -147,7 +147,7 @@ const Navbar = () => {
             variant="contained"
             size="medium"
             onClick={() => {
-              isAuth ? navigate("/submitRequest") : navigate("/login");
+              isAuth ? navigate("/profile/submitRequest") : navigate("/login");
             }}
             sx={{
               textTransform: "unset",

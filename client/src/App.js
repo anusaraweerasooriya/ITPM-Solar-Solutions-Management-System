@@ -42,6 +42,7 @@ import ProjectPlans from "admin/pages/projectPlans";
 import UserProjectPlans from "user/pages/profile/ProjectPlans";
 import RuralProject from "user/pages/ruralProjects/ruralProject";
 import Donations from "user/pages/profile/Donations/Donations";
+import RecentProjects from "admin/pages/recentProjects/RecentProjects";
 
 function App() {
   const role = useSelector((state) => state.auth.role);
@@ -105,12 +106,16 @@ function App() {
 
   const recentProjectRoutes = [
     <Route
-      path="/admin/recentProjects"
+      path="/admin/completedProjects"
       element={isAdmin ? <AdminRecentProjects /> : <Navigate to="/login" />}
     />,
     <Route
       path="/admin/addToRecent/:id"
       element={isAdmin ? <AddToRecentForm /> : <Navigate to="/login" />}
+    />,
+    <Route
+      path="/admin/recentProjects"
+      element={isAdmin ? <RecentProjects /> : <Navigate to="/login" />}
     />,
   ];
 
