@@ -1,13 +1,19 @@
-import React from 'react'
-import { Box, useMediaQuery, TextField, Button, Typography } from '@mui/material'
+import React from "react";
+import {
+  Box,
+  useMediaQuery,
+  TextField,
+  Button,
+  Typography,
+} from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
-import FormModal from 'components/modals/FormModal';
-import SuccessModal from './SuccessModal';
+import { useState } from "react";
+import FormModal from "components/modals/FormModal";
+import SuccessModal from "./SuccessModal";
 
-const CardPayment = ({amount, userId}) => {
+const CardPayment = ({ amount, userId }) => {
   const navigate = useNavigate();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
   const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +45,7 @@ const CardPayment = ({amount, userId}) => {
       }
     );
     const savedResponse = await response.json();
-    console.log(savedResponse)
+    console.log(savedResponse);
 
     if (!response.ok) {
       throw new Error(savedResponse.message);
@@ -48,13 +54,12 @@ const CardPayment = ({amount, userId}) => {
     if (response.ok) {
       if (savedResponse) {
         onSubmitProps.resetForm();
-        setIsOpen(!isOpen)
+        setIsOpen(!isOpen);
       }
     }
-  }
+  };
 
   return (
-    
     <Formik
       onSubmit={handleSubmit}
       initialValues={initialValues}
@@ -143,7 +148,7 @@ const CardPayment = ({amount, userId}) => {
               resetForm();
             }}
             sx={{
-              mt:"4rem",
+              mt: "4rem",
               mr: "1rem",
               p: "0.5rem",
               width: "8rem",
@@ -156,7 +161,7 @@ const CardPayment = ({amount, userId}) => {
             variant="contained"
             color="success"
             sx={{
-              mt:"4rem",
+              mt: "4rem",
               p: "0.5rem",
               width: "8rem",
             }}
@@ -165,22 +170,23 @@ const CardPayment = ({amount, userId}) => {
           </Button>
 
           {/* Success message */}
-          {isOpen &&
-            <SuccessModal 
+          {isOpen && (
+            <SuccessModal
               setOpen={setIsOpen}
               open={isOpen}
-              title={<Typography fontWeight="bold">Donation payment is submitted successfully</Typography>}
+              title={
+                <Typography fontWeight="bold">
+                  Donation payment is submitted successfully
+                </Typography>
+              }
             >
               <Typography>We appreciate your helping hand</Typography>
             </SuccessModal>
-          }
-
-
+          )}
         </form>
       )}
     </Formik>
+  );
+};
 
-  )
-}
-
-export default CardPayment
+export default CardPayment;
