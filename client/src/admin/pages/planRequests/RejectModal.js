@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 
-const RejectModal = ({ reqId, isRejectModal, setIsRejectModal }) => {
+const RejectModal = ({ reqId, isRejectModal, setIsRejectModal, refetch }) => {
   const [rejectMessage, setRejectMessage] = useState("");
 
   const handleClose = () => {
@@ -16,13 +16,12 @@ const RejectModal = ({ reqId, isRejectModal, setIsRejectModal }) => {
   };
 
   const rejectRequest = async () => {
-    console.log(reqId);
     const response = await fetch(
       `http://localhost:5001/requests/rejectPendingRequest/${reqId}`,
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(rejectMessage),
+        body: JSON.stringify({ rejectMessage }),
       }
     );
 
@@ -34,7 +33,7 @@ const RejectModal = ({ reqId, isRejectModal, setIsRejectModal }) => {
 
     if (response.ok) {
       setIsRejectModal(false);
-      alert(responseData.message);
+      refetch();
     }
   };
 

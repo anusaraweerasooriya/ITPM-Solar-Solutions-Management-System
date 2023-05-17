@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteRecentProjectModal from "./DeleteRecentProjectModal";
 import UpdateForm from "./UpdateForm";
 import FormModal from "components/modals/FormModal";
+import { useEffect } from "react";
 
 const RecentProjects = () => {
   const theme = useTheme();
@@ -35,6 +36,10 @@ const RecentProjects = () => {
     pageSize,
     sort: JSON.stringify(sort),
     search,
+  });
+
+  useEffect(() => {
+    refetch();
   });
 
   const columns = [
@@ -134,7 +139,7 @@ const RecentProjects = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="REQUEST PLANS" subtitle="Request Plan Management" />
+      <Header title="RECENT PROJECTS" subtitle="Recent Project Management" />
       {open && (
         <DeleteRecentProjectModal
           open={open}

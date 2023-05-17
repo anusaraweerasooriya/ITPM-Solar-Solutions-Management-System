@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Stack, Typography, Button, Divider } from "@mui/material";
 import { useGetProjectPlansByUserQuery } from "hooks/api-hook";
 import { useSelector } from "react-redux";
+import ProjectPlanModel from "./ProjectPlanModel";
 
 const ProjectPlanCard = () => {
   const user = useSelector((state) => state.auth.user._id);
@@ -9,7 +10,7 @@ const ProjectPlanCard = () => {
     { user },
     { refetchOnMountOrArgChange: true }
   );
-  console.log(data);
+  const [open, setOpen] = useState(false);
 
   return (
     <Box>
@@ -27,6 +28,14 @@ const ProjectPlanCard = () => {
               borderRadius: "2rem",
             }}
           >
+            {open && (
+              <ProjectPlanModel
+                open={open}
+                setOpen={setOpen}
+                reqId={requestId}
+                planId={_id}
+              />
+            )}
             <Stack direction="row" spacing={2}>
               <Box m="1rem">
                 <Typography fontWeight="bold" variant="h5">
@@ -46,6 +55,7 @@ const ProjectPlanCard = () => {
                 <Button
                   size="large"
                   variant="contained"
+                  onClick={() => setOpen(!open)}
                   sx={{ mt: "1.5rem" }}
                   color="success"
                 >

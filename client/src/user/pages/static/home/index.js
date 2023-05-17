@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useGetUsersQuery } from "hooks/api-hook";
+import SlideShow from "./SlideShow";
 
 const Home = () => {
   const { data, error, isLoading, isFetching } = useGetUsersQuery({
@@ -20,7 +21,11 @@ const Home = () => {
     return <div>{error.message}</div>;
   }
 
-  return <div>{}</div>;
+  return (
+    <div>
+      <SlideShow />
+    </div>
+  );
 };
 
 export default Home;

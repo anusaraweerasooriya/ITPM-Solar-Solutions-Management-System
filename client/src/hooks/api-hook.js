@@ -29,6 +29,7 @@ export const customApi = createApi({
     "ProjectById",
     "ProductRequestById",
     "AdminProductRequest",
+    "ProjectPlanById",
     "RecentlProjects",
   ],
   extractRehydrationInfo(action, { reducerPath }) {
@@ -148,6 +149,13 @@ export const customApi = createApi({
       }),
       providesTags: ["ProjectPlanByUser"],
     }),
+    getProjectPlanById: build.query({
+      query: ({ planId }) => ({
+        url: `plans/getProjectPlanById/${planId} `,
+        method: "GET",
+      }),
+      providesTags: ["ProjectPlanById"],
+    }),
     getRuralProjectById: build.query({
       query: ({ projId }) => ({
         url: "projects/getRuralProjectById",
@@ -226,6 +234,7 @@ export const {
   useGetServicePackByRequestQuery,
   useGetAdminProjectPlansQuery,
   useGetProjectPlansByUserQuery,
+  useGetProjectPlanByIdQuery,
   useGetRuralProjectByIdQuery,
   useGetDonationByIdQuery,
   useGetDonationsByUserEmailQuery,

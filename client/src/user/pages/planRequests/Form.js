@@ -93,7 +93,7 @@ const Form = () => {
     if (response.ok) {
       if (responseData.savedRequest) {
         onSubmitProps.resetForm();
-        navigate("/pendingRequests");
+        navigate("/profile/pendingRequests");
       }
     }
   };
