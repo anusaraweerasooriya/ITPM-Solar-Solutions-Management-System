@@ -25,7 +25,7 @@ import requestRoutes from "./routes/requests.js";
 import projectPlanRoutes from "./routes/projectPlan.js";
 import { addRecentProject } from "./controllers/recentProjects.js";
 //import {ProductRequest} from "./controllers/productRequest.js"
-import productRequestRoutes  from "./routes/productRequest.js";
+import productRequestRoutes from "./routes/productRequest.js";
 
 /* MIDDLEWARE CONFIGURATION =====================*/
 const __filename = fileURLToPath(import.meta.url);
@@ -59,7 +59,7 @@ const upload = multer({ storage });
 /* ROUTES WITH FILE UPLOAD ================================= */
 app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
 app.post("/createProduct", upload.single("imagePath"), createProduct);
-app.post("/addRecentProject", upload.single("picturePath"),addRecentProject);
+app.post("/addRecentProject", upload.single("picturePath"), addRecentProject);
 
 /* ROUTES =====================*/
 app.use("/auth", authRoutes);
@@ -72,7 +72,6 @@ app.use("/recentProjects", recentProjectRoutes);
 app.use("/requests", requestRoutes);
 app.use("/plans", projectPlanRoutes);
 app.patch("/updateRuralProject/:pid", updateRuralProject);
-app.use("/payments", paymentRoutes);
 app.use("/productRequests", productRequestRoutes);
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
