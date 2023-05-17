@@ -134,7 +134,7 @@ const RecentProjects = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="REQUEST PLANS" subtitle="Request Plan Management" />
+      <Header title="RECENT PROJECTS" subtitle="Recent Project Management" />
       {open && (
         <DeleteRecentProjectModal
           open={open}

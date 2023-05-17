@@ -37,8 +37,9 @@ const Sidebar = () => {
         }}
       />
       <MenuList>
-        <MenuItem sx={{ m: "2rem" }} 
-          onClick={() => navigate("/pendingRequests")}
+        <MenuItem
+          sx={{ m: "2rem" }}
+          onClick={() => navigate("/profile/pendingRequests")}
         >
           <PendingActionsIcon fontSize="large" sx={{ mr: "1rem" }}>
             <ContentCut fontSize="small" />
@@ -76,8 +77,11 @@ const Sidebar = () => {
             <Typography variant="h5">Ongoing Projects</Typography>
           </ListItemText>
         </MenuItem>
-        <MenuItem sx={{ m: "2rem" }} 
-          onClick={() => {navigate("/profile/donations")}}
+        <MenuItem
+          sx={{ m: "2rem" }}
+          onClick={() => {
+            navigate("/profile/donations");
+          }}
         >
           <VolunteerActivismOutlined fontSize="large" sx={{ mr: "1rem" }}>
             <Cloud fontSize="small" />

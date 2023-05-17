@@ -108,7 +108,7 @@ const Form = (props) => {
           })
         );
         if (logged.user.role === "admin") {
-          navigate("/admin/dashboard");
+          navigate("/admin/planRequests");
         } else {
           navigate("/home");
         }

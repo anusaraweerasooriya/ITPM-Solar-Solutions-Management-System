@@ -38,11 +38,11 @@ const AddPlanForm = ({ productCost, reqId }) => {
   //   initialValues.totalCost = calculatedTotalCost.toString();
   // }, [charge, productCost]);
 
-  const handleServiceCharge = () => {
-    const calculatedTotalCost = productCost * (charge / 100) + productCost;
-    console.log(calculatedTotalCost);
-    initialValues.totalCost = calculatedTotalCost.toString();
-  };
+  // const handleServiceCharge = () => {
+  //   const calculatedTotalCost = productCost * (charge / 100) + productCost;
+  //   console.log(calculatedTotalCost);
+  //   initialValues.totalCost = calculatedTotalCost.toString();
+  // };
 
   const createPlan = async (values, onSubmitProps) => {
     const response = await fetch(
@@ -134,7 +134,9 @@ const AddPlanForm = ({ productCost, reqId }) => {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={handleServiceCharge}>
+                      <IconButton
+                      // onClick={handleServiceCharge}
+                      >
                         {" "}
                         <AddCircleOutlineOutlined />
                       </IconButton>
