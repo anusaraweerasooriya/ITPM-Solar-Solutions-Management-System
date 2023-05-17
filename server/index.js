@@ -25,6 +25,8 @@ import requestRoutes from "./routes/requests.js";
 import projectPlanRoutes from "./routes/projectPlan.js";
 import paymentRoutes from "./routes/cardPayments.js";
 import { addRecentProject } from "./controllers/recentProjects.js";
+//import {ProductRequest} from "./controllers/productRequest.js"
+import productRequestRoutes  from "./routes/productRequest.js";
 
 /* MIDDLEWARE CONFIGURATION =====================*/
 const __filename = fileURLToPath(import.meta.url);
@@ -76,7 +78,7 @@ app.use("/recentProjects", recentProjectRoutes);
 app.use("/requests", requestRoutes);
 app.use("/plans", projectPlanRoutes);
 app.use("/payments", paymentRoutes);
-
+app.use("/productRequests", productRequestRoutes);
 /* ERROR HANDLING MIDDLEWARE =================================*/
 app.use((error, req, res, next) => {
   if (req.file) {
