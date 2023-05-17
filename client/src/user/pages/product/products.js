@@ -47,7 +47,7 @@ const Product = ({
           backgroundColor: "#ffffff",
         }}
       >
-        <CardActionArea>
+        <CardActionArea >
           <CardMedia
             sx={{
               //height: "350px",

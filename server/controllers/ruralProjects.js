@@ -136,12 +136,13 @@ export const updateRuralProject = async (req, res, next) => {
         project.description = description;
         project.currentAllocation = currentAllocation;
         project.status = status;
-        } catch (err) {
+
+      } catch (err) {
         const error = new HttpError("Something went wrong. Please try again.", 422);
         return next(error);
-        }
-    
-        try {
+      }
+  
+      try {
         await project.save();
         } catch (err) {
         const error = new HttpError(
@@ -149,9 +150,9 @@ export const updateRuralProject = async (req, res, next) => {
             500
         );
         return next(error);
-        }
-    
-        res.status(200).json({ project });
+      }
+  
+      res.status(200).json({ project });
 };
 
 

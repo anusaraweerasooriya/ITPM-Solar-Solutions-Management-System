@@ -34,7 +34,6 @@ import AdminProducts from "admin/pages/product";
 import ProductForm from "admin/pages/product/productFrom";
 import SolarPanelsForm from "admin/pages/product/solarPanelsForm";
 import BatteriesForm from "admin/pages/product/BatteriesForm";
-import UpdateProductForm from "admin/pages/product/updateProductForm";
 import AdminProductRequest from "admin/pages/productRequest";
 
 import BillGenerator from "user/pages/billGenerator";
@@ -101,14 +100,6 @@ function App() {
       path="/admin/addBatteries"
       element={isAdmin ? <BatteriesForm /> : <Navigate to="/login" />}
     />,
-    <Route
-      path="/admin/updateProduct"
-      element={isAdmin ? <UpdateProductForm /> : <Navigate to="/login" />}
-    />,
-    <Route
-      path="/admin/productRequests"
-      element={isAdmin ? <AdminProductRequest /> : <Navigate to="/login" />}
-    />,
   ];
 
   const recentProjectRoutes = [
@@ -123,6 +114,13 @@ function App() {
     <Route
       path="/admin/recentProjects"
       element={isAdmin ? <RecentProjects /> : <Navigate to="/login" />}
+    />,
+  ];
+
+  const productRequestRoutes = [
+    <Route
+      path="/admin/productRequest"
+      element={isAdmin ? <AdminProductRequest /> : <Navigate to="/login" />}
     />,
   ];
 
@@ -177,6 +175,7 @@ function App() {
                 {donationRoutes}
                 {recentProjectRoutes}
                 {productRoutes}
+                {productRequestRoutes}
               </Route>
               ) :() ) (isCustomer ? (
               <Route element={<ClientLayout />}>

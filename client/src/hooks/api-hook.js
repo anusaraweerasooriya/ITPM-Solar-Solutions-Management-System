@@ -190,7 +190,7 @@ export const customApi = createApi({
     }),
     getProductRequestById: build.query({
       query: ({ productReqId }) => ({
-        url: "productRequest/getProductRequestById",
+        url: "productRequests/getProductRequestById",
         method: "GET",
         params: { productReqId },
       }),
@@ -198,7 +198,7 @@ export const customApi = createApi({
     }),
     getAdminProductRequest: build.query({
       query: ({ page, pageSize, sort, search }) => ({
-        url: "productRequest/adminProductRequest",
+        url: "productRequests/adminProductRequest",
         method: "GET",
         params: { page, pageSize, sort, search },
       }),
