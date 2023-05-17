@@ -30,6 +30,7 @@ export const customApi = createApi({
     "ProductRequestById",
     "AdminProductRequest",
     "ProjectPlanById",
+    "RecentlProjects",
   ],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
@@ -197,7 +198,7 @@ export const customApi = createApi({
     }),
     getProductRequestById: build.query({
       query: ({ productReqId }) => ({
-        url: "productRequest/getProductRequestById",
+        url: "productRequests/getProductRequestById",
         method: "GET",
         params: { productReqId },
       }),
@@ -205,11 +206,15 @@ export const customApi = createApi({
     }),
     getAdminProductRequest: build.query({
       query: ({ page, pageSize, sort, search }) => ({
-        url: "productRequest/adminProductRequest",
+        url: "productRequests/adminProductRequest",
         method: "GET",
         params: { page, pageSize, sort, search },
       }),
       providesTags: ["AdminProductRequest"],
+    }),
+    getRecentProjects: build.query({
+      query: () => "recentProjects/getRecentProjects",
+      providesTags: ["RecentlProjects"],
     }),
   }),
 });
@@ -239,4 +244,5 @@ export const {
   useGetProjectByIdQuery,
   useGetProductRequestByIdQuery,
   useGetAdminProductRequestQuery,
+  useGetRecentProjectsQuery,
 } = customApi;

@@ -5,6 +5,7 @@ import { useGetAdminProductRequestQuery } from "hooks/api-hook";
 import Header from "admin/components/Header";
 import DataGridCustomToolbar from "admin/components/DataGridCustomToolbar";
 import FormModal from "components/modals/FormModal";
+import ProductRequestView from "./productRequestView";
 
 const AdminProductRequest = () => {
     const theme = useTheme();
@@ -102,6 +103,7 @@ const AdminProductRequest = () => {
                                 setOpen={setIsProductRequestView}
                                 open={isProductRequestView}
                             >
+                                <ProductRequestView productReqId={productRequestsId} />
                             </FormModal>
                         )}
                     </Stack>
@@ -114,7 +116,7 @@ const AdminProductRequest = () => {
     <Box m="1.5rem 2.5rem">
         {isProductRequestView && (
             <FormModal setOpen={setIsProductRequestView} open={isProductRequestView}>
-
+                <ProductRequestView />
             </FormModal>
         )}
 

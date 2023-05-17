@@ -1,5 +1,5 @@
-import { HttpError } from "../models/HttpError";
-import ProductRequest from "../models/ProductRequest";
+import { HttpError } from "../models/HttpError.js";
+import ProductRequest from "../models/ProductRequest.js";
 
 
 export const createProductRequest = async (req, res) => {
