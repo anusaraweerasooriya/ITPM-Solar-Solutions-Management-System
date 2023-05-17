@@ -57,7 +57,7 @@ const ProjectPlanModel = ({ open, setOpen, reqId, planId }) => {
                     Client
                   </Typography>
                   <Typography variant="h5" fontWeight="bold" color="darkblue">
-                    :{request.clientName}
+                    :{request && request.clientName}
                   </Typography>
                 </FlexBox>
                 <FlexBox minWidth="400px">
@@ -65,7 +65,7 @@ const ProjectPlanModel = ({ open, setOpen, reqId, planId }) => {
                     Address
                   </Typography>
                   <Typography variant="h5" fontWeight="bold" color="darkblue">
-                    :{request.clientAddress}
+                    :{request && request.clientAddress}
                   </Typography>
                 </FlexBox>
                 <FlexBox minWidth="400px">
@@ -73,7 +73,7 @@ const ProjectPlanModel = ({ open, setOpen, reqId, planId }) => {
                     Grid-Type
                   </Typography>
                   <Typography variant="h5" fontWeight="bold" color="darkblue">
-                    :{request.gridType}
+                    :{request && request.gridType}
                   </Typography>
                 </FlexBox>
                 <FlexBox minWidth="400px">
@@ -81,7 +81,7 @@ const ProjectPlanModel = ({ open, setOpen, reqId, planId }) => {
                     Power Consumption
                   </Typography>
                   <Typography variant="h5" fontWeight="bold" color="darkblue">
-                    :{request.monthlyPowerConsumption}
+                    :{request && request.monthlyPowerConsumption}
                   </Typography>
                 </FlexBox>
               </Box>
@@ -108,10 +108,10 @@ const ProjectPlanModel = ({ open, setOpen, reqId, planId }) => {
               <Box>
                 <Typography variant="h5" color="black" fontWeight="bold">
                   Total Product Cost:{" "}
-                  {servicePack.pack.totalProductCost.toFixed(2)}
+                  {servicePack && servicePack.pack.totalProductCost.toFixed(2)}
                 </Typography>
                 <Typography variant="h5" color="black" fontWeight="bold">
-                  Service charge ({plan.serviceCharge}%):{" "}
+                  Service charge ({plan && plan.serviceCharge}%):{" "}
                   {(servicePack.pack.totalProductCost * plan.serviceCharge) /
                     100}
                 </Typography>
@@ -123,9 +123,11 @@ const ProjectPlanModel = ({ open, setOpen, reqId, planId }) => {
               >
                 <Typography variant="h4" color="red" fontWeight="bold">
                   Rs.{" "}
-                  {(servicePack.pack.totalProductCost * plan.serviceCharge) /
+                  {(servicePack &&
+                    servicePack.pack.totalProductCost * plan &&
+                    plan.serviceCharge) /
                     100 +
-                    servicePack.pack.totalProductCost}
+                    servicePack && servicePack.pack.totalProductCost}
                 </Typography>
               </Box>
             </FlexBox>

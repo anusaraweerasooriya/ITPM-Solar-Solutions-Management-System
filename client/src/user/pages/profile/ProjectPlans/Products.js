@@ -16,9 +16,13 @@ const Products = ({ servicePack }) => {
     >
       <Box mb="1rem">
         <Box>
-          {products.map((productId) => (
-            <ProductCard id={productId} qty={servicePack.products[productId]} />
-          ))}
+          {products &&
+            products.map((productId) => (
+              <ProductCard
+                id={productId}
+                qty={servicePack.products[productId]}
+              />
+            ))}
         </Box>
       </Box>
       <Box m="1rem">
