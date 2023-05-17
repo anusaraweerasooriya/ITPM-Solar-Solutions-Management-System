@@ -168,6 +168,15 @@ export const getRecentProjectById = async (req, res, next) => {
   }
 };
 
+export const getRecentProjects = async (req, res, next) => {
+  try {
+      const recentProjects = await RecentProject.find();
+      res.status(200).json(recentProjects);
+  } catch (err) {
+      res.status(409).json({ error: err.message });
+  }
+};
+
 /* ADD TO RECENT */
 export const addRecentProject = async(req,res) => {
     try {

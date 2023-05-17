@@ -15,7 +15,8 @@ import { useSelector } from "react-redux";
 import FlexBox from "admin/components/FlexBox";
 import * as yup from "yup";
 import FormModal from "components/modals/FormModal";
-import PaymentOptions from "./paymentOptions";
+import PayPalButton from './paypalButton'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const donationSchema = yup.object().shape({
   fullName: yup.string().required("Name cannot be empty"),
@@ -33,8 +34,26 @@ const DonateForm = () => {
   const projectId = location.state.id;
   const projectName = location.state.name;
   const today = new Date().toISOString().split("T")[0];
+
+  //REcaptcha
   const [captchaKey, setCaptchaKey] = useState("");
+  const recaptchaHandler = (value) => {
+    setCaptchaKey(value);
+  };
+  const [isCaptcha, setIsCaptcha] = useState(true);
+
+  //select payment options
   const [isOpen, setIsOpen] = useState(false);
+
+  //card pay form
+  const [isCardPayment, setIsCardPayment] = useState(false);
+
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardName, setCardName] = useState("");
+  const [expDate, setExpDate] = useState("");
+  const [cvv, setcvv] = useState("");
+
+  const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
 
   const initialValuesDonation = {
     fullName: "",
@@ -45,7 +64,14 @@ const DonateForm = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    const savedDonationResponse = await fetch(
+    console.log("values", values)
+    values.user = user._id;
+    values.type = "Donation";
+    values.cardNumber = cardNumber;
+    values.cardName = cardName;
+    values.expDate = expDate;
+    values.project = projectId;
+    const response = await fetch(
       "http://localhost:5001/donations/createDonation",
       {
         method: "POST",
@@ -53,16 +79,19 @@ const DonateForm = () => {
         body: JSON.stringify(values),
       }
     );
-    const savedDonation = await savedDonationResponse.json();
-    onSubmitProps.resetForm();
+    const savedResponse = await response.json();
+    console.log(savedResponse);
 
-    if (savedDonation) {
-      navigate("/donate");
+    if (!response.ok) {
+      throw new Error(savedResponse.message);
     }
-  };
 
-  const recaptchaHandler = (value) => {
-    setCaptchaKey(value);
+    if (response.ok) {
+      if (savedResponse) {
+        onSubmitProps.resetForm();
+        navigate("/donate");
+      }
+    }
   };
 
   if (user) {
@@ -170,10 +199,12 @@ const DonateForm = () => {
                 helperText={touched.date && errors.date}
                 sx={{ gridColumn: "span 4" }}
               />
+              {isCaptcha && (
               <ReCAPTCHA
                 sitekey="6LcreUskAAAAABVC02ZrdpVnOfFSwC7bxP-oN5cp"
                 onChange={recaptchaHandler}
               />
+              )}
             </Box>
 
             {/* BUTTONs */}
@@ -192,10 +223,10 @@ const DonateForm = () => {
               >
                 Clear
               </Button>
-              {!isOpen && (
-                <Tooltip title="You will be directed to the PayPal gateway">
+
+              {!isOpen && 
+                !isPaymentSuccess && (
                   <Button
-                    //type="submit"
                     variant="contained"
                     color="success"
                     disabled={!captchaKey}
@@ -203,19 +234,156 @@ const DonateForm = () => {
                     sx={{
                       m: "2rem 0",
                       p: "0.8rem",
-                      width: "8rem",
+                      width: "10rem",
                     }}
                   >
                     Proceed to Pay
                   </Button>
-                </Tooltip>
-              )}
+                )
+              }
+
+
+              {isPaymentSuccess &&
+              <Button
+                variant="outlined"
+                color="success"
+                startIcon={<CheckCircleOutlineIcon />}
+                sx={{
+                  m: "2rem 0",
+                  p: "0.8rem",
+                  width: "15rem",
+                  fontWeight: "bold"
+                }}
+              >
+                Payment Successfull
+              </Button>
+              }
+              </FlexBox>
+
+              {isPaymentSuccess &&
+              <Button
+                type="submit"
+                variant="contained"
+                color="success"
+                sx={{
+                  m: "2rem 0",
+                  p: "0.8rem",
+                  width: "100%"
+                }}
+              >
+                Submit
+              </Button>
+              }
+
+
+              {/* =======================================select payment options ==================================== */}
               {isOpen && 
                 <FormModal setOpen={setIsOpen} open={isOpen}>
-                  <PaymentOptions amount={values.amount} userId={user._id} />
+                  <Box>
+                      <Typography textAlign="center" fontWeight="bold" fontSize="1.5rem">
+                          Amount : $ {values.amount}
+                      </Typography>
+
+                      <FlexBox padding="2rem" gap="2rem">
+                          <Box mt="-40px" onClick={() => {setIsCardPayment(true)}}>
+                              <img 
+                                  width="130px"
+                                  alt="visa"
+                                  src={`http://localhost:5001/assets/visa.png`}
+                              />
+                          </Box>
+                          <Box mt="-40px" onClick={() => {setIsCardPayment(true)}}>
+                              <img 
+                                  width="100px"
+                                  alt="master"
+                                  src={`http://localhost:5001/assets/master.png`}
+                              />
+                          </Box>
+                          <PayPalButton/>
+                      </FlexBox>
+
+                      {/* =======================================card pay form ==================================== */}
+                      {isCardPayment && (
+                        <>
+                        <Box
+                          pt="20px"
+                          display="grid"
+                          gap="30px"
+                          gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                          sx={{
+                            "& > div": {
+                              gridColumn: isNonMobileScreens ? undefined : "span 4",
+                            },
+                          }}
+                        >
+                          <TextField
+                            label="Card Number"
+                            onChange={(e) => setCardNumber(e.target.value)}
+                            value={cardNumber}
+                            sx={{ gridColumn: "span 4" }}
+                          />
+                          <TextField
+                            label="Name on card"
+                            onChange={(e) => setCardName(e.target.value)}
+                            value={cardName}
+                            sx={{ gridColumn: "span 4" }}
+                          />
+                          <TextField
+                            label="Payment Amount"
+                            disabled
+                            value={values.amount}
+                            sx={{ gridColumn: "span 2" }}
+                          />
+                          <TextField
+                            label="Expiry Date"
+                            placeholder="MM/YY"
+                            onChange={(e) => setExpDate(e.target.value)}
+                            value={expDate}
+                            sx={{ gridColumn: "span 1" }}
+                          />
+                          <TextField
+                            label="CVV"
+                            onChange={(e) => setcvv(e.target.value)}
+                            value={cvv}
+                            sx={{ gridColumn: "span 1" }}
+                          />
+                        </Box>
+
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() => {
+                            resetForm();
+                          }}
+                          sx={{
+                            mt: "4rem",
+                            mr: "1rem",
+                            p: "0.5rem",
+                            width: "8rem",
+                          }}
+                        >
+                          Clear
+                        </Button>
+                        <Button
+                          onClick={() => {setIsOpen(!isOpen); setIsPaymentSuccess(true); setIsCaptcha(false)}}
+                          variant="contained"
+                          color="success"
+                          sx={{
+                            mt: "4rem",
+                            p: "0.5rem",
+                            width: "8rem",
+                          }}
+                        >
+                          Submit
+                        </Button>
+                        </>
+                      )}
+
+
+                  </Box>
                 </FormModal>
               }
-            </FlexBox>
+
           </form>
         )}
       </Formik>

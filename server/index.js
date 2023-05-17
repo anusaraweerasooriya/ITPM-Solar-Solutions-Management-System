@@ -23,7 +23,6 @@ import projectRoutes from "./routes/projects.js";
 import recentProjectRoutes from "./routes/recentProjects.js";
 import requestRoutes from "./routes/requests.js";
 import projectPlanRoutes from "./routes/projectPlan.js";
-import paymentRoutes from "./routes/cardPayments.js";
 import { addRecentProject } from "./controllers/recentProjects.js";
 //import {ProductRequest} from "./controllers/productRequest.js"
 import productRequestRoutes  from "./routes/productRequest.js";
@@ -59,11 +58,6 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILE UPLOAD ================================= */
 app.post("/ruralproject", upload.single("imagePath"), createRuralProject);
-app.patch(
-  "/updateRuralProject/:pid",
-  upload.single("imagePath"),
-  updateRuralProject
-);
 app.post("/createProduct", upload.single("imagePath"), createProduct);
 app.post("/addRecentProject", upload.single("picturePath"),addRecentProject);
 
@@ -77,6 +71,7 @@ app.use("/projects", projectRoutes);
 app.use("/recentProjects", recentProjectRoutes);
 app.use("/requests", requestRoutes);
 app.use("/plans", projectPlanRoutes);
+app.patch("/updateRuralProject/:pid", updateRuralProject);
 app.use("/payments", paymentRoutes);
 app.use("/productRequests", productRequestRoutes);
 /* ERROR HANDLING MIDDLEWARE =================================*/

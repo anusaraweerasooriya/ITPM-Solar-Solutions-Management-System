@@ -247,6 +247,7 @@ const RuralProjectUpdate = ({projId, setIsUpdateForm, refetch}) => {
               />
               <TextField
                 label="Current Allocation"
+                disabled
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.currentAllocation}
