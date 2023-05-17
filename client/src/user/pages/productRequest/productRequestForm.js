@@ -28,7 +28,7 @@ const ProductRequestForm = () => {
     const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
     const user = useSelector((state) => state.auth.user);
     const location = useLocation();
-    const id = location.state.id;
+    const ProductId = location.state.id;
     const productName = location.state.name;
     const today = new Date().toISOString().split("T")[0];
     const [captchaKey, setCaptchaKey] = useState("");
@@ -45,7 +45,7 @@ const ProductRequestForm = () => {
 
     const handleFormSubmit = async (values, onSubmitProps) => {
         const savedProductRequestResponse = await fetch(
-            "http://localhost:5001/productRequest/createProductRequest",
+            "http://localhost:5001/productRequests/createProductRequest",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -78,12 +78,11 @@ const ProductRequestForm = () => {
         backgroundColor="#ffffff"
         >
             <Typography fontWeight="bold" variant="h4" sx={{ textAlign: "center" }}>
-                GIVE TO AN AREA OF GREATEST NEED
+                GET IN TOUCH
             </Typography>
             <hr></hr>
             <Typography variant="h6" sx={{ mb: "1.5rem" }}>
-                100% of your donation will solely be contributed to the specific project
-                and you will be able to view your total contributions via user profile.
+                Please complete the form below and we'll get in touch.
             </Typography>
 
             <Formik

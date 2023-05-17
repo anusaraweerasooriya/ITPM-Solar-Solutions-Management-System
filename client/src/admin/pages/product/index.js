@@ -139,7 +139,7 @@ const AdminProducts = () => {
               <FormModal
                 setOpen={setIsUpdateForm}
                 open={isUpdateForm}>
-                  <UpdateProductForm productId={productsId} />
+                  <UpdateProductForm prodId={productsId} setIsUpdateForm={setIsUpdateForm} refetch={refetch} />
               </FormModal>
             )}
             <Button
@@ -284,16 +284,17 @@ const AdminProducts = () => {
           }}
         />
       </Box>
-      <ListItemButton 
-      variant="contained"
-      color="success"
-      size="small"
-      onClick={handleClick}>
-        <ListItemText primary="Add" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
+      <Button
+        variant="contained"
+        color="success"
+        size="small"
+        onClick={handleClick}
+        endIcon={open ? <ExpandLess /> : <ExpandMore />}
+      >
+        ADD
+      </Button>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List components="div" disablePadding>
+        <List component="div" disablePadding>
           <ListItemButton onClick={() => navigate("/admin/addProduct")}>
             <ListItemText primary="Add Inverter" />
           </ListItemButton>

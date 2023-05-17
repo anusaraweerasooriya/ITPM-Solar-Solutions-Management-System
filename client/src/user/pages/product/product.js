@@ -15,8 +15,9 @@ import { useGetProductByIdQuery } from 'hooks/api-hook';
 const Product = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const productId = useParams().id;
-  const {data} = useGetProductByIdQuery({productId});
+  const prodId = useParams().id;
+  const {data} = useGetProductByIdQuery({prodId});
+  console.log("id",prodId);
   console.log("data",data);
 
   return (
