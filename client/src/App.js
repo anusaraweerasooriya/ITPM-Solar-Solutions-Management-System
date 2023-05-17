@@ -194,7 +194,7 @@ function App() {
                 <Route path="/product/:id" element={<Product />} />,
                 <Route path="/generateBill" element={<BillGenerator />} />,
                 <Route path="/projects" element={<Projects />} />
-                <Route path="/project" element={<Project />} />
+                <Route path="/project/:id" element={<Project />} />
                 <Route path="/generateBill" element={<BillGenerator />} />
                 <Route path="/ruralProject/:id" element={<RuralProject />} />
               </Route>

@@ -9,143 +9,165 @@ import Typography from '@mui/material/Typography';
 import { positions } from '@mui/system';
 import Carousel from 'react-bootstrap/Carousel';
 import { useNavigate } from "react-router-dom";
-import { Box } from '@mui/material';
+import { Box, CardActionArea, useMediaQuery, useTheme } from '@mui/material';
+import { useGetRecentProjectsQuery } from 'hooks/api-hook';
+
+const Project = ({
+    _id,
+    projectName,
+    location,
+    picturePath,
+    description
+  }) => {
+    const theme = useTheme();
+    const navigate = useNavigate();
+  
+    return (
+      <Card
+        sx={{
+          borderRadius: "0.55rem",
+          backgroundColor: "#ffffff"
+        }}>
+          <CardActionArea>
+            <CardMedia
+              sx={{
+                height: "200px"
+              }}
+              image={`http://localhost:5001/assets/${picturePath}`}
+              title={location}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div" fontWeight="bold">
+                {projectName}
+              </Typography>
+              <Typography variant="h6" color="textSecondary" component="p">
+                {description}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions> {/*sx={{justifyContent: "center"}}*/}
+            <Button variant="contained" size="medium"
+                onClick={() => { navigate(`/project/${_id}`); }}
+                sx={{
+                    textTransform:"unset",
+                    fontSize: "0.7rem",
+                    fontWeight: "bold",
+                    width: "8rem",
+                    "&:hover": {
+                        color: "#ffffff",
+                        background: "#4d547d"
+                    },
+                }}
+            >
+                Read more
+            </Button>
+          </CardActions>
+      </Card>
+    );
+  
+  };
 
 
 export default function MediaCard() {
+    const { data } = useGetRecentProjectsQuery();
+    const navigate = useNavigate();
+    const isNonMobile = useMediaQuery("(min-width: 1000px");
 
-const navigate = useNavigate();
-
-  return (
-//================= SLIDE SHOW and CARD ==================
-    <div>
-        <Carousel>
-            <Carousel.Item interval={1000}>
-                <img
-                height= "300px"
-                className="d-block w-100"
-                src="https://skyelectric.com/blog/wp-content/uploads/2020/11/Misconceptions-about-solar.jpg"
-                alt="First slide"
-                />
-                <Carousel.Caption>
-                <h2><b>Projects</b></h2>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item interval={500}>
-                <img
-                height= "300px"
-                className="d-block w-100"
-                src="https://www.globaltrademag.com/wp-content/uploads/2016/09/U.S.-COMPANIES-WERE-BLOCKED-FROM-COMPETING-FOR-A-SHARE-OF-INDIA%E2%80%99S-SOLAR-POWER-MARKET.jpg"
-                alt="Second slide"
-                />
-                <Carousel.Caption>
-                <h2><b>Projects</b></h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-                <img
-                height= "300px"
-                className="d-block w-100"
-                src="https://eitrawmaterials.eu/wp-content/uploads/2021/05/solar-panels-against-mountain-landscape.jpg"
-                alt="Third slide"
-                />
-                <Carousel.Caption>
-                <h2><b>Projects</b></h2>
-                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-        </Carousel>
-
-
-        <Box ml="1rem">
-            <Typography variant='h3'fontWeight="bold">
-                Recent Projects
-            </Typography>
-            With the huge client base we already have successfully compleated more than 100 projects our client's live at ease.
-        </Box>
-        
+    return (
+    //================= SLIDE SHOW and CARD ==================
+        <div>
+            <Carousel>
+                <Carousel.Item interval={1000}>
+                    <img
+                    height= "300px"
+                    className="d-block w-100"
+                    src="https://skyelectric.com/blog/wp-content/uploads/2020/11/Misconceptions-about-solar.jpg"
+                    alt="First slide"
+                    />
+                    <Carousel.Caption>
+                    <h2><b>Projects</b></h2>
+                    <p>With the huge client base we already have successfully compleated more than 100 projects our client's live at ease.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item interval={500}>
+                    <img
+                    height= "300px"
+                    className="d-block w-100"
+                    src="https://www.globaltrademag.com/wp-content/uploads/2016/09/U.S.-COMPANIES-WERE-BLOCKED-FROM-COMPETING-FOR-A-SHARE-OF-INDIA%E2%80%99S-SOLAR-POWER-MARKET.jpg"
+                    alt="Second slide"
+                    />
+                    <Carousel.Caption>
+                    <h2><b>Projects</b></h2>
+                    <p>With the huge client base we already have successfully compleated more than 100 projects our client's live at ease.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <img
+                    height= "300px"
+                    className="d-block w-100"
+                    src="https://eitrawmaterials.eu/wp-content/uploads/2021/05/solar-panels-against-mountain-landscape.jpg"
+                    alt="Third slide"
+                    />
+                    <Carousel.Caption>
+                    <h2><b>Projects</b></h2>
+                    <p>With the huge client base we already have successfully compleated more than 100 projects our client's live at ease.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+            </Carousel>
 
 
-
-
-
-
-        <div style={{ display: 'flex', flexWrap: 'wrap',justifyContent:'center',alignItems:'center',paddingTop:10}}>
-
-            <Card sx={{ maxWidth: 400, marginRight:4 }}>
-            <CardMedia
-                sx={{ height: 150 }}
-                image="https://static.dw.com/image/58854115_905.jpg" alt="Card image cap"
-                title="green iguana"
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                <b>Solar Light For Residential Area </b>
+            <Box ml="1rem">
+                <Typography variant='h3'fontWeight="bold" mt="1rem">
+                    Recent Projects
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
-                </Typography>
-            </CardContent>
-            <CardActions>
-            <Button variant="contained" onClick={() => navigate("/project") }>
-                Read More
-            </Button>
-            </CardActions>
-            </Card>
+            </Box>
 
-
-            
-            <Card sx={{ maxWidth: 400,marginRight:4 }}>
-            <CardMedia
-                sx={{ height: 150 }}
-                image="https://images.pexels.com/photos/2800832/pexels-photo-2800832.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Card image cap"
-                title="green iguana"
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                <b>Solar Streat Light project, Badulla</b>
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
-                </Typography>
-            </CardContent>
-            <CardActions>
-            <Button variant="contained" onClick={() => navigate("/project") }>
-                Read More
-            </Button>
-            </CardActions>
-            </Card>
-
-
-            <Card sx={{ maxWidth: 400,marginRight:4 }}>
-            <CardMedia
-                sx={{ height: 150 }}
-                image="https://www.energyacuity.com/wp-content/uploads/2019/09/1-NextEra-Energy-Resources-header-image-Top-Sustainable-Energy-Providers.jpg" alt="Card image cap"
-                title="green iguana"
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                <b>Solar Light For Park</b>
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
-                </Typography>
-            </CardContent>
-            <CardActions>
-            <Button variant="contained" onClick={() => navigate("/project") }>
-                Read More
-            </Button>
-            </CardActions>
-            </Card>
+            <Box m="1.5rem 2.5rem">
+                {data ? (
+                    <Box 
+                    mt="20px"
+                    display="grid"
+                    gridTemplateColumns="repeat(3, minmax(0, 1fr))"
+                    justifyContent="space-between"
+                    rowGap="20px"
+                    columnGap="1.33%"
+                    sx={{
+                        "& > div": { gridColumn: isNonMobile ? undefined : "span 3" }
+                    }}
+                    >
+                    {data.map(
+                        ({
+                        _id,
+                        projectName,
+                        location,
+                        projectType,
+                        monthlyConsumption,
+                        gridType,
+                        estimInitiateDate,
+                        estimEndDate,
+                        estimTotalCost,
+                        picturePath,
+                        description,
+                        currentAllocation,
+                        status
+                        }) => (
+                        <Project
+                            key={_id}
+                            _id={_id}
+                            projectName={projectName}
+                            location={location}
+                            picturePath={picturePath}
+                            description={description}
+                        />
+                        )
+                    )}
+                    </Box>
+                ) : (
+                    <div justifyContent="center">No projects available</div>
+                )}
+            </Box>
 
         </div>
-
-    </div>
   );
 }
 
