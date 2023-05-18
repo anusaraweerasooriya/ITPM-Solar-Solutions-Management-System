@@ -54,7 +54,6 @@ const CompletedProjects = () => {
       field: "projectType",
       headerName: "Project Type",
       flex: 0.8,
-      renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
     {
       field: "action",
@@ -64,7 +63,6 @@ const CompletedProjects = () => {
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-
         const onClickAddToRecent = (e) => {
           const currentRow = params.row;
           const id = currentRow._id;
@@ -79,8 +77,8 @@ const CompletedProjects = () => {
               size="small"
               onClick={onClickAddToRecent}
               sx={{
-                textTransform:"unset",
-                background:"#007bff"
+                textTransform: "unset",
+                background: "#007bff",
               }}
             >
               Add to recent
@@ -92,54 +90,56 @@ const CompletedProjects = () => {
   ];
 
   return (
-      <Box mt="20px" height="35vh" mb="10px"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.primary[500],
-            color: "#ffffff",
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: "#ffffff",
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.primary[200],
-            color: "#ffffff",
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.primary[500]} !important`,
-          },
+    <Box
+      mt="20px"
+      height="35vh"
+      mb="10px"
+      sx={{
+        "& .MuiDataGrid-root": {
+          border: "none",
+        },
+        "& .MuiDataGrid-cell": {
+          borderBottom: "none",
+        },
+        "& .MuiDataGrid-columnHeaders": {
+          backgroundColor: theme.palette.primary[500],
+          color: "#ffffff",
+          borderBottom: "none",
+        },
+        "& .MuiDataGrid-virtualScroller": {
+          backgroundColor: "#ffffff",
+        },
+        "& .MuiDataGrid-footerContainer": {
+          backgroundColor: theme.palette.primary[200],
+          color: "#ffffff",
+          borderTop: "none",
+        },
+        "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+          color: `${theme.palette.primary[500]} !important`,
+        },
+      }}
+    >
+      <DataGrid
+        loading={isLoading || !data}
+        getRowId={(row) => row._id}
+        rows={(data && data.completedProjects) || []}
+        columns={columns}
+        rowCount={(data && data.total) || 0}
+        rowsPerPageOptions={[20, 50, 100]}
+        pagination
+        page={page}
+        pageSize={pageSize}
+        paginationMode="server"
+        sortingMode="server"
+        onPaginationModelChange={(newPage) => setPage(newPage)}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        onSortModelChange={(newSortModel) => setSort(...newSortModel)}
+        //components={{ Toolbar: DataGridCustomToolbar }}
+        componentsProps={{
+          toolbar: { searchInput, setSearchInput, setSearch },
         }}
-      >
-
-        <DataGrid 
-          loading={isLoading || !data}
-          getRowId={(row) => row._id}
-          rows={(data && data.completedProjects) || []}
-          columns={columns}
-          rowCount={(data && data.total) || 0}
-          rowsPerPageOptions={[20, 50, 100]}
-          pagination
-          page={page}
-          pageSize={pageSize}
-          paginationMode="server"
-          sortingMode="server"
-          onPaginationModelChange={(newPage) => setPage(newPage)}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          onSortModelChange={(newSortModel) => setSort(...newSortModel)}
-          //components={{ Toolbar: DataGridCustomToolbar }}
-          componentsProps={{
-            toolbar: { searchInput, setSearchInput, setSearch },
-          }}
-        />
-      </Box>
+      />
+    </Box>
   );
 };
 
