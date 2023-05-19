@@ -1,6 +1,9 @@
 # ITPM-Solar-Solutions-Management-System
 
-The web application is built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It is designed specifically for a research project related to Sustainable Development Goal (SDG) 7, which focuses on Clean and Affordable Energy.
+A web application built to address the Sustainable Development Goal(SDG) 7, which is to provide access to affordable, reliable, sustainable, and modern energy for all. Sri Lanka is facing significant challenges in the energy sector. Clean energy access remains a major issue, compounded by the current economic crisis and high inflation rates. In order to address these problems, the web application provides functionalities such as;
+- Online electricity bill prediction.
+- Online donation program.
+- Solar solutions and consultations. 
 
 <p>
   <img alt="GitHub closed pull requests" src="https://img.shields.io/github/contributors-anon/anusaraweerasooriya/ITPM-Solar-Solutions-Management-System?color=blue">
@@ -9,7 +12,7 @@ The web application is built using the MERN (MongoDB, Express.js, React.js, Node
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/anusaraweerasooriya/ITPM-Solar-Solutions-Management-System">
 </p>
 
-## Authors
+## Contributors
 
 - Anusara Weerasooriya: [@anusaraweerasooriya](https://www.github.com/anusaraweerasooriya)
 - Dilshi Wanniarachchi: [@dilshiwanniarachchi](https://www.github.com/DilshiWanniarachchi)
@@ -25,3 +28,7 @@ The web application is built using the MERN (MongoDB, Express.js, React.js, Node
 - `Azure Devops`
 - `Selenium`
 - `SonarQube`
+
+## Research 
+
+A research paper titled "Addressing the prevailing energy crisis in Sri Lanka: A case for cost-efficient energy consumption" based on this web-based solution is currently accepted and presented for publication in the "International Journal of Recent Technology and Engineering" (H-index: 27)  - [Link](https://www.ijrte.org/portfolio-item/A76200512123/)
