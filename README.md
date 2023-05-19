@@ -10,3 +10,5 @@ The web application is built using the MERN (MongoDB, Express.js, React.js, Node
 - Pathum Nadeera: [@pathumnadeera](https://www.github.com/PathumNadeera)
 - Janudi Kularathna: [@anusaraweerasooriya](https://www.github.com/Janudi62)
 
+<div>
+<img alt="GitHub closed pull requests" src="https://img.shields.io/github/issues-pr-closed/anusaraweerasooriya/ITPM-Solar-Solutions-Management-System?color=blue"></div>
