@@ -14,7 +14,7 @@ The web application is built using the MERN (MongoDB, Express.js, React.js, Node
 - Anusara Weerasooriya: [@anusaraweerasooriya](https://www.github.com/anusaraweerasooriya)
 - Dilshi Wanniarachchi: [@dilshiwanniarachchi](https://www.github.com/DilshiWanniarachchi)
 - Pathum Nadeera: [@pathumnadeera](https://www.github.com/PathumNadeera)
-- Janudi Kularathna: [@anusaraweerasooriya](https://www.github.com/Janudi62)
+- Janudi Kularathna: [@janudikularathna](https://www.github.com/Janudi62)
 
 ## Technologies and Tools
 - `ReactJs Version: 18.2.0`
