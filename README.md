@@ -16,4 +16,12 @@ The web application is built using the MERN (MongoDB, Express.js, React.js, Node
 - Pathum Nadeera: [@pathumnadeera](https://www.github.com/PathumNadeera)
 - Janudi Kularathna: [@anusaraweerasooriya](https://www.github.com/Janudi62)
 
-
+## Technologies and Tools
+- `ReactJs Version: 18.2.0`
+- `NodeJs Version: 19.1.0`
+- `ExpressJs Version: 4.18.2 `
+- `MongoDB`
+- `Reduxjs Version: 8.0.5`
+- `Azure Devops`
+- `Selenium`
+- `SonarQube`
